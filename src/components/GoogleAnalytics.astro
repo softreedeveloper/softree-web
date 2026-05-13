@@ -1,0 +1,33 @@
+---
+const GA4_ID = import.meta.env.PUBLIC_GA4_ID;
+---
+
+<script is:inline define:vars={{ GA4_ID }}>
+   window.dataLayer = window.dataLayer || [];
+
+   // Page view inicial
+   window.dataLayer.push({
+      event: 'page_view',
+      page_path: window.location.pathname,
+      page_title: document.title,
+      page_location: window.location.href,
+      // event_id: eventId,
+   });
+
+   // Cargar GA4
+   const script = document.createElement('script');
+   script.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`;
+   script.async = true;
+   script.onload = () => {
+      window.gtag =
+         window.gtag ||
+         function () {
+            (window.gtag.q = window.gtag.q || []).push(arguments);
+         };
+      window.gtag('js', new Date());
+      window.gtag('config', GA4_ID, {
+         send_page_view: false,
+      });
+   };
+   document.head.appendChild(script);
+</script>

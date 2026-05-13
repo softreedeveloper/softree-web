@@ -1,0 +1,26 @@
+---
+const stats = [
+   { value: '500+', label: 'Clientes satisfechos' },
+   { value: '10+', label: 'Años de experiencia' },
+   { value: '98%', label: 'Tasa de satisfacción' },
+   { value: '24h', label: 'Atención al cliente' },
+];
+---
+
+<section class="relative bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 py-10 px-4 overflow-hidden">
+   <!-- Efectos de difuminación -->
+   <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute -left-20 top-0 w-64 h-64 bg-brand-600 rounded-full blur-3xl opacity-20"></div>
+      <div class="absolute -right-20 bottom-0 w-64 h-64 bg-brand-700 rounded-full blur-3xl opacity-20"></div>
+   </div>
+   <div class="relative z-10 max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      {
+         stats.map((s, i) => (
+            <div data-aos="fade-up" data-aos-delay={i * 80}>
+               <p class="text-4xl font-extrabold text-white">{s.value}</p>
+               <p class="text-brand-300 text-sm mt-1 uppercase tracking-wider">{s.label}</p>
+            </div>
+         ))
+      }
+   </div>
+</section>

@@ -1,0 +1,90 @@
+---
+import { siteConfigData } from '@/utils/site-config.jsx';
+import igIcon from '@assets/Icono-Instagram.png';
+import waIcon from '@assets/Icono-Whatsapp.png';
+---
+
+<footer class="relative bg-brand-800 overflow-hidden">
+   <!-- Orbs decorativos -->
+   <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute -top-32 -left-32 w-96 h-96 bg-brand-700 rounded-full blur-3xl opacity-10"></div>
+      <div class="absolute -bottom-20 right-0 w-80 h-80 bg-brand-600 rounded-full blur-3xl opacity-10"></div>
+   </div>
+
+   <!-- Contenido principal -->
+   <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-16 pb-10">
+      <!-- Grid superior -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+         <!-- Columna 1: Brand -->
+         <div class="lg:col-span-2">
+            <img src={siteConfigData.assets.logo} alt="Softree" class="h-12 w-auto mb-5" />
+
+            <!-- Social -->
+            <div class="mt-6 flex gap-3">
+               <a
+                  href={siteConfigData.social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  class="group w-12 h-12 rounded-xl bg-white/5 border border-white/10 hover:border-brand-400 flex items-center justify-center transition-all duration-300 overflow-hidden"
+               >
+                  <img
+                     src={igIcon.src}
+                     alt="Instagram"
+                     class="w-8 h-8 object-contain opacity-70 group-hover:opacity-100 transition-opacity"
+                  />
+               </a>
+               <!-- WhatsApp -->
+               <a
+                  href={`https://wa.me/${siteConfigData.contacto.WHATSAPP.replace(/\D/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="WhatsApp"
+                  class="group w-12 h-12 rounded-xl bg-white/5 border border-white/10 hover:border-green-400 flex items-center justify-center transition-all duration-300 overflow-hidden"
+               >
+                  <img
+                     src={waIcon.src}
+                     alt="WhatsApp"
+                     class="w-8 h-8 object-contain opacity-70 group-hover:opacity-100 transition-opacity"
+                  />
+               </a>
+            </div>
+         </div>
+
+         <!-- Columna 2: Navegación -->
+         <div>
+            <h4 class="text-white text-xs font-bold uppercase tracking-widest mb-5">Navegación</h4>
+            <ul class="space-y-3">
+               {
+                  [
+                     { href: '/', label: 'Inicio' },
+                     { href: '#servicios', label: 'Servicios' },
+                     { href: '#nosotros', label: 'Nosotros' },
+                     { href: '#contacto', label: 'Contacto' },
+                  ].map((link) => (
+                     <li>
+                        <a
+                           href={link.href}
+                           class="text-gray-400 hover:text-white text-sm transition-colors duration-200 flex items-center gap-1.5 group"
+                        >
+                           <span class="w-0 group-hover:w-3 h-px bg-brand-400 transition-all duration-300" />
+                           {link.label}
+                        </a>
+                     </li>
+                  ))
+               }
+            </ul>
+         </div>
+      </div>
+
+      <!-- Barra inferior -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+         <p class="text-gray-300 text-xs">{siteConfigData.footer.COPYRIGHT}</p>
+         <div class="flex gap-5">
+            <a href="/privacypolicy" class="text-gray-300 hover:text-gray-400 text-xs transition-colors"
+               >Aviso de Privacidad</a
+            >
+         </div>
+      </div>
+   </div>
+</footer>

@@ -1,0 +1,32 @@
+---
+export interface Props {
+   pixelId: string;
+}
+
+const { pixelId } = Astro.props;
+---
+
+<script src="/js/metaPixel.js" is:inline></script>
+<script define:vars={{ pixelId }}>
+   document.addEventListener('DOMContentLoaded', () => {
+      if (window.metaPixelUtils) {
+         window.metaPixelUtils.initMetaPixel(pixelId);
+
+         // Alias global con verificación mejorada
+         window.metaPixel = {
+            track: async (eventName, customData = {}, userData = {}) => {
+               console.log(`🎯 Tracking ${eventName} - Both client and server`);
+               return await window.metaPixelUtils.trackEvent(eventName, customData, userData);
+            },
+            trackPageView: async (customData = {}) => {
+               console.log('📄 Tracking PageView - Both client and server');
+               return await window.metaPixelUtils.trackPageView(customData);
+            },
+         };
+
+         console.log('✅ Meta Pixel ready with server events');
+      } else {
+         // console.error('❌ Meta Pixel utils not loaded');
+      }
+   });
+</script>

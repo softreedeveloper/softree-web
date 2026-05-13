@@ -1,0 +1,107 @@
+---
+const logos = [
+   { src: '/img/carousel/Imss.png', alt: 'IMSS' },
+   { src: '/img/carousel/Infonavit.png', alt: 'Infonavit' },
+   { src: '/img/carousel/Respse.png', alt: 'REPSE' },
+   { src: '/img/carousel/Sat.png', alt: 'SAT' },
+   { src: '/img/carousel/Stps.png', alt: 'STPS' },
+];
+---
+
+<section class="relative bg-white py-14 overflow-hidden border-y border-gray-100">
+   <!-- Header -->
+   <div class="text-center mb-10 px-4" data-aos="fade-up">
+      <span class="text-brand-600 text-xs font-semibold tracking-widest uppercase">Respaldo institucional</span>
+      <h2 class="mt-2 text-2xl md:text-3xl font-extrabold text-dark">Trabajamos con cumplimiento total</h2>
+      <p class="mt-2 text-gray-500 text-sm max-w-md mx-auto">
+         Empresa registrada y certificada ante las principales instituciones y organismos reguladores de México.
+      </p>
+   </div>
+
+   <!-- Marquee wrapper – fade edges -->
+   <div class="relative">
+      <div
+         class="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
+         style="background: linear-gradient(to right, white, transparent);"
+      >
+      </div>
+      <div
+         class="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
+         style="background: linear-gradient(to left, white, transparent);"
+      >
+      </div>
+
+      <!-- Track -->
+      <div class="carousel-track flex items-center gap-16">
+         <!-- Original set -->
+         {
+            logos.map((logo) => (
+               <div class="carousel-item flex-shrink-0 flex items-center justify-center px-6">
+                  <img
+                     src={logo.src}
+                     alt={logo.alt}
+                     class="h-14 w-auto object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300"
+                     loading="lazy"
+                  />
+               </div>
+            ))
+         }
+         <!-- Duplicate for seamless loop -->
+         {
+            logos.map((logo) => (
+               <div class="carousel-item flex-shrink-0 flex items-center justify-center px-6" aria-hidden="true">
+                  <img
+                     src={logo.src}
+                     alt={logo.alt}
+                     class="h-14 w-auto object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300"
+                     loading="lazy"
+                  />
+               </div>
+            ))
+         }
+         <!-- Triple to ensure no gap at any screen width -->
+         {
+            logos.map((logo) => (
+               <div class="carousel-item flex-shrink-0 flex items-center justify-center px-6" aria-hidden="true">
+                  <img
+                     src={logo.src}
+                     alt={logo.alt}
+                     class="h-14 w-auto object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300"
+                     loading="lazy"
+                  />
+               </div>
+            ))
+         }
+      </div>
+   </div>
+</section>
+
+<style>
+   .carousel-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 22s linear infinite;
+   }
+
+   .carousel-track:hover {
+      animation-play-state: paused;
+   }
+
+   @keyframes marquee {
+      0% {
+         transform: translateX(0);
+      }
+      100% {
+         transform: translateX(-33.333%);
+      }
+   }
+
+   @media (prefers-reduced-motion: reduce) {
+      .carousel-track {
+         animation: none;
+         flex-wrap: wrap;
+         justify-content: center;
+         width: 100%;
+      }
+   }
+</style>

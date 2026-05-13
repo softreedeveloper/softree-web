@@ -1,0 +1,131 @@
+---
+import { Picture } from 'astro:assets';
+import ImgWhatsapp from '@assets/whatsapp-logo.png';
+import { siteConfigData } from '@/utils/site-config.jsx';   
+
+const mensaje = '¡Hola! Quiero más información sobre El Hack.';
+---
+
+<a
+   
+   id="wa__stt"
+   class="wa__stt inline-flex items-center gap-2 px-4 py-2 text-sm text-white bg-green-500 hover:bg-green-600 rounded-3xl transition"
+   target="_blank"
+   rel="noopener noreferrer"
+>
+   <Picture src={ImgWhatsapp} alt="Whatsapp" class="h-4 w-4 md:h-6 md:w-6" />
+   <span>Contáctanos</span>
+</a>
+
+<script type="module">
+   const { trackEvent } = window.metaPixelUtils;
+
+   document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('wa__stt');
+
+      btn?.addEventListener('click', async () => {
+         // Detectar información adicional del contexto
+         const userAgent = navigator.userAgent;
+         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+         const referrer = document.referrer || 'direct';
+         const timestamp = Date.now();
+
+         // Detectar país/región del usuario si está disponible
+         let userCountry = 'MX'; // Default
+         if (navigator.language) {
+            const locale = navigator.language.toLowerCase();
+            if (locale.includes('mx') || locale.includes('es-mx')) userCountry = 'MX';
+            else if (locale.includes('co')) userCountry = 'CO';
+            else if (locale.includes('ar')) userCountry = 'AR';
+            // Agregar más países según necesites
+         }
+
+         await trackEvent(
+            'Lead',
+            {
+               // Información básica mejorada
+               content_name: 'WhatsApp Contact Button',
+               content_category: 'lead_generation',
+               content_type: 'contact_cta',
+
+               // Detalles del lead
+               lead_type: 'whatsapp_contact',
+               lead_source: 'website_button',
+               lead_quality: 'high_intent', // Usuario activamente buscó contacto
+
+               // Información contextual
+               page_url: window.location.href,
+               page_title: document.title,
+               referrer_url: referrer,
+
+               // Datos del dispositivo/sesión
+               device_type: isMobile ? 'mobile' : 'desktop',
+               user_agent: userAgent,
+               timestamp: timestamp,
+
+               // Valor estimado del lead
+               value: 50, // Valor estimado de un lead de WhatsApp
+               currency: 'MXN',
+
+               // Información geográfica
+               country: userCountry,
+
+               // Parámetros de campaña (si existen en URL)
+               campaign_source: new URLSearchParams(window.location.search).get('utm_source') || 'organic',
+               campaign_medium: new URLSearchParams(window.location.search).get('utm_medium') || 'website',
+               campaign_name: new URLSearchParams(window.location.search).get('utm_campaign') || 'whatsapp_contact',
+
+               // Información de la sesión
+               session_id: sessionStorage.getItem('session_id') || `session-${timestamp}`,
+               page_load_time: performance.now(),
+
+               // Custom properties específicas de WhatsApp
+               whatsapp_message_preview: mensaje.substring(0, 50), // Primeros 50 caracteres
+               contact_method: 'whatsapp',
+               contact_intent: 'product_inquiry',
+            },
+            {
+               // Datos del usuario hasheados (si están disponibles en contexto)
+               country: [userCountry],
+               // Si tienes datos del usuario de cookies/localStorage, agrégalos aquí
+            },
+         );
+
+         // Opcional: Guardar el evento localmente para análisis
+         try {
+            const leadData = {
+               timestamp: timestamp,
+               page: window.location.pathname,
+               referrer: referrer,
+               device: isMobile ? 'mobile' : 'desktop',
+               country: userCountry,
+            };
+            localStorage.setItem(`whatsapp_lead_${timestamp}`, JSON.stringify(leadData));
+         } catch (e) {
+            // Silently fail if localStorage is not available
+         }
+
+         // Opcional: Delay mínimo para asegurar que el evento se envíe antes de redireccionar
+         await new Promise((resolve) => setTimeout(resolve, 100));
+
+         console.log('WhatsApp lead tracked with enhanced data');
+      });
+
+      // Trackear también cuando el usuario hace hover (interés)
+      btn?.addEventListener('mouseenter', async () => {
+         await trackEvent(
+            'Lead', // Usar un custom event si prefieres
+            {
+               content_name: 'WhatsApp Contact Hover',
+               content_category: 'user_engagement',
+               lead_type: 'contact_interest',
+               interaction_type: 'hover',
+               page_url: window.location.href,
+               value: 10, // Menor valor que el clic real
+               currency: 'MXN',
+            },
+            {},
+         );
+      });
+   });
+</script>

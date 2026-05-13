@@ -1,0 +1,35 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { generateServiceSchema } from '@/utils/seo.jsx';
+
+// Secciones
+import Hero from '@/sections/Hero.astro';
+import Nosotros from '@/sections/Nosotros.astro';
+import Services from '@/sections/Services.astro';
+import WhyUs from '@/sections/WhyUs.astro';
+import Industries from '@/sections/Industries.astro';
+import Carousel from '@/sections/Carousel.astro';
+import ContactForm from '@/sections/ContactForm.astro';
+
+const serviceSchema = generateServiceSchema({
+   name: 'Servicios profesionales de limpieza en CDMX',
+   description:
+      'Softree ofrece servicios de limpieza residencial, comercial y de oficinas con personal profesional capacitado en Ciudad de México.',
+});
+---
+
+<Layout
+   title="Softree | Servicios Profesionales de Limpieza en CDMX"
+   description="Softree ofrece limpieza residencial, comercial y de oficinas en Ciudad de México. Personal certificado, productos ecológicos y resultados garantizados."
+   type="website"
+   schema={serviceSchema}
+>
+   <Hero />
+
+   <Nosotros />
+   <Services />
+   <Carousel />
+   <WhyUs />
+   <!-- <Industries /> -->
+   <ContactForm />
+</Layout>

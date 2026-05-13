@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Bloquear carpetas internas o innecesarias para el SEO
+Disallow: /node_modules/
+Disallow: /build/
+Disallow: /.astro/
+Disallow: /admin/
+Disallow: /pruebas/
+Disallow: /404
+
+# Enlaza tu sitemap
+Sitemap: https://softree.com.mx/sitemap.xml

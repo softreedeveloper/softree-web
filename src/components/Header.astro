@@ -1,0 +1,51 @@
+---
+import MenuMobile from '@components/MenuMobile.astro';
+import { siteConfigData } from '@/utils/site-config.jsx';
+---
+
+<header
+   class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 px-6 md:px-16 py-4 flex justify-between items-center"
+>
+   <div class="flex items-center gap-2">
+      <img
+         src="img/Logo.png"
+         alt="Softree Logo"
+         class="hidden md:block w-90 h-auto mx-auto my-4 transition-all duration-300"
+      />
+
+      <img
+         src="img/Logo.png"
+         alt="Softree Logo pequeño"
+         class="block md:hidden w-10 h-auto mx-auto transition-all duration-300"
+      />
+   </div>
+
+   <nav class="hidden md:flex gap-6 text-sm text-gray-700 justify-end w-full items-center">
+      <a href="/" class="text-gray-700 hover:text-brand-700 font-medium transition-colors">Inicio</a>
+      <a href="/#nosotros" class="text-gray-700 hover:text-brand-700 font-medium transition-colors">Nosotros</a>
+      <a href="/#servicios" class="text-gray-700 hover:text-brand-700 font-medium transition-colors">Servicios</a>
+      <a href="/#contacto" class="text-gray-700 hover:text-brand-700 font-medium transition-colors">Contacto</a>
+      <a
+         href={`https://wa.me/${siteConfigData.contacto.WHATSAPP.replace(/\D/g, '')}`}
+         target="_blank"
+         rel="noopener noreferrer"
+         class="bg-green-500 hover:bg-green-600 text-white font-semibold px-5 py-2 rounded-full transition-all duration-300 text-xs tracking-wide"
+      >
+         Cotiza ya &rarr;
+      </a>
+   </nav>
+
+   <MenuMobile />
+</header>
+
+<script is:inline>
+   document.addEventListener('click', function (e) {
+      if (e.target.closest('#servicesButton')) {
+         const submenu = document.getElementById('submenu');
+         const arrow = document.querySelector('.arrow-icon');
+
+         if (submenu) submenu.classList.toggle('hidden');
+         if (arrow) arrow.classList.toggle('rotate-180');
+      }
+   });
+</script>
