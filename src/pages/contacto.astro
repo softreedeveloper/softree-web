@@ -1,0 +1,19 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { generateServiceSchema } from '@/utils/seo.jsx';
+import ContactForm from '@sections/ContactForm.astro';
+
+const serviceSchema = generateServiceSchema({
+   name: 'Contacto Softree',
+   description: 'Cotiza tu proyecto de software a medida. Te respondemos en menos de 24 horas con un plan concreto.',
+});
+---
+
+<Layout
+   title="Softree | Contacto — Cotiza tu proyecto de software"
+   description="Cuéntanos tu idea. Te respondemos con claridad y un plan concreto para hacerla realidad en semanas, no meses."
+   type="website"
+   schema={serviceSchema}
+>
+   <ContactForm />
+</Layout>

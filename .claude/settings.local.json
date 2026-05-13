@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(echo \"---exit:$?---\")"
+      "Bash(echo \"---exit:$?---\")",
+      "Bash(curl -s \"http://localhost:7003/src/components/ui/ThemeToggle.astro?astro&type=script&index=0&lang.ts\")",
+      "Bash(grep -B1 -A2 \"data-theme-toggle\" /tmp/home.html | head -40)",
+      "Read(//private/tmp/**)"
     ]
   }
 }

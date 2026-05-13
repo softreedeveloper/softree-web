@@ -1,0 +1,20 @@
+---
+import { companyStats } from '@/data/company-stats.js';
+---
+
+<section class="py-20 md:py-28 bg-white dark:bg-zinc-950 transition-colors duration-300">
+   <div class="max-w-7xl mx-auto px-6 md:px-10">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
+         {
+            companyStats.map((stat, i) => (
+               <div class={`text-center md:text-left reveal delay-${Math.min((i + 1) * 100, 500)}`}>
+                  <p class="text-5xl md:text-6xl font-bold font-mono text-ink dark:text-white leading-none tracking-tight">
+                     <span data-count={stat.count} data-suffix={stat.suffix}>0{stat.suffix}</span>
+                  </p>
+                  <p class="mt-3 text-sm text-ink-muted dark:text-white/55 leading-snug">{stat.label}</p>
+               </div>
+            ))
+         }
+      </div>
+   </div>
+</section>

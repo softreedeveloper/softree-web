@@ -1,0 +1,85 @@
+---
+import Button from '@components/ui/Button.astro';
+---
+
+<section id="nosotros" class="py-20 md:py-28 bg-zinc-50/40 dark:bg-zinc-900/40 transition-colors duration-300">
+   <div class="max-w-7xl mx-auto px-6 md:px-10">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+         <div class="reveal-left">
+            <span class="inline-flex items-center gap-2 rounded-full border border-ink/10 dark:border-white/10 bg-white dark:bg-white/5 px-3 py-1 text-xs font-medium text-ink-muted dark:text-white/60 mb-5">
+               <span class="h-1.5 w-1.5 rounded-full bg-accent-500" />
+               Quiénes somos
+            </span>
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-ink dark:text-white leading-tight">
+               Tu idea, hecha realidad
+            </h2>
+            <p class="mt-6 text-base md:text-lg text-ink-muted dark:text-white/60 leading-relaxed">
+               Desarrollamos software a la medida desde cero o te entregamos soluciones digitales listas
+               para adaptar a tu negocio. Sin importar la industria — hotelería, logística, retail, salud —
+               tu plataforma está lista en semanas, no meses.
+            </p>
+            <ul class="mt-8 space-y-3">
+               {
+                  [
+                     'Equipo senior con +8 años de experiencia',
+                     'Proyectos entregados en 4-12 semanas',
+                     'Código fuente 100% del cliente',
+                     'Soporte post-lanzamiento incluido',
+                  ].map((item) => (
+                     <li class="flex items-start gap-3 text-sm md:text-base text-ink dark:text-white/85">
+                        <span class="flex-shrink-0 w-5 h-5 rounded-full bg-accent-500/15 dark:bg-accent-500/25 flex items-center justify-center mt-0.5">
+                           <svg class="w-3 h-3 text-accent-600 dark:text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                           </svg>
+                        </span>
+                        {item}
+                     </li>
+                  ))
+               }
+            </ul>
+            <div class="mt-8">
+               <Button href="/servicios" variant="primary">Ver servicios</Button>
+            </div>
+         </div>
+
+         <div class="reveal-right delay-200">
+            <div class="relative">
+               <div class="absolute inset-0 -m-3 bg-gradient-to-tr from-accent-200/40 to-brand-200/40 dark:from-accent-500/20 dark:to-brand-500/20 blur-2xl rounded-3xl pointer-events-none"></div>
+               <div class="relative bg-white dark:bg-zinc-900 rounded-3xl border border-ink/10 dark:border-white/10 p-6 md:p-8 shadow-xl shadow-ink/5 dark:shadow-black/30">
+                  <!-- Code snippet -->
+                  <div class="rounded-xl bg-ink p-5 font-mono text-xs leading-relaxed">
+                     <div class="flex items-center gap-1.5 mb-3">
+                        <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                        <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
+                        <span class="w-2 h-2 rounded-full bg-green-400"></span>
+                        <span class="ml-2 text-zinc-500 text-[10px]">tu-proyecto.config.ts</span>
+                     </div>
+                     <div class="text-zinc-400 space-y-1">
+                        <p><span class="text-accent-400">const</span> <span class="text-amber-200">proyecto</span> <span class="text-zinc-500">=</span> {'{'}</p>
+                        <p class="pl-4"><span class="text-accent-300">stack</span><span class="text-zinc-500">:</span> <span class="text-amber-100">"a tu medida"</span>,</p>
+                        <p class="pl-4"><span class="text-accent-300">entrega</span><span class="text-zinc-500">:</span> <span class="text-amber-100">"semanas"</span>,</p>
+                        <p class="pl-4"><span class="text-accent-300">soporte</span><span class="text-zinc-500">:</span> <span class="text-amber-100">"12 meses"</span>,</p>
+                        <p class="pl-4"><span class="text-accent-300">propiedad</span><span class="text-zinc-500">:</span> <span class="text-amber-100">"100% tuya"</span></p>
+                        <p>{'}'};</p>
+                     </div>
+                  </div>
+
+                  <!-- Stack pills -->
+                  <div class="mt-6">
+                     <p class="text-xs font-semibold uppercase tracking-wider text-ink-muted dark:text-white/55 mb-3">Stack moderno</p>
+                     <div class="flex flex-wrap gap-2">
+                        {
+                           ['React Native', 'Next.js', 'TypeScript', 'Firebase', 'Node.js', 'PostgreSQL', 'GCP'].map((t) => (
+                              <span class="inline-flex items-center rounded-md bg-zinc-100 dark:bg-white/5 border border-ink/5 dark:border-white/10 px-2.5 py-1 text-xs font-medium text-ink-muted dark:text-white/70">
+                                 {t}
+                              </span>
+                           ))
+                        }
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>

@@ -2,11 +2,11 @@
 export const siteConfigData = {
    site: {
       name: 'Softree',
-      title: 'Softree | Limpieza Profesional en CDMX',
+      title: 'Softree | Software a medida',
       description:
-         'Softree ofrece servicios profesionales de limpieza residencial, comercial y de oficinas en Ciudad de México. Personal capacitado, productos ecológicos y resultados garantizados.',
+         'Softree desarrolla software a medida: aplicaciones móviles, plataformas web, CRM/ERP, soluciones cloud y consultoría técnica. Transformamos ideas en productos digitales de alto rendimiento.',
       keywords:
-         'limpieza profesional, limpieza residencial, limpieza comercial, limpieza de oficinas, limpieza CDMX, servicio de limpieza Ciudad de México, limpieza post-obra, empresa de limpieza México',
+         'desarrollo de software a medida, aplicaciones móviles, plataformas web, CRM, ERP, cloud, consultoría técnica, UI/UX, software México, Astro, React, Flutter, Next.js',
       author: 'Softree',
       locale: 'es_MX',
       language: 'es',
@@ -14,7 +14,7 @@ export const siteConfigData = {
    urls: {
       production: 'https://softree.com.mx/',
       staging: 'https://stage.softree.com.mx',
-      development: 'http://localhost:7001',
+      development: 'http://localhost:7002',
    },
    social: {
       instagram: 'https://www.instagram.com/softree/',
@@ -30,13 +30,13 @@ export const siteConfigData = {
    },
    assets: {
       logo: ' /img/Logo.png',
-      logoshort: ' /img/softree_logo.png', 
+      logoshort: ' /img/softree_logo.png',
       defaultOgImage: '/img/default-og-image.jpg',
       favicon: '/img/softree_ico.ico',
    },
    business: {
       country: 'Mexico',
-      serviceType: 'Servicios',
+      serviceType: 'Custom software development',
       availableLanguage: 'Spanish',
    },
    seo: {
@@ -44,6 +44,6 @@ export const siteConfigData = {
          staging: 'noindex, nofollow',
          production: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
       },
-      themeColor: '#1a365d',
+      themeColor: '#1e5c80',
    },
 };

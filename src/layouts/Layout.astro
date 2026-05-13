@@ -38,6 +38,19 @@ const organizationSchema = generateOrganizationSchema();
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+      <!-- Anti-flash dark mode: corre antes del primer paint -->
+      <script is:inline>
+         (function () {
+            try {
+               var stored = localStorage.getItem('theme');
+               var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+               var theme = stored || (prefersDark ? 'dark' : 'light');
+               if (theme === 'dark') document.documentElement.classList.add('dark');
+               document.documentElement.style.colorScheme = theme;
+            } catch (e) {}
+         })();
+      </script>
+
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
       <!-- SEO básico -->
@@ -86,7 +99,10 @@ const organizationSchema = generateOrganizationSchema();
       <meta name="generator" content={Astro.generator} />
 
       <!-- Fuentes extenas -->
-      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons/css/flag-icons.min.css" />
 
       <!-- SDK de MercadoPago -->
@@ -104,7 +120,7 @@ const organizationSchema = generateOrganizationSchema();
       <title>{title}</title>
    </head>
 
-   <body class="bg-white text-dark min-h-screen flex flex-col">
+   <body class="bg-white dark:bg-zinc-950 text-ink dark:text-zinc-100 min-h-screen flex flex-col transition-colors duration-300">
       <!-- Scroll progress bar -->
       <div id="scroll-progress"></div>
 
@@ -122,7 +138,7 @@ const organizationSchema = generateOrganizationSchema();
       <button
          id="back-to-top"
          aria-label="Volver arriba"
-         class="fixed bottom-6 right-6 z-50 w-12 h-12 bg-brand-700 hover:bg-brand-800 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 opacity-0 pointer-events-none translate-y-4"
+         class="fixed bottom-6 right-6 z-50 w-12 h-12 bg-accent-500 hover:bg-accent-600 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 opacity-0 pointer-events-none translate-y-4"
       >
          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"></path>
@@ -149,6 +165,45 @@ const organizationSchema = generateOrganizationSchema();
             btn.addEventListener('click', function () {
                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
+         })();
+      </script>
+
+      <!-- Theme toggle: wire global. Inline para garantizar ejecución determinística. -->
+      <script is:inline>
+         (function () {
+            function applyTheme(theme) {
+               var root = document.documentElement;
+               if (theme === 'dark') root.classList.add('dark');
+               else root.classList.remove('dark');
+               root.style.colorScheme = theme;
+            }
+
+            function toggleTheme() {
+               var isDark = document.documentElement.classList.contains('dark');
+               var next = isDark ? 'light' : 'dark';
+               try { localStorage.setItem('theme', next); } catch (e) {}
+               applyTheme(next);
+            }
+
+            // Delegación de eventos: captura clicks aunque los botones se monten/desmonten
+            document.addEventListener('click', function (e) {
+               var target = e.target;
+               if (!target || typeof target.closest !== 'function') return;
+               var btn = target.closest('[data-theme-toggle]');
+               if (btn) {
+                  e.preventDefault();
+                  toggleTheme();
+               }
+            });
+
+            // Si el usuario no ha elegido manualmente, seguimos al sistema en caliente
+            try {
+               window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+                  try {
+                     if (!localStorage.getItem('theme')) applyTheme(e.matches ? 'dark' : 'light');
+                  } catch (err) {}
+               });
+            } catch (e) {}
          })();
       </script>
    </body>

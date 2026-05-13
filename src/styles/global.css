@@ -3,9 +3,31 @@
 @tailwind utilities;
 
 body {
-   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-   background-color: #ffffff;
-   color: #0f172a;
+   font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+}
+
+/* Selección de texto con acento verde */
+::selection {
+   background-color: rgba(16, 185, 129, 0.25);
+   color: #064e3b;
+}
+.dark ::selection {
+   background-color: rgba(16, 185, 129, 0.35);
+   color: #d1fae5;
+}
+
+/* Scrollbar en dark mode */
+.dark ::-webkit-scrollbar-track {
+   background: #0a0a0a;
+}
+.dark ::-webkit-scrollbar-thumb {
+   background: #10b981;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+   background: #047857;
 }
 
 /* Smooth scroll */
@@ -109,4 +131,35 @@ html {
    background-repeat: repeat;
    background-size: initial;
    background-blend-mode: multiply;
+}
+
+/* ── Marquee con pausa en hover ── */
+.marquee-track {
+   display: flex;
+   width: max-content;
+}
+.marquee-pause:hover .marquee-track {
+   animation-play-state: paused;
+}
+
+/* ── Code snippet en /servicios ── */
+.code-block {
+   font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+   font-size: 0.8rem;
+   line-height: 1.6;
+}
+.code-block .tk-key { color: #6EE7B7; }
+.code-block .tk-str { color: #FDE68A; }
+.code-block .tk-num { color: #93C5FD; }
+.code-block .tk-com { color: #71717A; }
+
+/* ── Honor prefers-reduced-motion ── */
+@media (prefers-reduced-motion: reduce) {
+   .animate-marquee,
+   .animate-marquee-slow {
+      animation: none !important;
+   }
+   html {
+      scroll-behavior: auto;
+   }
 }

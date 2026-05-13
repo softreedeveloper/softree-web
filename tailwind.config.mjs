@@ -1,10 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+   darkMode: 'class',
    theme: {
       extend: {
-         // fontFamily: {
-         //    montserrat: ['Montserrat', 'sans-serif'],
-         // },
+         fontFamily: {
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+         },
 
          colors: {
             debug: '#00ffff',
@@ -27,6 +28,22 @@ export default {
                900: '#0e2d40',
                950: '#081b27',
             },
+            accent: {
+               50: '#ECFDF5',
+               100: '#D1FAE5',
+               200: '#A7F3D0',
+               300: '#6EE7B7',
+               400: '#34D399',
+               500: '#10B981',
+               600: '#059669',
+               700: '#047857',
+               800: '#065F46',
+               900: '#064E3B',
+            },
+            ink: {
+               DEFAULT: '#0A0A0A',
+               muted: '#52525B',
+            },
             cream: '#f0f8fd',
             dark: '#081b27',
          },
@@ -39,18 +56,24 @@ export default {
                '0%': { transform: 'translateY(0)' },
                '100%': { transform: 'translateY(100%)' },
             },
+            marquee: {
+               '0%': { transform: 'translateX(0)' },
+               '100%': { transform: 'translateX(-50%)' },
+            },
+            fadeInUp: {
+               '0%': { opacity: '0', transform: 'translateY(20px)' },
+               '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
          },
          animation: {
             slideUp: 'slideUp 0.3s ease-out forwards',
             slideDown: 'slideDown 0.3s ease-in forwards',
+            marquee: 'marquee 30s linear infinite',
+            'marquee-slow': 'marquee 50s linear infinite',
+            fadeInUp: 'fadeInUp 0.7s ease-out forwards',
          },
       },
    },
-   content: [
-      './src/**/*.{astro,html,js,jsx,ts,tsx}',
-      './components/**/*.{astro,js,jsx,ts,tsx}',
-      './layouts/**/*.{astro,js,jsx,ts,tsx}',
-      './sections/**/*.{astro,js,jsx,ts,tsx}',
-   ],
+   content: ['./src/**/*.{astro,html,js,jsx,ts,tsx}'],
    plugins: [],
 };

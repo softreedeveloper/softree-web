@@ -2,34 +2,44 @@
 import Layout from '@layouts/Layout.astro';
 import { generateServiceSchema } from '@/utils/seo.jsx';
 
-// Secciones
-import Hero from '@/sections/Hero.astro';
-import Nosotros from '@/sections/Nosotros.astro';
-import Services from '@/sections/Services.astro';
-import WhyUs from '@/sections/WhyUs.astro';
-import Industries from '@/sections/Industries.astro';
-import Carousel from '@/sections/Carousel.astro';
-import ContactForm from '@/sections/ContactForm.astro';
+import HeroSoftware from '@sections/HeroSoftware.astro';
+import StatsBanner from '@sections/StatsBanner.astro';
+import FeatureColumns from '@sections/FeatureColumns.astro';
+import AboutSoftware from '@sections/AboutSoftware.astro';
+import SolutionsGrid from '@sections/SolutionsGrid.astro';
+import PartnershipQuote from '@sections/PartnershipQuote.astro';
+import CompanyStats from '@sections/CompanyStats.astro';
+import PortfolioTeaser from '@sections/PortfolioTeaser.astro';
+import TestimonialsMarquee from '@sections/TestimonialsMarquee.astro';
+import TeamMarquee from '@sections/TeamMarquee.astro';
+import Methodology from '@sections/Methodology.astro';
+import Differentiators from '@sections/Differentiators.astro';
+import FinalCTA from '@sections/FinalCTA.astro';
 
 const serviceSchema = generateServiceSchema({
-   name: 'Servicios profesionales de limpieza en CDMX',
+   name: 'Desarrollo de software a medida',
    description:
-      'Softree ofrece servicios de limpieza residencial, comercial y de oficinas con personal profesional capacitado en Ciudad de México.',
+      'Softree desarrolla aplicaciones móviles, plataformas web, CRM/ERP, soluciones cloud y servicios de consultoría técnica para empresas que crecen.',
 });
 ---
 
 <Layout
-   title="Softree | Servicios Profesionales de Limpieza en CDMX"
-   description="Softree ofrece limpieza residencial, comercial y de oficinas en Ciudad de México. Personal certificado, productos ecológicos y resultados garantizados."
+   title="Softree | Software a medida — Apps, web, CRM y cloud"
+   description="Transformamos ideas en software de alto rendimiento. Apps móviles, plataformas web, CRM/ERP, cloud e inteligencia artificial. Entregamos en semanas, no meses."
    type="website"
    schema={serviceSchema}
 >
-   <Hero />
-
-   <Nosotros />
-   <Services />
-   <Carousel />
-   <WhyUs />
-   <!-- <Industries /> -->
-   <ContactForm />
+   <HeroSoftware />
+   <StatsBanner />
+   <FeatureColumns />
+   <AboutSoftware />
+   <SolutionsGrid />
+   <PartnershipQuote />
+   <CompanyStats />
+   <PortfolioTeaser />
+   <TestimonialsMarquee />
+   <TeamMarquee />
+   <Methodology />
+   <Differentiators />
+   <FinalCTA />
 </Layout>

@@ -1,51 +1,53 @@
 ---
 import MenuMobile from '@components/MenuMobile.astro';
+import BracesLogo from '@components/ui/BracesLogo.astro';
+import ThemeToggle from '@components/ui/ThemeToggle.astro';
 import { siteConfigData } from '@/utils/site-config.jsx';
+
+const navLinks = [
+   { label: 'Inicio', href: '/' },
+   { label: 'Servicios', href: '/servicios' },
+   { label: 'Soluciones', href: '/#soluciones' },
+   { label: 'Portafolio', href: '/#portafolio' },
+   { label: 'Quiénes somos', href: '/#nosotros' },
+   { label: 'Contacto', href: '/contacto' },
+];
+
+const whatsappNumber = siteConfigData.contacto.WHATSAPP.replace(/\D/g, '');
 ---
 
 <header
-   class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 px-6 md:px-16 py-4 flex justify-between items-center"
+   class="sticky top-0 z-50 w-full bg-white/90 dark:bg-zinc-950/85 backdrop-blur-md border-b border-ink/5 dark:border-white/10 px-6 md:px-10 lg:px-16 py-4 flex justify-between items-center transition-colors duration-300"
 >
-   <div class="flex items-center gap-2">
-      <img
-         src="img/Logo.png"
-         alt="Softree Logo"
-         class="hidden md:block w-90 h-auto mx-auto my-4 transition-all duration-300"
-      />
+   <BracesLogo size="md" />
 
-      <img
-         src="img/Logo.png"
-         alt="Softree Logo pequeño"
-         class="block md:hidden w-10 h-auto mx-auto transition-all duration-300"
-      />
-   </div>
-
-   <nav class="hidden md:flex gap-6 text-sm text-gray-700 justify-end w-full items-center">
-      <a href="/" class="text-gray-700 hover:text-brand-700 font-medium transition-colors">Inicio</a>
-      <a href="/#nosotros" class="text-gray-700 hover:text-brand-700 font-medium transition-colors">Nosotros</a>
-      <a href="/#servicios" class="text-gray-700 hover:text-brand-700 font-medium transition-colors">Servicios</a>
-      <a href="/#contacto" class="text-gray-700 hover:text-brand-700 font-medium transition-colors">Contacto</a>
+   <nav class="hidden lg:flex gap-7 text-sm justify-end items-center">
+      {
+         navLinks.map((link) => (
+            <a
+               href={link.href}
+               class="text-ink/70 dark:text-white/70 hover:text-ink dark:hover:text-white font-medium transition-colors"
+            >
+               {link.label}
+            </a>
+         ))
+      }
+      <ThemeToggle class="ml-1" />
       <a
-         href={`https://wa.me/${siteConfigData.contacto.WHATSAPP.replace(/\D/g, '')}`}
+         href={`https://wa.me/${whatsappNumber}`}
          target="_blank"
          rel="noopener noreferrer"
-         class="bg-green-500 hover:bg-green-600 text-white font-semibold px-5 py-2 rounded-full transition-all duration-300 text-xs tracking-wide"
+         class="inline-flex items-center gap-2 rounded-full bg-ink dark:bg-accent-500 text-white px-5 py-2.5 text-xs font-semibold hover:bg-zinc-800 dark:hover:bg-accent-600 transition-all duration-300 hover:-translate-y-0.5"
       >
-         Cotiza ya &rarr;
+         Cotizar
+         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+         </svg>
       </a>
    </nav>
 
-   <MenuMobile />
+   <div class="lg:hidden flex items-center gap-2">
+      <ThemeToggle />
+      <MenuMobile />
+   </div>
 </header>
-
-<script is:inline>
-   document.addEventListener('click', function (e) {
-      if (e.target.closest('#servicesButton')) {
-         const submenu = document.getElementById('submenu');
-         const arrow = document.querySelector('.arrow-icon');
-
-         if (submenu) submenu.classList.toggle('hidden');
-         if (arrow) arrow.classList.toggle('rotate-180');
-      }
-   });
-</script>

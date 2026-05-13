@@ -1,0 +1,43 @@
+---
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import { methodology } from '@/data/methodology.js';
+---
+
+<section class="py-20 md:py-28 bg-white dark:bg-zinc-950 transition-colors duration-300">
+   <div class="max-w-7xl mx-auto px-6 md:px-10">
+      <SectionHeading
+         eyebrow="Cómo trabajamos"
+         title="Sin cajas negras, sin sorpresas"
+         subtitle="Visibilidad total sobre cada fase de tu proyecto."
+         align="center"
+         class="mb-14 md:mb-20"
+      />
+
+      <div class="relative">
+         <!-- Línea conectora desktop -->
+         <div class="hidden lg:block absolute top-12 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-ink/10 dark:via-white/15 to-transparent"></div>
+
+         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+            {
+               methodology.map((step, i) => (
+                  <div class={`relative reveal delay-${(i + 1) * 100}`}>
+                     <!-- Numero -->
+                     <div class="relative inline-flex items-center justify-center w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-white dark:bg-zinc-900 border-2 border-accent-500/20 dark:border-accent-500/40 transition-colors">
+                        <span class="font-mono font-bold text-lg text-accent-600 dark:text-accent-300">{step.number}</span>
+                        <span class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-accent-500 ring-4 ring-white dark:ring-zinc-950" />
+                     </div>
+                     <h3 class="mt-5 text-xl font-bold text-ink dark:text-white leading-tight">{step.title}</h3>
+                     <p class="mt-2 text-sm text-ink-muted dark:text-white/60 leading-relaxed">{step.description}</p>
+                     <p class="mt-4 inline-flex items-center gap-1.5 text-xs font-mono text-ink-muted dark:text-white/50">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        {step.duration}
+                     </p>
+                  </div>
+               ))
+            }
+         </div>
+      </div>
+   </div>
+</section>

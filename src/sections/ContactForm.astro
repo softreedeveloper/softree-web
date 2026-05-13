@@ -1,367 +1,165 @@
 ---
 import { siteConfigData } from '@/utils/site-config.jsx';
+import { methodology } from '@/data/methodology.js';
 ---
 
-<section
-   id="contacto"
-   class="relative bg-gradient-to-br from-white via-brand-50/30 to-white py-24 px-4 md:px-12 overflow-hidden"
->
-   <!-- Efectos de difuminación -->
+<section id="contacto" class="relative bg-white dark:bg-zinc-950 py-20 md:py-28 overflow-hidden transition-colors duration-300">
+   <!-- Decorative orbs -->
    <div class="absolute inset-0 pointer-events-none">
-      <div class="absolute top-10 left-1/4 w-72 h-72 bg-brand-400 rounded-full blur-3xl opacity-10"></div>
-      <div class="absolute bottom-10 right-1/4 w-80 h-80 bg-brand-500 rounded-full blur-3xl opacity-15"></div>
+      <div class="absolute top-20 -left-32 w-80 h-80 bg-accent-200/30 dark:bg-accent-500/15 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-20 -right-32 w-80 h-80 bg-brand-200/30 dark:bg-brand-500/15 rounded-full blur-3xl"></div>
    </div>
-   <div class="relative z-10 max-w-6xl mx-auto">
-      <!-- Nuestro proceso -->
-      <div class="mb-20">
-         <div class="text-center mb-10 reveal">
-            <h3 class="text-2xl md:text-3xl font-extrabold text-dark">Nuestro proceso</h3>
-            <p class="mt-2 text-gray-500 text-sm">Simple, rápido y transparente</p>
-         </div>
 
-         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            <!-- Paso 1 -->
-            <div class="group relative reveal delay-100">
-               <div
-                  class="relative bg-white border border-brand-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 overflow-hidden"
-               >
-                  <!-- Número de fondo -->
-                  <div class="absolute -top-6 -right-6 text-8xl font-extrabold text-brand-50 opacity-50 select-none">
-                     1
-                  </div>
-
-                  <!-- Ícono -->
-                  <div
-                     class="relative z-10 w-14 h-14 bg-brand-100 group-hover:bg-brand-500 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300"
-                  >
-                     <svg
-                        class="w-7 h-7 text-brand-500 group-hover:text-white transition-colors duration-300"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2"
-                     >
-                        <path
-                           stroke-linecap="round"
-                           stroke-linejoin="round"
-                           d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                        ></path>
-                     </svg>
-                  </div>
-
-                  <!-- Contenido -->
-                  <h4 class="relative z-10 font-bold text-lg text-dark mb-2">Contáctanos</h4>
-                  <p class="relative z-10 text-gray-500 text-sm leading-relaxed">
-                     Por teléfono, WhatsApp o correo electrónico
-                  </p>
-
-                  <!-- Línea decorativa -->
-                  <div class="mt-4 h-1 w-10 bg-brand-400 rounded-full group-hover:w-full transition-all duration-500">
-                  </div>
-               </div>
-            </div>
-
-            <!-- Paso 2 -->
-            <div class="group relative reveal delay-200">
-               <div
-                  class="relative bg-white border border-brand-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 overflow-hidden"
-               >
-                  <div class="absolute -top-6 -right-6 text-8xl font-extrabold text-brand-50 opacity-50 select-none">
-                     2
-                  </div>
-
-                  <div
-                     class="relative z-10 w-14 h-14 bg-brand-100 group-hover:bg-brand-500 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300"
-                  >
-                     <svg
-                        class="w-7 h-7 text-brand-500 group-hover:text-white transition-colors duration-300"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2"
-                     >
-                        <path
-                           stroke-linecap="round"
-                           stroke-linejoin="round"
-                           d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        ></path>
-                     </svg>
-                  </div>
-
-                  <h4 class="relative z-10 font-bold text-lg text-dark mb-2">Agenda una cita</h4>
-                  <p class="relative z-10 text-gray-500 text-sm leading-relaxed">
-                     Programamos una visita para conocer tus necesidades
-                  </p>
-
-                  <div class="mt-4 h-1 w-10 bg-brand-400 rounded-full group-hover:w-full transition-all duration-500">
-                  </div>
-               </div>
-            </div>
-
-            <!-- Paso 3 -->
-            <div class="group relative reveal delay-300">
-               <div
-                  class="relative bg-white border border-brand-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 overflow-hidden"
-               >
-                  <div class="absolute -top-6 -right-6 text-8xl font-extrabold text-brand-50 opacity-50 select-none">
-                     3
-                  </div>
-
-                  <div
-                     class="relative z-10 w-14 h-14 bg-brand-100 group-hover:bg-brand-500 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300"
-                  >
-                     <svg
-                        class="w-7 h-7 text-brand-500 group-hover:text-white transition-colors duration-300"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2"
-                     >
-                        <path
-                           stroke-linecap="round"
-                           stroke-linejoin="round"
-                           d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        ></path>
-                     </svg>
-                  </div>
-
-                  <h4 class="relative z-10 font-bold text-lg text-dark mb-2">Propuesta personalizada</h4>
-                  <p class="relative z-10 text-gray-500 text-sm leading-relaxed">
-                     Recibe una cotización adaptada a tus requerimientos
-                  </p>
-
-                  <div class="mt-4 h-1 w-10 bg-brand-400 rounded-full group-hover:w-full transition-all duration-500">
-                  </div>
-               </div>
-            </div>
-
-            <!-- Paso 4 -->
-            <div class="group relative reveal delay-400">
-               <div
-                  class="relative bg-white border border-brand-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 overflow-hidden"
-               >
-                  <div class="absolute -top-6 -right-6 text-8xl font-extrabold text-brand-50 opacity-50 select-none">
-                     4
-                  </div>
-
-                  <div
-                     class="relative z-10 w-14 h-14 bg-brand-100 group-hover:bg-brand-500 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300"
-                  >
-                     <svg
-                        class="w-7 h-7 text-brand-500 group-hover:text-white transition-colors duration-300"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2"
-                     >
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-                     </svg>
-                  </div>
-
-                  <h4 class="relative z-10 font-bold text-lg text-dark mb-2">Comenzamos</h4>
-                  <p class="relative z-10 text-gray-500 text-sm leading-relaxed">
-                     Iniciamos el trabajo con los más altos estándares
-                  </p>
-
-                  <div class="mt-4 h-1 w-10 bg-brand-400 rounded-full group-hover:w-full transition-all duration-500">
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-
+   <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+      <!-- Header -->
       <div class="text-center mb-14 reveal">
-         <span class="text-brand-500 text-sm font-semibold tracking-widest uppercase">Hablemos</span>
-         <h2 class="mt-3 text-3xl md:text-4xl font-extrabold text-dark leading-tight">
-            ¿Listo para un espacio <em class="not-italic text-brand-500">impecable</em>?
+         <span class="inline-flex items-center gap-2 rounded-full border border-ink/10 dark:border-white/10 bg-white dark:bg-white/5 px-3 py-1 text-xs font-medium text-ink-muted dark:text-white/60">
+            <span class="h-1.5 w-1.5 rounded-full bg-accent-500" />
+            Hablemos
+         </span>
+         <h2 class="mt-5 text-3xl md:text-5xl font-bold tracking-tight text-ink dark:text-white leading-tight">
+            Cuéntanos sobre tu <span class="font-mono">{'{'}</span><span class="bg-gradient-to-r from-accent-500 to-accent-700 dark:from-accent-300 dark:to-accent-500 bg-clip-text text-transparent">proyecto</span><span class="font-mono">{'}'}</span>
          </h2>
-         <p class="mt-3 text-gray-500 max-w-lg mx-auto">
-            Completa el formulario y nos pondremos en contacto contigo lo antes posible.
+         <p class="mt-4 text-base md:text-lg text-ink-muted dark:text-white/60 max-w-2xl mx-auto">
+            Completa el formulario y te respondemos en menos de 24 horas con un plan concreto.
          </p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start">
-         <!-- Left: Contact cards -->
-         <div class="lg:col-span-2 flex flex-col gap-4">
-            <!-- Teléfono -->
-            <div
-               class="bg-white border-2 border-brand-50 rounded-2xl p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow duration-300 reveal delay-200"
-            >
-               <div class="w-14 h-14 rounded-2xl bg-brand-500 flex items-center justify-center flex-shrink-0">
-                  <svg
-                     class="w-6 h-6 text-white"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     stroke="currentColor"
-                     stroke-width="2"
-                  >
-                     <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                     ></path>
-                  </svg>
-               </div>
-               <div>
-                  <p class="text-sm font-semibold text-dark">Teléfono</p>
-                  <a
-                     href={`tel:${siteConfigData.contacto.TELEFONO}`}
-                     class="text-brand-500 font-bold hover:text-brand-700 transition-colors"
-                  >
-                     {siteConfigData.contacto.TELEFONO}
-                  </a>
-                  <p class="text-xs text-gray-400 mt-0.5">Lun - Vie: 9:00 - 18:00</p>
-               </div>
-            </div>
+      <!-- Proceso -->
+      <div class="mb-16 md:mb-20">
+         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {
+               methodology.map((step, i) => (
+                  <div class={`group relative rounded-2xl border border-ink/10 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 hover:border-accent-500/40 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 reveal delay-${(i + 1) * 100}`}>
+                     <div class="absolute -top-3 -right-3 font-mono font-bold text-7xl text-zinc-100 dark:text-white/5 select-none">
+                        {step.number}
+                     </div>
+                     <div class="relative">
+                        <div class="w-11 h-11 rounded-xl bg-accent-50 dark:bg-accent-500/15 group-hover:bg-accent-500 flex items-center justify-center mb-4 transition-colors">
+                           <svg class="w-5 h-5 text-accent-600 dark:text-accent-400 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                           </svg>
+                        </div>
+                        <h4 class="font-bold text-base text-ink dark:text-white mb-1">{step.title}</h4>
+                        <p class="text-sm text-ink-muted dark:text-white/60 leading-relaxed">{step.description}</p>
+                        <p class="mt-3 text-xs font-mono text-ink-muted/70 dark:text-white/40">{step.duration}</p>
+                     </div>
+                  </div>
+               ))
+            }
+         </div>
+      </div>
 
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+         <!-- Contact cards -->
+         <aside class="lg:col-span-2 flex flex-col gap-4">
             <!-- WhatsApp -->
-            <div
-               class="bg-white border-2 border-brand-50 rounded-2xl p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow duration-300 reveal delay-200"
+            <a
+               href={`https://wa.me/${siteConfigData.contacto.WHATSAPP.replace(/\D/g, '')}`}
+               target="_blank"
+               rel="noopener noreferrer"
+               class="bg-white dark:bg-zinc-900 border border-ink/10 dark:border-white/10 rounded-2xl p-5 flex items-center gap-4 hover:border-accent-500/40 hover:shadow-md transition-all duration-300 group reveal delay-100"
             >
-               <div class="w-14 h-14 rounded-2xl bg-green-500 flex items-center justify-center flex-shrink-0">
-                  <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                     <path
-                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
-                     ></path>
+               <div class="w-12 h-12 rounded-xl bg-accent-500 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                   </svg>
                </div>
-               <div>
-                  <p class="text-sm font-semibold text-dark">WhatsApp</p>
-                  <a
-                     href={`https://wa.me/${siteConfigData.contacto.WHATSAPP.replace(/\D/g, '')}`}
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     class="text-brand-500 font-bold hover:text-brand-700 transition-colors flex items-center gap-1"
-                  >
-                     Enviar mensaje
-                     <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"
-                        ><path
-                           stroke-linecap="round"
-                           stroke-linejoin="round"
-                           d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg
-                     >
-                  </a>
-                  <p class="text-xs text-gray-400 mt-0.5">Respuesta inmediata</p>
+               <div class="min-w-0 flex-1">
+                  <p class="text-xs font-semibold text-ink-muted dark:text-white/55 uppercase tracking-wider">WhatsApp</p>
+                  <p class="text-sm font-semibold text-ink dark:text-white group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">{siteConfigData.contacto.WHATSAPP}</p>
+                  <p class="text-xs text-ink-muted dark:text-white/50 mt-0.5">Respuesta inmediata</p>
                </div>
-            </div>
+            </a>
 
-            <!-- Correo -->
-            <div
-               class="bg-white border-2 border-brand-50 rounded-2xl p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow duration-300 reveal delay-200"
+            <!-- Email -->
+            <a
+               href={`mailto:${siteConfigData.contacto.EMAIL}`}
+               class="bg-white dark:bg-zinc-900 border border-ink/10 dark:border-white/10 rounded-2xl p-5 flex items-center gap-4 hover:border-accent-500/40 hover:shadow-md transition-all duration-300 group reveal delay-200"
             >
-               <div class="w-14 h-14 rounded-2xl bg-violet-500 flex items-center justify-center flex-shrink-0">
-                  <svg
-                     class="w-6 h-6 text-white"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     stroke="currentColor"
-                     stroke-width="2"
-                  >
-                     <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                     ></path>
+               <div class="w-12 h-12 rounded-xl bg-ink flex items-center justify-center flex-shrink-0">
+                  <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                </div>
-               <div>
-                  <p class="text-sm font-semibold text-dark">Correo Electrónico</p>
-                  <a
-                     href={`mailto:${siteConfigData.contacto.EMAIL}`}
-                     class="text-brand-500 font-bold hover:text-brand-700 transition-colors break-all"
-                  >
-                     {siteConfigData.contacto.EMAIL}
-                  </a>
-                  <p class="text-xs text-gray-400 mt-0.5">Respuesta en 24h</p>
+               <div class="min-w-0 flex-1">
+                  <p class="text-xs font-semibold text-ink-muted dark:text-white/55 uppercase tracking-wider">Email</p>
+                  <p class="text-sm font-semibold text-ink dark:text-white group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors break-all">{siteConfigData.contacto.EMAIL}</p>
+                  <p class="text-xs text-ink-muted dark:text-white/50 mt-0.5">Respuesta en 24h</p>
                </div>
-            </div>
+            </a>
 
-            <div class="rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 p-6 text-white reveal delay-400">
-               <!-- Dirección -->
-               <div class="flex items-start gap-3">
-                  <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                     <svg
-                        class="w-5 h-5 text-white"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2"
-                     >
-                        <path
-                           stroke-linecap="round"
-                           stroke-linejoin="round"
-                           d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                        ></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                        ></path>
+            <!-- Teléfono -->
+            <a
+               href={`tel:${siteConfigData.contacto.TELEFONO}`}
+               class="bg-white dark:bg-zinc-900 border border-ink/10 dark:border-white/10 rounded-2xl p-5 flex items-center gap-4 hover:border-accent-500/40 hover:shadow-md transition-all duration-300 group reveal delay-300"
+            >
+               <div class="w-12 h-12 rounded-xl bg-zinc-100 border border-ink/10 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-5 h-5 text-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+               </div>
+               <div class="min-w-0 flex-1">
+                  <p class="text-xs font-semibold text-ink-muted dark:text-white/55 uppercase tracking-wider">Teléfono</p>
+                  <p class="text-sm font-semibold text-ink dark:text-white group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">{siteConfigData.contacto.TELEFONO}</p>
+                  <p class="text-xs text-ink-muted dark:text-white/50 mt-0.5">Lun - Vie: 9:00 - 18:00</p>
+               </div>
+            </a>
+
+            <!-- Dirección -->
+            <div class="rounded-2xl bg-ink text-white p-6 reveal delay-400 overflow-hidden relative">
+               <div class="absolute top-0 right-0 w-32 h-32 rounded-full bg-accent-500/20 blur-2xl pointer-events-none"></div>
+               <div class="relative flex items-start gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
+                     <svg class="w-4 h-4 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                      </svg>
                   </div>
                   <div>
-                     <p class="font-bold text-base">Dirección</p>
-                     <p class="text-brand-200 text-sm mt-1 leading-relaxed">
-                        {siteConfigData.contacto.DIRECCION}
-                     </p>
-                     <a
-                        href="https://maps.google.com/?q=San+Bartolo+Ameyalco+Alvaro+Obregon+CDMX"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-1 text-xs text-white/70 hover:text-white mt-2 transition-colors"
-                     >
-                        Ver en Google Maps
-                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                           <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                        </svg>
-                     </a>
+                     <p class="text-xs font-semibold text-white/60 uppercase tracking-wider">Oficina</p>
+                     <p class="text-sm font-semibold mt-1 leading-relaxed">{siteConfigData.contacto.DIRECCION}</p>
                   </div>
                </div>
             </div>
-         </div>
+         </aside>
 
-         <!-- Right: Form -->
-         <div class="lg:col-span-3 bg-white border border-gray-100 rounded-3xl shadow-sm p-8 reveal-right">
-            <h3 class="text-2xl font-extrabold text-dark mb-1">Envíanos un mensaje</h3>
-            <p class="text-gray-500 text-sm mb-3">
-               Completa el formulario y nos pondremos en contacto contigo lo antes posible
+         <!-- Form -->
+         <div class="lg:col-span-3 bg-white dark:bg-zinc-900 border border-ink/10 dark:border-white/10 rounded-3xl shadow-sm p-6 md:p-8 reveal-right">
+            <h3 class="text-xl md:text-2xl font-bold text-ink dark:text-white mb-1">Envíanos un mensaje</h3>
+            <p class="text-ink-muted dark:text-white/60 text-sm mb-5">
+               Cuéntanos qué necesitas y te enviamos una propuesta concreta.
             </p>
 
-            <p id="contact-form-status" class="hidden text-sm mb-4 rounded-lg px-4 py-2 border"></p>
+            <p id="contact-form-status" class="hidden text-sm mb-4 rounded-lg px-4 py-2.5 border"></p>
 
             <form name="contacto" class="space-y-5" novalidate>
-               <!-- Row 1 -->
                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                     <label class="block text-sm font-semibold text-dark mb-1.5"
-                        >Nombre completo <span class="text-brand-500">*</span></label
-                     >
+                     <label class="block text-xs font-semibold text-ink dark:text-white mb-1.5">Nombre completo <span class="text-accent-500">*</span></label>
                      <input
                         type="text"
                         name="nombre"
                         required
-                        placeholder="Juan Pérez"
-                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none transition-all duration-200 text-sm text-dark placeholder-gray-400"
+                        placeholder="María García"
+                        class="w-full px-4 py-3 rounded-xl border border-ink/10 dark:border-white/10 focus:border-accent-500 focus:ring-4 focus:ring-accent-500/10 outline-none transition-all text-sm text-ink dark:text-white placeholder-ink-muted/50 dark:placeholder-white/40 bg-white dark:bg-zinc-950/60"
                      />
                   </div>
                   <div>
-                     <label class="block text-sm font-semibold text-dark mb-1.5"
-                        >Correo electrónico <span class="text-brand-500">*</span></label
-                     >
+                     <label class="block text-xs font-semibold text-ink dark:text-white mb-1.5">Correo electrónico <span class="text-accent-500">*</span></label>
                      <input
                         type="email"
                         name="email"
                         required
                         placeholder="tu@email.com"
-                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none transition-all duration-200 text-sm text-dark placeholder-gray-400"
+                        class="w-full px-4 py-3 rounded-xl border border-ink/10 dark:border-white/10 focus:border-accent-500 focus:ring-4 focus:ring-accent-500/10 outline-none transition-all text-sm text-ink dark:text-white placeholder-ink-muted/50 dark:placeholder-white/40 bg-white dark:bg-zinc-950/60"
                      />
                   </div>
                </div>
 
-               <!-- Row 2 -->
                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                     <label class="block text-sm font-semibold text-dark mb-1.5">Teléfono</label>
+                     <label class="block text-xs font-semibold text-ink dark:text-white mb-1.5">Teléfono / WhatsApp</label>
                      <input
                         type="tel"
                         name="telefono"
@@ -369,62 +167,63 @@ import { siteConfigData } from '@/utils/site-config.jsx';
                         inputmode="numeric"
                         maxlength="15"
                         pattern="[0-9]{0,15}"
-                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none transition-all duration-200 text-sm text-dark placeholder-gray-400"
+                        class="w-full px-4 py-3 rounded-xl border border-ink/10 dark:border-white/10 focus:border-accent-500 focus:ring-4 focus:ring-accent-500/10 outline-none transition-all text-sm text-ink dark:text-white placeholder-ink-muted/50 dark:placeholder-white/40 bg-white dark:bg-zinc-950/60"
                      />
                   </div>
                   <div>
-                     <label class="block text-sm font-semibold text-dark mb-1.5">Servicio de interés</label>
+                     <label class="block text-xs font-semibold text-ink dark:text-white mb-1.5">Tipo de proyecto</label>
                      <select
                         name="servicio"
-                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none transition-all duration-200 text-sm text-dark bg-white"
+                        class="w-full px-4 py-3 rounded-xl border border-ink/10 dark:border-white/10 focus:border-accent-500 focus:ring-4 focus:ring-accent-500/10 outline-none transition-all text-sm text-ink dark:text-white bg-white dark:bg-zinc-950/60"
                      >
-                        <option value="" disabled selected>Selecciona un servicio</option>
-                        <option value="residencial">Limpieza Residencial</option>
-                        <option value="comercial">Limpieza Comercial</option>
-                        <option value="oficinas">Limpieza de Oficinas</option>
-                        <option value="post-obra">Limpieza Post-Obra</option>
+                        <option value="" disabled selected>Selecciona uno</option>
+                        <option value="app-movil">Aplicación móvil (iOS/Android)</option>
+                        <option value="plataforma-web">Plataforma web / SaaS</option>
+                        <option value="crm-erp">CRM / ERP</option>
+                        <option value="cloud">Cloud e integraciones</option>
+                        <option value="ui-ux">Diseño UI/UX</option>
+                        <option value="consultoria">Consultoría técnica</option>
                         <option value="otro">Otro</option>
                      </select>
                   </div>
                </div>
 
-               <!-- Mensaje -->
                <div>
-                  <label class="block text-sm font-semibold text-dark mb-1.5"
-                     >Mensaje <span class="text-brand-500">*</span></label
-                  >
+                  <label class="block text-xs font-semibold text-ink dark:text-white mb-1.5">Cuéntanos tu idea <span class="text-accent-500">*</span></label>
                   <textarea
                      name="mensaje"
                      required
                      rows="5"
-                     placeholder="Cuéntanos sobre tu proyecto o necesidades..."
-                     class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none transition-all duration-200 text-sm text-dark placeholder-gray-400 resize-none"
+                     placeholder="¿Qué problema quieres resolver? ¿Para quién es el producto? ¿Tienes referencias?"
+                     class="w-full px-4 py-3 rounded-xl border border-ink/10 focus:border-accent-500 focus:ring-4 focus:ring-accent-500/10 outline-none transition-all text-sm text-ink placeholder-ink-muted/50 bg-white resize-none"
                   ></textarea>
                </div>
 
-               <!-- Privacy -->
                <div class="flex items-start gap-3">
                   <input
                      type="checkbox"
                      id="privacy"
                      name="privacidad"
                      required
-                     class="mt-0.5 w-4 h-4 rounded border-gray-300 text-brand-500 focus:ring-brand-400 cursor-pointer"
+                     class="mt-0.5 w-4 h-4 rounded border-ink/20 dark:border-white/20 text-accent-500 focus:ring-accent-500 cursor-pointer bg-white dark:bg-zinc-950"
                   />
-                  <label for="privacy" class="text-sm text-gray-500 cursor-pointer">
-                     Acepto el
-                     <a href="/privacypolicy" class="text-brand-500 underline hover:text-brand-700 transition-colors"
-                        >Aviso de Privacidad</a
-                     >
+                  <label for="privacy" class="text-xs text-ink-muted dark:text-white/60 cursor-pointer leading-relaxed">
+                     Acepto la
+                     <a href="/privacypolicy" class="text-accent-600 dark:text-accent-400 underline hover:text-accent-700 dark:hover:text-accent-300 transition-colors">
+                        Política de privacidad
+                     </a>
+                     y autorizo el contacto sobre mi proyecto.
                   </label>
                </div>
 
-               <!-- Submit -->
                <button
                   type="submit"
-                  class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand-500 hover:bg-brand-700 active:scale-95 text-white font-bold px-10 py-4 rounded-xl transition-all duration-200 shadow-md hover:shadow-brand-700/30 text-sm tracking-wide"
+                  class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-ink dark:bg-accent-500 hover:bg-zinc-800 dark:hover:bg-accent-600 active:scale-[0.98] text-white font-semibold px-8 py-3.5 rounded-full transition-all duration-200 shadow-sm hover:shadow-lg text-sm group"
                >
-                  Enviar mensaje &rarr;
+                  Enviar mensaje
+                  <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                     <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
                </button>
             </form>
          </div>
@@ -433,9 +232,6 @@ import { siteConfigData } from '@/utils/site-config.jsx';
 </section>
 
 <script>
-   /**
-    * Tipado mínimo para evitar errores en compilación.
-    */
    const form = document.querySelector('form[name="contacto"]');
    const statusEl = document.getElementById('contact-form-status');
 
@@ -463,7 +259,7 @@ import { siteConfigData } from '@/utils/site-config.jsx';
 
          statusEl.classList.remove('hidden');
          statusEl.textContent = 'Enviando tu mensaje...';
-         statusEl.className = 'text-sm mb-4 rounded-lg px-4 py-2 border border-brand-200 bg-brand-50 text-brand-700';
+         statusEl.className = 'text-sm mb-4 rounded-lg px-4 py-2.5 border border-accent-200 bg-accent-50 text-accent-700';
 
          if (submitButton instanceof HTMLButtonElement) {
             submitButton.disabled = true;
@@ -487,7 +283,7 @@ import { siteConfigData } from '@/utils/site-config.jsx';
                throw new Error('Por favor completa los campos obligatorios.');
             }
 
-            const subject = 'Nuevo mensaje desde el formulario de contacto';
+            const subject = 'Nueva solicitud de proyecto desde el sitio web';
 
             const response = await fetch('/.netlify/functions/contact-form', {
                method: 'POST',
@@ -510,14 +306,12 @@ import { siteConfigData } from '@/utils/site-config.jsx';
                throw new Error(result?.error || 'Hubo un problema al enviar tu mensaje.');
             }
 
-            // Tracking de Lead con Meta Pixel / CAPI si está disponible
             try {
                const metaUtils = window['metaPixelUtils'];
 
                if (typeof window !== 'undefined' && metaUtils && metaUtils.trackEvent) {
                   const { trackEvent } = metaUtils;
 
-                  // Deducción sencilla de nombre y apellido
                   const parts = nombre.split(' ');
                   const firstName = parts[0] || '';
                   const lastName = parts.slice(1).join(' ') || '';
@@ -566,20 +360,20 @@ import { siteConfigData } from '@/utils/site-config.jsx';
                // Silenciar errores de tracking para no afectar la UX del formulario
             }
 
-            statusEl.textContent = '¡Gracias! Tu mensaje se envió correctamente.';
-            statusEl.className = 'text-sm mb-4 rounded-lg px-4 py-2 border border-green-200 bg-green-50 text-green-700';
+            statusEl.textContent = '¡Gracias! Te respondemos en menos de 24 horas.';
+            statusEl.className = 'text-sm mb-4 rounded-lg px-4 py-2.5 border border-accent-300 bg-accent-50 text-accent-700';
 
             if (htmlForm instanceof HTMLFormElement) {
                htmlForm.reset();
             }
          } catch (error) {
             statusEl.textContent = error?.message || 'No pudimos enviar tu mensaje. Inténtalo de nuevo más tarde.';
-            statusEl.className = 'text-sm mb-4 rounded-lg px-4 py-2 border border-red-200 bg-red-50 text-red-700';
+            statusEl.className = 'text-sm mb-4 rounded-lg px-4 py-2.5 border border-red-200 bg-red-50 text-red-700';
          } finally {
             const submitButton = htmlForm.querySelector('button[type="submit"]');
             if (submitButton instanceof HTMLButtonElement) {
                submitButton.disabled = false;
-               submitButton.textContent = originalText || 'Enviar mensaje →';
+               submitButton.textContent = originalText || 'Enviar mensaje';
             }
          }
       });

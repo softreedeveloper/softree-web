@@ -22,6 +22,7 @@ export default defineConfig({
             '@api': '/src/api/',
             '@constants': '/src/constants/',
             '@sections': '/src/sections/',
+            '@data': '/src/data/',
          },
       },
       // assetsInclude: ['**/*.json']
