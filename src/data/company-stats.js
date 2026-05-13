@@ -6,33 +6,6 @@ export const companyStats = [
    { count: 98, suffix: '%', label: 'Tasa de aceptación' },
 ];
 
-export const portfolio = [
-   {
-      title: 'LogiTrack',
-      tag: 'Plataforma SaaS',
-      description: 'Dashboard logístico en tiempo real con tracking GPS y reportes operativos.',
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',
-   },
-   {
-      title: 'NovaPay',
-      tag: 'Fintech',
-      description: 'Pasarela de pagos con cobros recurrentes, mora automática y conciliación.',
-      image: 'https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=800&h=600&fit=crop',
-   },
-   {
-      title: 'FoodRush',
-      tag: 'App Móvil',
-      description: 'Delivery de comida con tracking en vivo y pagos integrados.',
-      image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop',
-   },
-   {
-      title: 'MedicApp',
-      tag: 'CRM Salud',
-      description: 'CRM clínico con historial digital, citas y facturación electrónica.',
-      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop',
-   },
-];
-
 export const differentiators = [
    {
       number: '2.5x',
