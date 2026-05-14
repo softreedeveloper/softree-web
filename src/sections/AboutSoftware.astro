@@ -44,10 +44,9 @@ import Button from '@components/ui/Button.astro';
 
          <div class="reveal-right delay-200">
             <div class="relative">
-               <div class="absolute inset-0 -m-3 bg-gradient-to-tr from-accent-200/40 to-brand-200/40 dark:from-accent-500/20 dark:to-brand-500/20 blur-2xl rounded-3xl pointer-events-none"></div>
-               <div class="relative bg-white dark:bg-zinc-900 rounded-3xl border border-ink/10 dark:border-white/10 p-6 md:p-8 shadow-xl shadow-ink/5 dark:shadow-black/30">
+               <div class="relative bg-white/40 dark:bg-white/5 backdrop-blur-xl rounded-3xl border border-white/40 dark:border-white/10 p-6 md:p-8">
                   <!-- Code snippet -->
-                  <div class="rounded-xl bg-ink p-5 font-mono text-xs leading-relaxed">
+                  <div class="rounded-xl bg-ink/85 backdrop-blur-md p-5 font-mono text-xs leading-relaxed">
                      <div class="flex items-center gap-1.5 mb-3">
                         <span class="w-2 h-2 rounded-full bg-red-400"></span>
                         <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
@@ -61,20 +60,6 @@ import Button from '@components/ui/Button.astro';
                         <p class="pl-4"><span class="text-accent-300">soporte</span><span class="text-zinc-500">:</span> <span class="text-amber-100">"12 meses"</span>,</p>
                         <p class="pl-4"><span class="text-accent-300">propiedad</span><span class="text-zinc-500">:</span> <span class="text-amber-100">"100% tuya"</span></p>
                         <p>{'}'};</p>
-                     </div>
-                  </div>
-
-                  <!-- Stack pills -->
-                  <div class="mt-6">
-                     <p class="text-xs font-semibold uppercase tracking-wider text-ink-muted dark:text-white/55 mb-3">Stack moderno</p>
-                     <div class="flex flex-wrap gap-2">
-                        {
-                           ['React Native', 'Next.js', 'TypeScript', 'Firebase', 'Node.js', 'PostgreSQL', 'GCP'].map((t) => (
-                              <span class="inline-flex items-center rounded-md bg-zinc-100 dark:bg-white/5 border border-ink/5 dark:border-white/10 px-2.5 py-1 text-xs font-medium text-ink-muted dark:text-white/70">
-                                 {t}
-                              </span>
-                           ))
-                        }
                      </div>
                   </div>
                </div>

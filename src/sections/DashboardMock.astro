@@ -1,154 +1,751 @@
 ---
-// Mock de dashboard 100% HTML/SVG, sin librerías. Mostrado en el Hero.
-const metrics = [
-   { label: 'Ingresos', value: '$42.8K', delta: '+18%', color: 'text-accent-600', bg: 'bg-accent-50' },
-   { label: 'Clientes', value: '1,247', delta: '+5.2%', color: 'text-accent-600', bg: 'bg-accent-50' },
-   { label: 'Órdenes', value: '384', delta: '+12%', color: 'text-accent-600', bg: 'bg-accent-50' },
-   { label: 'Satisfacción', value: '96.1%', delta: '+2.1%', color: 'text-accent-600', bg: 'bg-accent-50' },
+// Mock visual del Hero: réplica del diseño de tuappcode.com.
+// Laptop con panel admin (sidebar, KPIs, gráfico de barras, tabla) + teléfono flotante
+// + badges decorativos. 100% HTML/CSS, sin imágenes ni librerías.
+const kpis = [
+   { val: '$42.8K', label: 'Ingresos', change: '+18%', width: '78%', color: 'var(--p)' },
+   { val: '1,247', label: 'Clientes', change: '+5.2%', width: '65%', color: 'var(--grn)' },
+   { val: '384', label: 'Pedidos', change: '+12%', width: '52%', color: '#3b82f6' },
+   { val: '96.1%', label: 'Satisfacción', change: '+2.1%', width: '96%', color: 'var(--grn)' },
 ];
-const tabs = ['Overview', 'Inventario', 'Reservas', 'Ventas', 'Clientes', 'Reportes'];
+const tabs = ['Resumen', 'Inventario', 'Reservas', 'Ventas', 'Clientes', 'Reportes'];
+const bars = [30, 48, 38, 62, 45, 75, 55, 85, 42, 68, 78, 92];
+const rows = ['ok', 'pend', 'late', 'ok', 'pend', 'late', 'ok', 'pend', 'late'];
+const phoneKpis = [
+   { v: '$8.4K', l: 'Hoy', accent: false },
+   { v: '52', l: 'Activos', accent: true },
+   { v: '97%', l: 'A tiempo', accent: false },
+];
+const phoneList = [
+   { w: '75%', v: '$1.2K', warn: false },
+   { w: '60%', v: '$980', warn: false },
+   { w: '85%', v: '$2.1K', warn: true },
+   { w: '50%', v: '$640', warn: false },
+   { w: '68%', v: '$1.5K', warn: false },
+];
+const phoneMini = [4, 8, 6, 11, 8, 14, 7, 12, 9, 16];
+const sidebarItems = [0, 1, 2, 3, -1, 4, 5, 6, -1, 7]; // -1 = separador
 ---
 
-<div class="relative">
-   <!-- Sombra suave detrás -->
-   <div class="absolute inset-0 -m-4 bg-gradient-to-br from-accent-400/10 via-brand-200/10 to-transparent dark:from-accent-500/15 dark:via-brand-500/10 blur-3xl pointer-events-none" aria-hidden="true"></div>
+<div class="dashboard-mock">
+   <!-- Badge flotante superior derecha -->
+   <div class="mock-label mock-label-top">
+      <strong>+23%</strong>
+      <span>ventas vs mes anterior</span>
+   </div>
 
-   <div class="relative bg-white dark:bg-zinc-900 rounded-2xl border border-ink/10 dark:border-white/10 shadow-xl shadow-ink/5 dark:shadow-black/40 overflow-hidden">
-      <!-- Browser chrome -->
-      <div class="flex items-center justify-between px-4 py-3 border-b border-ink/5 dark:border-white/5 bg-zinc-50/80 dark:bg-zinc-950/60">
-         <div class="flex items-center gap-1.5">
-            <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-green-400"></span>
-         </div>
-         <div class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-md bg-white dark:bg-zinc-900 border border-ink/5 dark:border-white/10 text-[10px] font-mono text-ink-muted dark:text-white/55">
-            <svg class="w-3 h-3 text-accent-600 dark:text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-               <path stroke-linecap="round" stroke-linejoin="round" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
-            </svg>
-            app.softree.com.mx/dashboard
-         </div>
-         <span class="text-[10px] font-mono text-ink-muted dark:text-white/55">v2.4</span>
+   <!-- ===== LAPTOP ===== -->
+   <div class="ml-laptop">
+      <!-- Barra del navegador -->
+      <div class="ml-bar">
+         <span class="ml-dot bg-red-400"></span>
+         <span class="ml-dot bg-yellow-400"></span>
+         <span class="ml-dot bg-green-400"></span>
+         <div class="ml-url"><span>panel.softree.com.mx/admin</span></div>
       </div>
 
-      <!-- Tabs -->
-      <div class="px-4 pt-3 flex gap-1 overflow-x-auto scrollbar-hide border-b border-ink/5 dark:border-white/5">
-         {
-            tabs.map((tab, i) => (
-               <button
-                  class={`px-3 py-2 text-xs font-medium whitespace-nowrap rounded-t-md transition-colors ${i === 0 ? 'text-ink dark:text-white bg-white dark:bg-zinc-900 border-x border-t border-ink/5 dark:border-white/5 -mb-px' : 'text-ink-muted dark:text-white/55 hover:text-ink dark:hover:text-white'}`}
-                  type="button"
-               >
-                  {tab}
-               </button>
-            ))
-         }
-      </div>
-
-      <!-- Contenido -->
-      <div class="p-4 sm:p-5 space-y-4 bg-white dark:bg-zinc-900">
-         <!-- Métricas -->
-         <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
+      <div class="ml-body">
+         <!-- Sidebar -->
+         <div class="ml-side">
+            <div class="ml-side-logo">S</div>
             {
-               metrics.map((m) => (
-                  <div class="min-w-0 rounded-xl border border-ink/5 dark:border-white/5 p-3 bg-zinc-50/50 dark:bg-zinc-950/40">
-                     <p class="text-[10px] text-ink-muted dark:text-white/50 uppercase tracking-wider truncate">{m.label}</p>
-                     <p class="text-base sm:text-lg font-bold text-ink dark:text-white mt-1 font-mono truncate">{m.value}</p>
-                     <span class={`inline-flex items-center gap-1 mt-1 text-[10px] font-semibold ${m.color} ${m.bg} dark:bg-accent-500/15 dark:text-accent-300 px-1.5 py-0.5 rounded-full`}>
-                        <svg class="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                           <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                        </svg>
-                        {m.delta}
-                     </span>
-                  </div>
-               ))
+               sidebarItems.map((it, i) =>
+                  it === -1 ? (
+                     <div class="ml-side-sep"></div>
+                  ) : (
+                     <div class={`ml-side-item ${i === 1 ? 'act' : ''}`}>
+                        <div class="ml-si-line"></div>
+                     </div>
+                  ),
+               )
             }
          </div>
 
-         <!-- Chart SVG -->
-         <div class="rounded-xl border border-ink/5 dark:border-white/5 p-4 bg-zinc-50/30 dark:bg-zinc-950/40">
-            <div class="flex items-center justify-between mb-3">
-               <div>
-                  <p class="text-xs text-ink-muted dark:text-white/55">Ingresos últimos 12 meses</p>
-                  <p class="text-base font-bold text-ink dark:text-white font-mono">$316,420</p>
-               </div>
-               <div class="flex items-center gap-2 text-[10px] text-ink-muted dark:text-white/55">
-                  <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-accent-500"></span>2026</span>
-                  <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-ink/20 dark:bg-white/25"></span>2025</span>
-               </div>
+         <!-- Main -->
+         <div class="ml-main">
+            <!-- Topbar -->
+            <div class="ml-topbar">
+               <div class="ml-logo-sm">Soft<span>ree</span></div>
+               <div class="ml-search"></div>
+               <div class="ml-avatar"></div>
             </div>
-            <svg viewBox="0 0 360 110" class="w-full h-24" preserveAspectRatio="none">
-               <defs>
-                  <linearGradient id="areaGrad" x1="0" x2="0" y1="0" y2="1">
-                     <stop offset="0%" stop-color="#10B981" stop-opacity="0.35" />
-                     <stop offset="100%" stop-color="#10B981" stop-opacity="0" />
-                  </linearGradient>
-               </defs>
-               <!-- Grid lines -->
-               <g stroke="#E4E4E7" stroke-width="1" stroke-dasharray="2 3">
-                  <line x1="0" y1="20" x2="360" y2="20" />
-                  <line x1="0" y1="55" x2="360" y2="55" />
-                  <line x1="0" y1="90" x2="360" y2="90" />
-               </g>
-               <!-- 2025 line -->
-               <polyline
-                  points="0,75 30,72 60,68 90,72 120,65 150,70 180,62 210,58 240,55 270,52 300,50 330,48 360,45"
-                  fill="none"
-                  stroke="#A1A1AA"
-                  stroke-width="1.5"
-                  stroke-dasharray="3 3"
-               />
-               <!-- 2026 area + line -->
-               <polyline
-                  points="0,80 30,68 60,55 90,58 120,42 150,48 180,35 210,30 240,22 270,18 300,14 330,16 360,10 360,110 0,110"
-                  fill="url(#areaGrad)"
-               />
-               <polyline
-                  points="0,80 30,68 60,55 90,58 120,42 150,48 180,35 210,30 240,22 270,18 300,14 330,16 360,10"
-                  fill="none"
-                  stroke="#10B981"
-                  stroke-width="2.5"
-                  stroke-linejoin="round"
-                  stroke-linecap="round"
-               />
-               <!-- Highlight point -->
-               <circle cx="360" cy="10" r="3.5" fill="#10B981" />
-               <circle cx="360" cy="10" r="6" fill="#10B981" fill-opacity="0.2" />
-            </svg>
+
+            <!-- Tabs -->
+            <div class="ml-tabs">
+               {tabs.map((tab, i) => <div class={`ml-tab ${i === 0 ? 'act' : ''}`}>{tab}</div>)}
+            </div>
+
+            <!-- KPIs -->
+            <div class="ml-kpis">
+               {
+                  kpis.map((k) => (
+                     <div class="ml-kpi">
+                        <div class="ml-kpi-val">{k.val}</div>
+                        <div class="ml-kpi-lbl">{k.label}</div>
+                        <div class="ml-kpi-change">{k.change}</div>
+                        <div class="ml-kpi-bar">
+                           <i style={`width:${k.width};background:${k.color}`} />
+                        </div>
+                     </div>
+                  ))
+               }
+            </div>
+
+            <!-- Chart -->
+            <div class="ml-chart">
+               {bars.map((h) => <div class="ml-bar-v" style={`--h:${h}%`} />)}
+            </div>
+
+            <!-- Tabla -->
+            <div class="ml-table-wrap">
+               <div class="ml-thead">
+                  <i style="width:12px"></i><i></i><i></i><i></i><i></i>
+               </div>
+               {
+                  rows.map((status) => (
+                     <div class="ml-trow">
+                        <i style="width:12px;opacity:.3"></i>
+                        <i></i>
+                        <i></i>
+                        <div class={`ml-status ${status}`}></div>
+                        <i></i>
+                     </div>
+                  ))
+               }
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <!-- ===== TELÉFONO ===== -->
+   <div class="mock-phone">
+      <div class="mp-notch"></div>
+      <div class="mp-body">
+         <div class="mp-header">
+            <div class="mp-title">Soft<strong>ree</strong></div>
+            <div class="mp-dot-g"></div>
          </div>
 
-         <!-- Activity rows -->
-         <div class="space-y-2">
+         <div class="mp-kpis">
             {
-               [
-                  { name: 'Pedido #4821', tag: 'completado', delta: '+$240' },
-                  { name: 'Cliente nuevo: Acme S.A.', tag: 'nuevo', delta: 'CRM' },
-                  { name: 'Renovación contrato', tag: 'recurrente', delta: '+$1.2K' },
-               ].map((row) => (
-                  <div class="flex items-center justify-between text-xs p-2.5 rounded-lg bg-zinc-50/80 dark:bg-zinc-950/50 border border-ink/5 dark:border-white/5">
-                     <div class="flex items-center gap-2 min-w-0">
-                        <span class="w-7 h-7 rounded-md bg-white dark:bg-zinc-900 border border-ink/5 dark:border-white/10 flex items-center justify-center">
-                           <span class="w-1.5 h-1.5 rounded-full bg-accent-500" />
-                        </span>
-                        <span class="text-ink dark:text-white truncate font-medium">{row.name}</span>
-                     </div>
-                     <div class="flex items-center gap-2 flex-shrink-0">
-                        <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-zinc-100 dark:bg-white/10 text-ink-muted dark:text-white/60">{row.tag}</span>
-                        <span class="text-accent-600 dark:text-accent-400 font-mono font-semibold">{row.delta}</span>
-                     </div>
+               phoneKpis.map((k) => (
+                  <div class="mp-kpi-item">
+                     <div class={`mp-kpi-v ${k.accent ? 'accent' : ''}`}>{k.v}</div>
+                     <div class="mp-kpi-l">{k.l}</div>
                   </div>
                ))
             }
          </div>
+
+         <div class="mp-card">
+            <div class="mp-card-top">
+               <div>
+                  <div class="mp-card-val">$34.2K</div>
+                  <div class="mp-card-lbl">Mensual</div>
+               </div>
+               <div class="mp-card-change">+23%</div>
+            </div>
+            <div class="mp-mini-chart">
+               {phoneMini.map((h) => <i style={`height:${h}px`} />)}
+            </div>
+         </div>
+
+         <div class="mp-list">
+            {
+               phoneList.map((item) => (
+                  <div class="mp-list-item">
+                     <div class={`mp-list-dot ${item.warn ? 'warn' : ''}`}></div>
+                     <div class="mp-list-line" style={`width:${item.w}`}></div>
+                     <div class="mp-list-val">{item.v}</div>
+                  </div>
+               ))
+            }
+         </div>
+
+         <div class="mp-btn">Nuevo pedido</div>
       </div>
+   </div>
+
+   <!-- Badge inferior izquierda (consulta gratis) -->
+   <a href="/#contacto" class="ac-badge">
+      <div class="ac-badge-dot"></div>
+      <div>
+         <div class="ac-badge-t">Consulta gratis →</div>
+         <div class="ac-badge-s">Software a medida o plantillas listas</div>
+      </div>
+   </a>
+
+   <!-- Badge flotante inferior izquierda (clientes activos) -->
+   <div class="mock-label mock-label-bottom">
+      <strong>1,247</strong>
+      <span>clientes activos</span>
    </div>
 </div>
 
 <style>
-   .scrollbar-hide::-webkit-scrollbar {
-      display: none;
+   /* ===== Tokens locales (mapeados a la paleta del proyecto) ===== */
+   .dashboard-mock {
+      --p: #27a317; /* accent-500 */
+      --p-soft: #5bbf48;
+      --grn: #27a317;
+      --t1: #0a0a0a; /* ink */
+      --t2: #52525b; /* ink-muted */
+      --t3: #a1a1aa;
+      --bg: #ffffff;
+      --bg-soft: #fafafa;
+      --line: rgba(10, 10, 10, 0.08);
+      --fm: 'JetBrains Mono', ui-monospace, monospace;
+
+      position: relative;
+      width: 100%;
+      max-width: 560px;
+      margin: 0 auto;
+      aspect-ratio: 1 / 0.92;
    }
-   .scrollbar-hide {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+   :global(.dark) .dashboard-mock {
+      --t1: #ffffff;
+      --t2: rgba(255, 255, 255, 0.6);
+      --t3: rgba(255, 255, 255, 0.4);
+      --bg: #18181b;
+      --bg-soft: #09090b;
+      --line: rgba(255, 255, 255, 0.1);
+   }
+
+   /* ===== LAPTOP ===== */
+   .ml-laptop {
+      position: absolute;
+      top: 6%;
+      left: 0;
+      width: 86%;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: 0 24px 60px -12px rgba(10, 10, 10, 0.18);
+      overflow: hidden;
+   }
+   :global(.dark) .ml-laptop {
+      box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.6);
+   }
+   .ml-bar {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 10px;
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--line);
+   }
+   .ml-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+   }
+   .ml-url {
+      flex: 1;
+      margin-left: 6px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 3px 8px;
+   }
+   .ml-url span {
+      font-family: var(--fm);
+      font-size: 0.4rem;
+      color: var(--t3);
+   }
+   .ml-body {
+      display: flex;
+      min-height: 240px;
+   }
+
+   /* Sidebar */
+   .ml-side {
+      width: 36px;
+      background: var(--bg-soft);
+      border-right: 1px solid var(--line);
+      padding: 8px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+   }
+   .ml-side-logo {
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      background: var(--p);
+      color: #fff;
+      font-family: var(--fm);
+      font-weight: 700;
+      font-size: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 4px;
+   }
+   .ml-side-item {
+      width: 20px;
+      height: 14px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+   }
+   .ml-side-item.act {
+      background: color-mix(in srgb, var(--p) 14%, transparent);
+   }
+   .ml-si-line {
+      width: 9px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--t3);
+      opacity: 0.5;
+   }
+   .ml-side-item.act .ml-si-line {
+      background: var(--p);
+      opacity: 1;
+   }
+   .ml-side-sep {
+      width: 16px;
+      height: 1px;
+      background: var(--line);
+      margin: 2px 0;
+   }
+
+   /* Main */
+   .ml-main {
+      flex: 1;
+      min-width: 0;
+      padding: 9px 11px;
+   }
+   .ml-topbar {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 8px;
+   }
+   .ml-logo-sm {
+      font-family: var(--fm);
+      font-weight: 700;
+      font-size: 0.5rem;
+      color: var(--t1);
+   }
+   .ml-logo-sm span {
+      color: var(--p);
+   }
+   .ml-search {
+      flex: 1;
+      height: 11px;
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+   }
+   .ml-avatar {
+      width: 12px;
+      height: 12px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, var(--p), var(--p-soft));
+   }
+   .ml-tabs {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 9px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0;
+      overflow: hidden;
+   }
+   .ml-tab {
+      font-size: 0.4rem;
+      color: var(--t3);
+      padding: 3px 5px;
+      border-bottom: 1.5px solid transparent;
+      white-space: nowrap;
+   }
+   .ml-tab.act {
+      color: var(--p);
+      border-bottom-color: var(--p);
+      font-weight: 600;
+   }
+
+   /* KPIs */
+   .ml-kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+      margin-bottom: 9px;
+   }
+   .ml-kpi {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 5px 6px;
+   }
+   .ml-kpi-val {
+      font-family: var(--fm);
+      font-weight: 700;
+      font-size: 0.52rem;
+      color: var(--t1);
+   }
+   .ml-kpi-lbl {
+      font-size: 0.36rem;
+      color: var(--t2);
+      margin-top: 1px;
+   }
+   .ml-kpi-change {
+      font-family: var(--fm);
+      font-size: 0.36rem;
+      color: var(--grn);
+      margin-top: 2px;
+   }
+   .ml-kpi-bar {
+      height: 2px;
+      background: var(--line);
+      border-radius: 2px;
+      margin-top: 3px;
+      overflow: hidden;
+   }
+   .ml-kpi-bar i {
+      display: block;
+      height: 100%;
+      border-radius: 2px;
+   }
+
+   /* Chart */
+   .ml-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 46px;
+      padding: 6px;
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      margin-bottom: 9px;
+   }
+   .ml-bar-v {
+      flex: 1;
+      height: var(--h);
+      background: color-mix(in srgb, var(--p) 30%, transparent);
+      border-radius: 2px 2px 0 0;
+      position: relative;
+   }
+   .ml-bar-v::after {
+      content: '';
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 35%;
+      background: var(--p);
+      border-radius: 2px 2px 0 0;
+   }
+
+   /* Tabla */
+   .ml-table-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+   }
+   .ml-thead,
+   .ml-trow {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+   }
+   .ml-thead i,
+   .ml-trow i {
+      flex: 1;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--t3);
+      opacity: 0.55;
+   }
+   .ml-thead i {
+      opacity: 0.85;
+      background: var(--t2);
+   }
+   .ml-status {
+      width: 14px;
+      height: 5px;
+      border-radius: 3px;
+      flex: none !important;
+   }
+   .ml-status.ok {
+      background: color-mix(in srgb, var(--grn) 75%, transparent);
+   }
+   .ml-status.pend {
+      background: color-mix(in srgb, #f59e0b 75%, transparent);
+   }
+   .ml-status.late {
+      background: color-mix(in srgb, #ef4444 70%, transparent);
+   }
+
+   /* ===== TELÉFONO ===== */
+   .mock-phone {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 27%;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 5px;
+      box-shadow: 0 18px 40px -8px rgba(10, 10, 10, 0.22);
+   }
+   :global(.dark) .mock-phone {
+      box-shadow: 0 18px 40px -8px rgba(0, 0, 0, 0.7);
+   }
+   .mp-notch {
+      width: 28px;
+      height: 4px;
+      background: var(--line);
+      border-radius: 9999px;
+      margin: 1px auto 5px;
+   }
+   .mp-body {
+      background: var(--bg-soft);
+      border-radius: 11px;
+      padding: 7px;
+   }
+   .mp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+   }
+   .mp-title {
+      font-family: var(--fm);
+      font-size: 0.4rem;
+      font-weight: 700;
+      color: var(--t1);
+   }
+   .mp-title strong {
+      color: var(--p);
+   }
+   .mp-dot-g {
+      width: 5px;
+      height: 5px;
+      border-radius: 9999px;
+      background: var(--grn);
+   }
+   .mp-kpis {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      margin-bottom: 5px;
+   }
+   .mp-kpi-item {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      padding: 4px 3px;
+      text-align: center;
+   }
+   .mp-kpi-v {
+      font-family: var(--fm);
+      font-weight: 700;
+      font-size: 0.36rem;
+      color: var(--t1);
+   }
+   .mp-kpi-v.accent {
+      color: var(--grn);
+   }
+   .mp-kpi-l {
+      font-size: 0.28rem;
+      color: var(--t2);
+      margin-top: 1px;
+   }
+   .mp-card {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 6px;
+      margin-bottom: 5px;
+   }
+   .mp-card-top {
+      display: flex;
+      justify-content: space-between;
+   }
+   .mp-card-val {
+      font-family: var(--fm);
+      font-weight: 700;
+      font-size: 0.42rem;
+      color: var(--t1);
+   }
+   .mp-card-lbl {
+      font-size: 0.28rem;
+      color: var(--t2);
+      margin-top: 1px;
+   }
+   .mp-card-change {
+      font-family: var(--fm);
+      font-size: 0.3rem;
+      color: var(--grn);
+      align-self: start;
+   }
+   .mp-mini-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 18px;
+      margin-top: 5px;
+   }
+   .mp-mini-chart i {
+      flex: 1;
+      background: color-mix(in srgb, var(--p) 45%, transparent);
+      border-radius: 1px;
+   }
+   .mp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-bottom: 5px;
+   }
+   .mp-list-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+   }
+   .mp-list-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 9999px;
+      background: var(--p);
+      flex: none;
+   }
+   .mp-list-dot.warn {
+      background: #f59e0b;
+   }
+   .mp-list-line {
+      height: 3px;
+      border-radius: 2px;
+      background: var(--line);
+   }
+   .mp-list-val {
+      margin-left: auto;
+      font-family: var(--fm);
+      font-size: 0.3rem;
+      color: var(--t2);
+   }
+   .mp-btn {
+      background: var(--p);
+      color: #fff;
+      text-align: center;
+      font-size: 0.32rem;
+      font-weight: 600;
+      padding: 4px;
+      border-radius: 9999px;
+   }
+
+   /* ===== Badges flotantes ===== */
+   .mock-label {
+      position: absolute;
+      z-index: 20;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px 10px;
+      box-shadow: 0 10px 30px -6px rgba(10, 10, 10, 0.18);
+      font-size: 0.62rem;
+      color: var(--t2);
+      white-space: nowrap;
+      animation: floaty 5s ease-in-out infinite;
+   }
+   :global(.dark) .mock-label {
+      box-shadow: 0 10px 30px -6px rgba(0, 0, 0, 0.6);
+   }
+   .mock-label strong {
+      font-family: var(--fm);
+      color: var(--grn);
+      margin-right: 3px;
+   }
+   .mock-label-top {
+      top: 0;
+      right: 4%;
+   }
+   .mock-label-bottom {
+      bottom: 32%;
+      left: -10px;
+      animation-delay: 2.5s;
+   }
+
+   .ac-badge {
+      position: absolute;
+      z-index: 20;
+      left: 2%;
+      bottom: 2%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 12px;
+      box-shadow: 0 14px 36px -8px rgba(10, 10, 10, 0.22);
+      text-decoration: none;
+      transition:
+         transform 0.25s ease,
+         border-color 0.25s ease;
+      animation: floaty 6s ease-in-out infinite;
+      animation-delay: 1s;
+   }
+   :global(.dark) .ac-badge {
+      box-shadow: 0 14px 36px -8px rgba(0, 0, 0, 0.7);
+   }
+   .ac-badge:hover {
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, var(--p) 45%, transparent);
+   }
+   .ac-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: var(--grn);
+      flex: none;
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--grn) 18%, transparent);
+   }
+   .ac-badge-t {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--t1);
+   }
+   .ac-badge-s {
+      font-size: 0.58rem;
+      color: var(--t2);
+      margin-top: 1px;
+   }
+
+   @keyframes floaty {
+      0%,
+      100% {
+         transform: translateY(0);
+      }
+      50% {
+         transform: translateY(-7px);
+      }
+   }
+   @media (prefers-reduced-motion: reduce) {
+      .mock-label,
+      .ac-badge {
+         animation: none;
+      }
+   }
+
+   /* ===== Responsive ===== */
+   @media (max-width: 640px) {
+      .dashboard-mock {
+         max-width: 420px;
+      }
+      .ac-badge {
+         padding: 6px 9px;
+         gap: 6px;
+      }
+      .ac-badge-t {
+         font-size: 0.62rem;
+      }
+      .ac-badge-s {
+         font-size: 0.5rem;
+      }
+      .mock-label {
+         font-size: 0.55rem;
+         padding: 5px 8px;
+      }
    }
 </style>
