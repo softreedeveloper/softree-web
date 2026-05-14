@@ -3,7 +3,7 @@ import Button from '@components/ui/Button.astro';
 import DashboardMock from '@sections/DashboardMock.astro';
 ---
 
-<section class="relative overflow-hidden bg-white dark:bg-zinc-950 pt-16 pb-24 md:pt-24 md:pb-32 transition-colors duration-300">
+<section class="relative overflow-hidden bg-white dark:bg-zinc-950 pt-12 pb-20 sm:pt-16 sm:pb-24 md:pt-24 md:pb-32 transition-colors duration-300">
    <!-- Background grid pattern -->
    <div class="absolute inset-0 pointer-events-none opacity-[0.04] dark:opacity-[0.08] text-ink dark:text-white" aria-hidden="true">
       <svg width="100%" height="100%">
@@ -17,12 +17,12 @@ import DashboardMock from '@sections/DashboardMock.astro';
    </div>
 
    <!-- Decorative orb -->
-   <div class="absolute top-20 -left-32 w-96 h-96 rounded-full bg-accent-200/30 dark:bg-accent-500/15 blur-3xl pointer-events-none" aria-hidden="true"></div>
-   <div class="absolute bottom-0 -right-32 w-96 h-96 rounded-full bg-brand-200/30 dark:bg-brand-500/15 blur-3xl pointer-events-none" aria-hidden="true"></div>
+   <div class="absolute top-20 -left-32 w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-accent-200/30 dark:bg-accent-500/15 blur-3xl pointer-events-none" aria-hidden="true"></div>
+   <div class="absolute bottom-0 -right-32 w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-brand-200/30 dark:bg-brand-500/15 blur-3xl pointer-events-none" aria-hidden="true"></div>
 
-   <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-10 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+   <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 grid lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
       <!-- Copy -->
-      <div>
+      <div class="min-w-0">
          <span class="inline-flex items-center gap-2 rounded-full border border-ink/10 dark:border-white/10 bg-white dark:bg-white/5 px-3 py-1.5 text-xs font-medium text-ink-muted dark:text-white/60 reveal">
             <span class="relative flex h-2 w-2">
                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-400 opacity-75"></span>
@@ -31,21 +31,21 @@ import DashboardMock from '@sections/DashboardMock.astro';
             8 años digitalizando empresas
          </span>
 
-         <h1 class="mt-5 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-ink dark:text-white leading-[1.05] reveal delay-100">
+         <h1 class="mt-5 text-[2rem] leading-[1.1] sm:text-5xl sm:leading-[1.05] md:text-6xl lg:text-7xl font-bold tracking-tight text-ink dark:text-white reveal delay-100">
             Software
-            <span class="font-mono">{'{ '}</span>
-            <span class="bg-gradient-to-r from-accent-500 to-accent-300 bg-clip-text text-transparent">a medida</span>
-            <span class="font-mono">{' }'}</span>
+            <span class="font-mono whitespace-nowrap">
+               <span>{'{ '}</span><span class="bg-gradient-to-r from-accent-500 to-accent-300 bg-clip-text text-transparent">a medida</span><span>{' }'}</span>
+            </span>
          </h1>
 
-         <p class="mt-6 text-base md:text-lg text-ink-muted dark:text-white/60 leading-relaxed max-w-xl reveal delay-200">
+         <p class="mt-5 sm:mt-6 text-base md:text-lg text-ink-muted dark:text-white/60 leading-relaxed max-w-xl reveal delay-200">
             Transformamos ideas en software de alto rendimiento. Expertos en aplicaciones web, móviles,
             escritorio, backend, cloud e inteligencia artificial.
          </p>
 
-         <div class="mt-8 flex flex-wrap items-center gap-3 reveal delay-300">
-            <Button href="/contacto" variant="primary" size="lg">Cotizar un proyecto</Button>
-            <Button href="/#soluciones" variant="secondary" size="lg" arrow={false}>
+         <div class="mt-7 sm:mt-8 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 reveal delay-300">
+            <Button href="/#contacto" variant="primary" size="lg" class="justify-center">Cotizar un proyecto</Button>
+            <Button href="/#soluciones" variant="secondary" size="lg" arrow={false} class="justify-center">
                Ver soluciones
             </Button>
          </div>
@@ -75,7 +75,7 @@ import DashboardMock from '@sections/DashboardMock.astro';
       </div>
 
       <!-- Dashboard preview -->
-      <div class="reveal-scale delay-200">
+      <div class="reveal-scale delay-200 min-w-0 w-full">
          <DashboardMock />
       </div>
    </div>

@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 body {
+   /* Evita scroll horizontal: el panel lateral del menú móvil (fixed + translate-x-full)
+      extiende el área de scroll fuera del viewport en algunos navegadores.
+      Se aplica solo a body para no romper position:sticky ni scroll-behavior del html. */
+   overflow-x: hidden;
    font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
    transition:
       background-color 0.3s ease,

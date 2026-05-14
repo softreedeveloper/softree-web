@@ -8,7 +8,7 @@ const links = [
    { href: '/servicios', label: 'Servicios' },
    { href: '/#soluciones', label: 'Soluciones' },
    { href: '/#nosotros', label: 'Quiénes somos' },
-   { href: '/contacto', label: 'Contacto' },
+   { href: '/#contacto', label: 'Contacto' },
 ];
 
 const whatsappNumber = siteConfigData.contacto.WHATSAPP.replace(/\D/g, '');
@@ -18,33 +18,42 @@ const whatsappNumber = siteConfigData.contacto.WHATSAPP.replace(/\D/g, '');
    <!-- Botón hamburguesa -->
    <button
       id="menuButton"
-      class="relative flex flex-col justify-center items-center w-9 h-9 rounded-xl focus:outline-none group"
+      type="button"
+      class="relative flex flex-col justify-center items-center w-9 h-9 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 group"
       aria-label="Abrir menú"
+      aria-expanded="false"
+      aria-controls="menuPanel"
    >
       <span id="bar1" class="block w-5 h-0.5 bg-ink dark:bg-white rounded-full transition-all duration-300"></span>
       <span id="bar2" class="block w-5 h-0.5 bg-ink dark:bg-white rounded-full mt-1.5 transition-all duration-300"></span>
-      <span
-         id="bar3"
-         class="block w-3 h-0.5 bg-ink dark:bg-white rounded-full mt-1.5 transition-all duration-300 group-hover:w-5"></span>
+      <span id="bar3" class="block w-3 h-0.5 bg-ink dark:bg-white rounded-full mt-1.5 transition-all duration-300 group-hover:w-5"></span>
    </button>
+</div>
 
+<!-- Overlay + panel: fuera del flujo de Header, montados al final del body via este markup.
+     menuMobileWrap es display:none cuando está cerrado → imposible que genere scroll horizontal
+     o sea seleccionable. Solo se muestra (flex) mientras el menú está abierto o animando. -->
+<div id="menuMobileWrap" class="lg:hidden hidden">
    <!-- Overlay -->
    <div
       id="menuOverlay"
-      class="fixed inset-0 bg-ink/60 backdrop-blur-sm z-[998] opacity-0 pointer-events-none transition-opacity duration-300"
+      class="fixed inset-0 bg-ink/60 backdrop-blur-sm z-[998] opacity-0 transition-opacity duration-300"
    >
    </div>
 
    <!-- Panel lateral -->
    <nav
-      id="menuNav"
-      class="fixed top-0 right-0 h-screen w-80 max-w-[85vw] bg-white dark:bg-zinc-950 z-[999] shadow-2xl flex flex-col translate-x-full transition-transform duration-300 ease-out"
+      id="menuPanel"
+      aria-label="Menú principal"
+      class="menu-panel fixed top-0 right-0 w-80 max-w-[85vw] bg-white dark:bg-zinc-950 z-[999] shadow-2xl flex flex-col translate-x-full transition-transform duration-300 ease-out"
    >
-      <div class="flex items-center justify-between px-6 py-4 border-b border-ink/5 dark:border-white/10">
+      <!-- Header del panel -->
+      <div class="flex items-center justify-between px-5 py-4 border-b border-ink/5 dark:border-white/10 shrink-0">
          <BracesLogo size="md" />
          <button
             id="closeButton"
-            class="w-9 h-9 rounded-lg hover:bg-ink/5 dark:hover:bg-white/10 flex items-center justify-center transition-colors"
+            type="button"
+            class="w-9 h-9 rounded-lg hover:bg-ink/5 dark:hover:bg-white/10 flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500"
             aria-label="Cerrar menú"
          >
             <svg class="w-5 h-5 text-ink dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -53,7 +62,8 @@ const whatsappNumber = siteConfigData.contacto.WHATSAPP.replace(/\D/g, '');
          </button>
       </div>
 
-      <div class="flex-1 px-4 py-5 overflow-y-auto">
+      <!-- Links (área scrollable que absorbe la altura sobrante) -->
+      <div class="flex-1 min-h-0 px-4 py-4 overflow-y-auto overflow-x-hidden overscroll-contain">
          <ul class="space-y-1">
             {
                links.map((link) => (
@@ -64,7 +74,7 @@ const whatsappNumber = siteConfigData.contacto.WHATSAPP.replace(/\D/g, '');
                      >
                         <span>{link.label}</span>
                         <svg
-                           class="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-accent-500"
+                           class="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-accent-500 shrink-0"
                            fill="none"
                            viewBox="0 0 24 24"
                            stroke="currentColor"
@@ -78,13 +88,14 @@ const whatsappNumber = siteConfigData.contacto.WHATSAPP.replace(/\D/g, '');
             }
          </ul>
 
-         <div class="mt-5 px-1">
+         <div class="mt-4 px-1">
             <ThemeToggle variant="pill" />
          </div>
       </div>
 
+      <!-- Footer del panel: CTAs -->
       <div
-         class="px-4 pb-4 pt-3 border-t border-ink/5 dark:border-white/10 space-y-2"
+         class="px-4 pb-4 pt-3 border-t border-ink/5 dark:border-white/10 space-y-2 shrink-0"
          style="padding-bottom: max(1rem, env(safe-area-inset-bottom))"
       >
          <a
@@ -93,7 +104,7 @@ const whatsappNumber = siteConfigData.contacto.WHATSAPP.replace(/\D/g, '');
             rel="noopener noreferrer"
             class="nav-link flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold px-5 py-3 rounded-full transition-colors text-sm w-full"
          >
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24">
                <path
                   d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
                ></path>
@@ -101,7 +112,7 @@ const whatsappNumber = siteConfigData.contacto.WHATSAPP.replace(/\D/g, '');
             WhatsApp
          </a>
          <a
-            href="/contacto"
+            href="/#contacto"
             class="nav-link flex items-center justify-center gap-2 border border-ink/15 dark:border-white/20 text-ink dark:text-white hover:bg-ink hover:text-white dark:hover:bg-white dark:hover:text-ink font-medium px-5 py-3 rounded-full transition-colors text-sm w-full"
          >
             Cotizar proyecto
@@ -110,42 +121,100 @@ const whatsappNumber = siteConfigData.contacto.WHATSAPP.replace(/\D/g, '');
    </nav>
 </div>
 
+<style>
+   /* Altura del panel: usa el viewport dinámico (dvh) para que en móviles
+      la barra de URL del navegador no empuje el footer (CTAs) fuera de la vista.
+      Fallback a vh para navegadores antiguos. */
+   .menu-panel {
+      height: 100vh;
+      height: 100dvh;
+   }
+</style>
+
 <script>
    const menuButton = document.getElementById('menuButton');
    const closeButton = document.getElementById('closeButton');
-   const menuNav = document.getElementById('menuNav');
+   const wrap = document.getElementById('menuMobileWrap');
+   const panel = document.getElementById('menuPanel');
    const overlay = document.getElementById('menuOverlay');
    const bar1 = document.getElementById('bar1');
    const bar2 = document.getElementById('bar2');
    const bar3 = document.getElementById('bar3');
 
+   let closeTimer: ReturnType<typeof setTimeout>;
+   let isOpen = false;
+
    function openMenu() {
-      menuNav.classList.remove('translate-x-full');
-      menuNav.classList.add('translate-x-0');
-      overlay.classList.remove('opacity-0', 'pointer-events-none');
-      overlay.classList.add('opacity-100');
-      bar1.classList.add('rotate-45', 'translate-y-2');
-      bar2.classList.add('opacity-0');
-      bar3.classList.add('-rotate-45', '-translate-y-2', '!w-5');
+      if (isOpen) return;
+      isOpen = true;
+      clearTimeout(closeTimer);
+
+      // 1. Mostrar el wrapper (display:flex) — los elementos fixed ya pueden renderizar
+      wrap?.classList.remove('hidden');
+
+      // 2. Forzar reflow para que la transición arranque desde translate-x-full
+      void panel?.offsetWidth;
+
+      // 3. Animar entrada
+      panel?.classList.remove('translate-x-full');
+      panel?.classList.add('translate-x-0');
+      overlay?.classList.remove('opacity-0');
+      overlay?.classList.add('opacity-100');
+
+      // Hamburguesa → X
+      bar1?.classList.add('rotate-45', 'translate-y-2');
+      bar2?.classList.add('opacity-0');
+      bar3?.classList.add('-rotate-45', '-translate-y-2', '!w-5');
+
+      menuButton?.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
    }
 
    function closeMenu() {
-      menuNav.classList.add('translate-x-full');
-      menuNav.classList.remove('translate-x-0');
-      overlay.classList.add('opacity-0', 'pointer-events-none');
-      overlay.classList.remove('opacity-100');
-      bar1.classList.remove('rotate-45', 'translate-y-2');
-      bar2.classList.remove('opacity-0');
-      bar3.classList.remove('-rotate-45', '-translate-y-2', '!w-5');
+      if (!isOpen) return;
+      isOpen = false;
+
+      // 1. Animar salida
+      panel?.classList.add('translate-x-full');
+      panel?.classList.remove('translate-x-0');
+      overlay?.classList.add('opacity-0');
+      overlay?.classList.remove('opacity-100');
+
+      // X → hamburguesa
+      bar1?.classList.remove('rotate-45', 'translate-y-2');
+      bar2?.classList.remove('opacity-0');
+      bar3?.classList.remove('-rotate-45', '-translate-y-2', '!w-5');
+
+      menuButton?.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
+
+      // 2. Al terminar la animación (300ms), ocultar el wrapper por completo
+      //    (display:none) → el panel deja de existir en el layout y NO puede
+      //    generar scroll horizontal ni ser seleccionable.
+      closeTimer = setTimeout(() => {
+         wrap?.classList.add('hidden');
+      }, 320);
    }
 
-   menuButton.addEventListener('click', openMenu);
-   closeButton.addEventListener('click', closeMenu);
-   overlay.addEventListener('click', closeMenu);
+   function toggleMenu() {
+      isOpen ? closeMenu() : openMenu();
+   }
+
+   menuButton?.addEventListener('click', toggleMenu);
+   closeButton?.addEventListener('click', closeMenu);
+   overlay?.addEventListener('click', closeMenu);
 
    document.querySelectorAll('.nav-link').forEach((link) => {
       link.addEventListener('click', closeMenu);
+   });
+
+   // Cerrar con Escape
+   document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) closeMenu();
+   });
+
+   // Cerrar si se pasa a desktop (lg) con el menú abierto
+   window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
+      if (e.matches && isOpen) closeMenu();
    });
 </script>
