@@ -6,7 +6,7 @@ export const siteConfigData = {
       description:
          'Softree desarrolla software a medida: aplicaciones móviles, plataformas web, CRM/ERP, soluciones cloud y consultoría técnica. Transformamos ideas en productos digitales de alto rendimiento.',
       keywords:
-         'desarrollo de software a medida, aplicaciones móviles, plataformas web, CRM, ERP, cloud, consultoría técnica, UI/UX, software México, Astro, React, Flutter, Next.js',
+         'desarrollo de software a medida, aplicaciones móviles, plataformas web, CRM, ERP, cloud, consultoría técnica, UI/UX, automatización, agentes de IA, inteligencia artificial, software México, Astro, React, React Native, Next.js',
       author: 'Softree',
       locale: 'es_MX',
       language: 'es',
@@ -20,10 +20,10 @@ export const siteConfigData = {
       instagram: 'https://www.instagram.com/softree/',
    },
    contacto: {
-      WHATSAPP: '+5215636663808',
-      EMAIL: 'atencion_clientes@softree.com.mx',
-      TELEFONO: '+525636663808',
-      DIRECCION: 'Cuautitlán Izcalli, Estado de México, México',
+      WHATSAPP: '+525531988831',
+      EMAIL: 'contacto@softree.com.mx',
+      TELEFONO: '+525531988831',
+      DIRECCION: 'CDMX, México',
    },
    footer: {
       COPYRIGHT: 'Softree © - Todos Los Derechos Reservados - 2026',

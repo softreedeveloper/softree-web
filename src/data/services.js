@@ -3,7 +3,7 @@ export const services = [
       number: '01',
       title: 'Aplicaciones a la medida',
       description: 'Desarrollamos software desde cero en el lenguaje y framework que tu proyecto necesite. Sin atajos, sin templates genéricos.',
-      stack: ['Python', 'TypeScript', 'Dart', 'Swift', 'Kotlin', 'React', 'Next.js', 'Flutter', 'Node.js'],
+      stack: ['Python', 'TypeScript', 'Swift', 'Kotlin', 'React', 'Next.js', 'React Native', 'Node.js'],
       snippet: [
          { type: 'com', text: '// Stack a la medida' },
          { type: 'line', parts: [{ k: 'stack' }, { s: ':' }, { v: '"any"' }, { s: ',' }] },
@@ -15,7 +15,7 @@ export const services = [
       number: '02',
       title: 'Aplicaciones Móviles',
       description: 'Apps nativas para iOS y Android. Publicación en App Store / Play Store y soporte post-lanzamiento incluido.',
-      stack: ['Flutter', 'Swift', 'Kotlin', 'React Native'],
+      stack: ['React Native', 'Swift', 'Kotlin'],
       snippet: [
          { type: 'com', text: '// Plataformas soportadas' },
          { type: 'line', parts: [{ k: 'platforms' }, { s: ':' }, { v: '["iOS","Android"]' }, { s: ',' }] },
@@ -61,6 +61,18 @@ export const services = [
    },
    {
       number: '06',
+      title: 'Automatizaciones & Agentes de IA',
+      description: 'Flujos automáticos, agentes con LLMs, chatbots inteligentes y pipelines que trabajan mientras duermes.',
+      stack: ['OpenAI', 'LangChain', 'n8n', 'Python', 'Webhooks'],
+      snippet: [
+         { type: 'com', text: '// Agente en acción' },
+         { type: 'line', parts: [{ k: 'model' }, { s: ':' }, { v: '"gpt-4o"' }, { s: ',' }] },
+         { type: 'line', parts: [{ k: 'memory' }, { s: ':' }, { v: 'true' }, { s: ',' }] },
+         { type: 'line', parts: [{ k: 'tools' }, { s: ':' }, { v: '"[search,crm,email]"' }] },
+      ],
+   },
+   {
+      number: '07',
       title: 'Diseño UI/UX',
       description: 'Prototipos interactivos en Figma, testing con usuarios reales y sistemas de diseño consistentes.',
       stack: ['Figma', 'Framer', 'Storybook'],
@@ -72,7 +84,7 @@ export const services = [
       ],
    },
    {
-      number: '07',
+      number: '08',
       title: 'Consultoría Técnica',
       description: 'Auditoría de código, arquitectura, optimización de performance y mentoring de equipos técnicos.',
       stack: ['SonarQube', 'Lighthouse', 'OpenTelemetry'],

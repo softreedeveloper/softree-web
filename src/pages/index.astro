@@ -4,15 +4,11 @@ import { generateServiceSchema } from '@/utils/seo.jsx';
 
 import HeroSoftware from '@sections/HeroSoftware.astro';
 import StatsBanner from '@sections/StatsBanner.astro';
-import FeatureColumns from '@sections/FeatureColumns.astro';
 import AboutSoftware from '@sections/AboutSoftware.astro';
 import SolutionsGrid from '@sections/SolutionsGrid.astro';
-import PartnershipQuote from '@sections/PartnershipQuote.astro';
-import CompanyStats from '@sections/CompanyStats.astro';
-import Methodology from '@sections/Methodology.astro';
+
 import Differentiators from '@sections/Differentiators.astro';
 import TechMarquee from '@sections/TechMarquee.astro';
-import FinalCTA from '@sections/FinalCTA.astro';
 import ContactForm from '@sections/ContactForm.astro';
 
 const serviceSchema = generateServiceSchema({
@@ -24,20 +20,17 @@ const serviceSchema = generateServiceSchema({
 
 <Layout
    title="Softree | Software a medida — Apps, web, CRM y cloud"
-   description="Transformamos ideas en software de alto rendimiento. Apps móviles, plataformas web, CRM/ERP, cloud e inteligencia artificial. Entregamos en semanas, no meses."
+   description="Transformamos ideas en software de alto rendimiento. Apps móviles, plataformas web, CRM/ERP, cloud e inteligencia artificial."
    type="website"
    schema={serviceSchema}
 >
    <HeroSoftware />
-   <StatsBanner />
-   <FeatureColumns />
+ 
    <AboutSoftware />
+
    <SolutionsGrid />
-   <PartnershipQuote />
-   <CompanyStats />
-   <Methodology />
+
    <Differentiators />
    <TechMarquee />
-   <FinalCTA />
    <ContactForm />
 </Layout>

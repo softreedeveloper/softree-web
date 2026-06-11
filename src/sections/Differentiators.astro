@@ -1,6 +1,12 @@
 ---
 import SectionHeading from '@components/ui/SectionHeading.astro';
 import { differentiators } from '@/data/company-stats.js';
+
+const cardAccents = [
+   { glow: 'from-accent-500/15 to-accent-700/5', dot: 'bg-accent-400' },
+   { glow: 'from-accent-400/15 to-accent-600/5', dot: 'bg-accent-300' },
+   { glow: 'from-accent-600/15 to-accent-800/5', dot: 'bg-accent-500' },
+];
 ---
 
 <section class="py-20 md:py-28 bg-zinc-50/40 dark:bg-zinc-900/40 transition-colors duration-300">
@@ -8,7 +14,7 @@ import { differentiators } from '@/data/company-stats.js';
       <SectionHeading
          eyebrow="Nuestra ventaja"
          title="Lo que nos diferencia"
-         subtitle="Hechos, no promesas. Estas son las razones por las que nuestros clientes nos eligen."
+         subtitle="Estas son las razones por las que nuestros clientes nos eligen."
          align="center"
          class="mb-14"
       />
@@ -16,14 +22,32 @@ import { differentiators } from '@/data/company-stats.js';
       <div class="grid md:grid-cols-3 gap-5 md:gap-6">
          {
             differentiators.map((d, i) => (
-               <div class={`relative rounded-3xl bg-white dark:bg-zinc-900 border border-ink/10 dark:border-white/10 p-8 md:p-10 overflow-hidden hover:border-accent-500/40 hover:shadow-xl transition-all duration-500 reveal delay-${(i + 1) * 100}`}>
-                  <!-- Decorative blob -->
-                  <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-accent-500/5 dark:bg-accent-500/15 blur-2xl pointer-events-none" />
-                  <p class="font-mono text-5xl md:text-6xl font-bold bg-gradient-to-br from-accent-500 to-accent-700 dark:from-accent-300 dark:to-accent-500 bg-clip-text text-transparent leading-none">
-                     {d.number}
-                  </p>
-                  <h3 class="mt-5 text-xl md:text-2xl font-bold text-ink dark:text-white">{d.title}</h3>
-                  <p class="mt-3 text-sm md:text-base text-ink-muted dark:text-white/60 leading-relaxed">{d.description}</p>
+               <div class={`group relative rounded-3xl backdrop-blur-xl bg-white/60 dark:bg-zinc-900/50 border border-white/30 dark:border-white/[0.07] p-8 md:p-10 overflow-hidden hover:border-accent-500/25 dark:hover:border-accent-500/20 hover:shadow-2xl hover:shadow-accent-500/5 hover:-translate-y-1 transition-all duration-500 reveal delay-${(i + 1) * 100}`}>
+
+                  {/* Gradient glow background */}
+                  <div class={`absolute inset-0 bg-gradient-to-br ${cardAccents[i].glow} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
+
+                  {/* Top accent line */}
+                  <div class="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-accent-500/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  {/* Corner dot */}
+                  <div class={`absolute top-7 right-7 w-2.5 h-2.5 rounded-full ${cardAccents[i].dot} opacity-40 group-hover:opacity-100 group-hover:scale-125 transition-all duration-300`} />
+
+                  {/* Large decorative blob */}
+                  <div class="absolute -bottom-16 -right-16 w-56 h-56 rounded-full bg-accent-500/6 dark:bg-accent-500/12 blur-3xl pointer-events-none group-hover:bg-accent-500/12 dark:group-hover:bg-accent-500/20 transition-all duration-700" />
+
+                  <div class="relative">
+                     {/* Stat number */}
+                     <p class="font-mono text-6xl md:text-7xl font-black bg-gradient-to-br from-accent-500 via-accent-400 to-accent-600 dark:from-accent-300 dark:via-accent-400 dark:to-accent-500 bg-clip-text text-transparent leading-none tracking-tight">
+                        {d.number}
+                     </p>
+
+                     {/* Divider */}
+                     <div class="mt-6 mb-5 w-10 h-0.5 bg-gradient-to-r from-accent-500 to-accent-300 rounded-full" />
+
+                     <h3 class="text-xl md:text-2xl font-bold text-ink dark:text-white group-hover:text-accent-600 dark:group-hover:text-accent-300 transition-colors duration-300">{d.title}</h3>
+                     <p class="mt-3 text-sm md:text-base text-ink-muted dark:text-white/55 leading-relaxed">{d.description}</p>
+                  </div>
                </div>
             ))
          }
