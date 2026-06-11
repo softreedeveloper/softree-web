@@ -6,31 +6,19 @@ interface Props {
    class?: string;
 }
 
-const { variant = 'auto', size = 'md', showText = true, class: extraClass = '' } = Astro.props;
+const { size = 'md', class: extraClass = '' } = Astro.props;
 
-const sizes = {
-   sm: { braces: 'text-xl', text: 'text-base' },
-   md: { braces: 'text-2xl', text: 'text-lg' },
-   lg: { braces: 'text-4xl', text: 'text-2xl' },
-};
-
-// auto: respeta el theme actual. dark: siempre oscuro (texto negro). light: siempre claro (texto blanco).
-const colors = {
-   auto: { braces: 'text-accent-500', text: 'text-ink dark:text-white' },
-   dark: { braces: 'text-accent-500', text: 'text-ink' },
-   light: { braces: 'text-accent-400', text: 'text-white' },
+const heights = {
+   sm: 'h-6',
+   md: 'h-8',
+   lg: 'h-11',
 };
 ---
 
-<a href="/" class={`inline-flex items-center gap-2 group ${extraClass}`} aria-label="Softree - Inicio">
-   <span class={`font-mono font-bold ${sizes[size].braces} ${colors[variant].braces} transition-transform duration-300 group-hover:scale-110`}>
-      {'{ }'}
-   </span>
-   {
-      showText && (
-         <span class={`font-mono font-semibold tracking-tight ${sizes[size].text} ${colors[variant].text}`}>
-            Softree
-         </span>
-      )
-   }
+<a href="/" class={`inline-flex items-center group ${extraClass}`} aria-label="Softree - Inicio">
+   <img
+      src="/img/Logo.png"
+      alt="Softree"
+      class={`${heights[size]} w-auto object-contain transition-opacity duration-300 group-hover:opacity-80 logo-dark-adapt`}
+   />
 </a>
