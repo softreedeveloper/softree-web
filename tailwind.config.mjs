@@ -56,8 +56,8 @@ export default {
          animation: {
             slideUp: 'slideUp 0.3s ease-out forwards',
             slideDown: 'slideDown 0.3s ease-in forwards',
-            marquee: 'marquee 30s linear infinite',
-            'marquee-slow': 'marquee 50s linear infinite',
+            marquee: 'marquee 20s linear infinite',
+            'marquee-slow': 'marquee 35s linear infinite',
             fadeInUp: 'fadeInUp 0.7s ease-out forwards',
          },
       },

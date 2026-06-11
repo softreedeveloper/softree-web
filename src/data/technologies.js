@@ -1,7 +1,9 @@
 // Tecnologías para el carrusel "Tecnologías con las que construimos".
 // slug = identificador de Simple Icons (https://simpleicons.org) para el logo SVG.
 export const technologies = [
-   { name: 'Flutter', slug: 'flutter' },
+   { name: 'React Native', slug: 'react' },
+   { name: 'OpenAI', slug: 'openai' },
+   { name: 'n8n', slug: 'n8n' },
    { name: 'React', slug: 'react' },
    { name: 'Next.js', slug: 'nextdotjs' },
    { name: 'TypeScript', slug: 'typescript' },
@@ -9,10 +11,16 @@ export const technologies = [
    { name: 'Firebase', slug: 'firebase' },
    { name: 'Tailwind', slug: 'tailwindcss' },
    { name: 'Figma', slug: 'figma' },
-   { name: 'AWS', slug: 'amazonaws' },
+   { name: 'Google Cloud', slug: 'googlecloud' },
+   { name: 'DigitalOcean', slug: 'digitalocean' },
    { name: 'Vercel', slug: 'vercel' },
    { name: 'GitHub', slug: 'github' },
    { name: 'Stripe', slug: 'stripe' },
    { name: 'PostgreSQL', slug: 'postgresql' },
    { name: 'GraphQL', slug: 'graphql' },
+   { name: 'PayPal', slug: 'paypal' },
+   { name: 'Mercado Pago', slug: 'mercadopago' },
+   { name: 'Supabase', slug: 'supabase' },
+   { name: 'Claude', slug: 'claude' },
+   { name: 'DeepSeek', slug: 'deepseek' },
 ];
