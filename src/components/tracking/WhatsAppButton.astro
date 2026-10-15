@@ -1,0 +1,71 @@
+---
+/**
+ * Botón/enlace de WhatsApp con todos los atributos de tracking. ÚNICA forma
+ * permitida de enlazar a WhatsApp (nunca <a href="https://wa.me/…"> suelto):
+ * así todo clic llega como whatsapp_click con button_id y, si se pide, como Lead de Meta.
+ *
+ * id: "whatsapp-<pagina>-<seccion>", minúsculas con guiones, único en la página.
+ * El número sale de siteConfig.contacto.WHATSAPP; `phone` lo sobrescribe.
+ * Si se pasa contenido por slot (icono + texto), `label` solo se usa como aria-label.
+ */
+import { siteConfig } from '@/utils/config.js';
+
+interface Props {
+   id: string;
+   label: string;
+   message?: string;
+   pageType: string;
+   sectionName: string;
+   placement?: 'header' | 'hero' | 'footer' | 'sticky' | 'contenido';
+   itemId?: string;
+   itemName?: string;
+   itemCategory?: string;
+   /** Evento de Meta a disparar en el clic. false para no enviar nada a Meta. */
+   metaEvent?: string | false;
+   metaValue?: number;
+   metaCurrency?: string;
+   phone?: string;
+   class?: string;
+}
+
+const {
+   id,
+   label,
+   message = 'Hola Softree, me gustaría recibir más información.',
+   pageType,
+   sectionName,
+   placement,
+   itemId,
+   itemName,
+   itemCategory,
+   metaEvent = 'Lead',
+   metaValue,
+   metaCurrency,
+   phone = siteConfig.contacto.WHATSAPP,
+   class: className = '',
+} = Astro.props;
+
+const href = `https://wa.me/${String(phone).replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
+const hasSlot = Astro.slots.has('default');
+---
+
+<a
+   id={id}
+   href={href}
+   target="_blank"
+   rel="noopener noreferrer"
+   class={className}
+   aria-label={hasSlot ? label : undefined}
+   data-destination-type="whatsapp"
+   data-page-type={pageType}
+   data-section-name={sectionName}
+   data-placement={placement}
+   data-item-id={itemId}
+   data-item-name={itemName}
+   data-item-category={itemCategory}
+   data-meta-event={metaEvent || undefined}
+   data-meta-value={metaValue}
+   data-meta-currency={metaCurrency}
+>
+   <slot>{label}</slot>
+</a>

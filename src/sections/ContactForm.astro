@@ -1,6 +1,15 @@
 ---
-import { siteConfigData } from '@/utils/site-config.jsx';
+import { siteConfigData } from '@/utils/site-config.js';
 import { methodology } from '@/data/methodology.js';
+import WhatsAppButton from '@components/tracking/WhatsAppButton.astro';
+
+interface Props {
+   /** En /contacto la sección es el contenido principal y su título es el único H1. */
+   headingLevel?: 'h1' | 'h2';
+}
+
+const { headingLevel = 'h2' } = Astro.props;
+const Heading = headingLevel;
 ---
 
 <section id="contacto" class="relative bg-white dark:bg-zinc-950 py-20 md:py-28 overflow-hidden transition-colors duration-300">
@@ -17,9 +26,9 @@ import { methodology } from '@/data/methodology.js';
             <span class="h-1.5 w-1.5 rounded-full bg-accent-500" />
             Hablemos
          </span>
-         <h2 class="mt-5 text-3xl md:text-5xl font-bold tracking-tight text-ink dark:text-white leading-tight">
+         <Heading class="mt-5 text-3xl md:text-5xl font-bold tracking-tight text-ink dark:text-white leading-tight">
             Cuéntanos sobre tu <span class="font-mono">{'{'}</span><span class="bg-gradient-to-r from-accent-500 to-accent-700 dark:from-accent-300 dark:to-accent-500 bg-clip-text text-transparent">proyecto</span><span class="font-mono">{'}'}</span>
-         </h2>
+         </Heading>
          <p class="mt-4 text-base md:text-lg text-ink-muted dark:text-white/60 max-w-2xl mx-auto">
             Completa el formulario y te respondemos en menos de 24 horas con un plan concreto.
          </p>
@@ -90,10 +99,12 @@ import { methodology } from '@/data/methodology.js';
          <!-- Contact cards -->
          <aside class="lg:col-span-2 flex flex-col gap-4">
             <!-- WhatsApp -->
-            <a
-               href={`https://wa.me/${siteConfigData.contacto.WHATSAPP.replace(/\D/g, '')}`}
-               target="_blank"
-               rel="noopener noreferrer"
+            <WhatsAppButton
+               id="whatsapp-contacto-info"
+               label="WhatsApp"
+               message="Hola Softree, me gustaría cotizar un proyecto."
+               pageType="contacto"
+               sectionName="info"
                class="bg-white dark:bg-zinc-900 border border-ink/10 dark:border-white/10 rounded-2xl p-5 flex items-center gap-4 hover:border-accent-500/40 hover:shadow-md transition-all duration-300 group reveal delay-100"
             >
                <div class="w-12 h-12 rounded-xl bg-accent-500 flex items-center justify-center flex-shrink-0">
@@ -106,10 +117,13 @@ import { methodology } from '@/data/methodology.js';
                   <p class="text-sm font-semibold text-ink dark:text-white group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">{siteConfigData.contacto.WHATSAPP}</p>
                   <p class="text-xs text-ink-muted dark:text-white/50 mt-0.5">Respuesta inmediata</p>
                </div>
-            </a>
+            </WhatsAppButton>
 
             <!-- Email -->
             <a
+               id="mail-contacto-info"
+               data-page-type="contacto"
+               data-section-name="info"
                href={`mailto:${siteConfigData.contacto.EMAIL}`}
                class="bg-white dark:bg-zinc-900 border border-ink/10 dark:border-white/10 rounded-2xl p-5 flex items-center gap-4 hover:border-accent-500/40 hover:shadow-md transition-all duration-300 group reveal delay-200"
             >
@@ -127,6 +141,9 @@ import { methodology } from '@/data/methodology.js';
 
             <!-- Teléfono -->
             <a
+               id="tel-contacto-info"
+               data-page-type="contacto"
+               data-section-name="info"
                href={`tel:${siteConfigData.contacto.TELEFONO}`}
                class="bg-white dark:bg-zinc-900 border border-ink/10 dark:border-white/10 rounded-2xl p-5 flex items-center gap-4 hover:border-accent-500/40 hover:shadow-md transition-all duration-300 group reveal delay-300"
             >
@@ -243,7 +260,7 @@ import { methodology } from '@/data/methodology.js';
                   />
                   <label for="privacy" class="text-xs text-ink-muted dark:text-white/60 cursor-pointer leading-relaxed">
                      Acepto la
-                     <a href="/privacypolicy" class="text-accent-600 dark:text-accent-400 underline hover:text-accent-700 dark:hover:text-accent-300 transition-colors">
+                     <a href="/aviso-de-privacidad" class="text-accent-600 dark:text-accent-400 underline hover:text-accent-700 dark:hover:text-accent-300 transition-colors">
                         Política de privacidad
                      </a>
                      y autorizo el contacto sobre mi proyecto.
@@ -266,6 +283,8 @@ import { methodology } from '@/data/methodology.js';
 </section>
 
 <script>
+   import { track } from '@utils/tracking.js';
+
    const form = document.querySelector('form[name="contacto"]');
    const statusEl = document.getElementById('contact-form-status');
 
@@ -314,6 +333,11 @@ import { methodology } from '@/data/methodology.js';
             const servicio = formData.get('servicio')?.toString().trim() || '';
 
             if (!nombre || !email || !mensaje) {
+               track('form_error', {
+                  form_id: 'contacto',
+                  error_type: 'validation',
+                  fields: ['nombre', 'email', 'mensaje'].filter((f) => !formData.get(f)?.toString().trim()).join(','),
+               });
                throw new Error('Por favor completa los campos obligatorios.');
             }
 
@@ -337,59 +361,38 @@ import { methodology } from '@/data/methodology.js';
             const result = await response.json().catch(() => ({}));
 
             if (!response.ok || !result.success) {
+               track('form_error', { form_id: 'contacto', error_type: 'backend_error', status: response.status });
                throw new Error(result?.error || 'Hubo un problema al enviar tu mensaje.');
             }
 
+            // Solo tras respuesta OK del backend: no contamos intentos fallidos.
+            track('generate_lead', {
+               form_id: 'contacto',
+               form_name: 'Contacto',
+               lead_type: 'contacto_general',
+               service: servicio || undefined,
+            });
+
+            // Meta Lead: user_data CRUDO y en arrays (la función CAPI normaliza y hashea).
+            // Sin value/currency ni PII en custom_data; UTM solo si vienen en la URL.
             try {
-               const metaUtils = window['metaPixelUtils'];
+               const [firstName, ...rest] = nombre.split(/\s+/);
+               const utm = new URLSearchParams(window.location.search);
+               const campaign: Record<string, string> = {};
+               if (utm.get('utm_source')) campaign.campaign_source = utm.get('utm_source');
+               if (utm.get('utm_medium')) campaign.campaign_medium = utm.get('utm_medium');
+               if (utm.get('utm_campaign')) campaign.campaign_name = utm.get('utm_campaign');
 
-               if (typeof window !== 'undefined' && metaUtils && metaUtils.trackEvent) {
-                  const { trackEvent } = metaUtils;
-
-                  const parts = nombre.split(' ');
-                  const firstName = parts[0] || '';
-                  const lastName = parts.slice(1).join(' ') || '';
-
-                  let userCountry = 'MX';
-                  if (navigator.language) {
-                     const locale = navigator.language.toLowerCase();
-                     if (locale.includes('mx') || locale.includes('es-mx')) userCountry = 'MX';
-                     else if (locale.includes('co')) userCountry = 'CO';
-                     else if (locale.includes('ar')) userCountry = 'AR';
-                  }
-
-                  const timestamp = Date.now();
-
-                  trackEvent(
-                     'Lead',
-                     {
-                        content_name: 'Contact Form Submission',
-                        content_category: 'lead_generation',
-                        content_type: 'contact_form',
-                        lead_type: 'form_contact',
-                        lead_source: 'website_form',
-                        page_url: window.location.href,
-                        page_title: document.title,
-                        referrer_url: document.referrer || 'direct',
-                        service: servicio || 'general',
-                        value: 80,
-                        currency: 'MXN',
-                        country: userCountry,
-                        campaign_source: new URLSearchParams(window.location.search).get('utm_source') || 'organic',
-                        campaign_medium: new URLSearchParams(window.location.search).get('utm_medium') || 'website',
-                        campaign_name:
-                           new URLSearchParams(window.location.search).get('utm_campaign') || 'contact_form',
-                        session_id: sessionStorage.getItem('session_id') || `session-${timestamp}`,
-                     },
-                     {
-                        em: email ? [email] : [],
-                        ph: telefono ? [telefono.replace(/\D/g, '')] : [],
-                        fn: firstName ? [firstName] : [],
-                        ln: lastName ? [lastName] : [],
-                        country: [userCountry],
-                     },
-                  );
-               }
+               window['metaPixel']?.track(
+                  'Lead',
+                  { content_name: 'Contacto', content_category: 'lead_generation', lead_type: 'contacto_general', ...campaign },
+                  {
+                     em: email ? [email] : undefined,
+                     ph: telefono ? [telefono] : undefined,
+                     fn: firstName ? [firstName] : undefined,
+                     ln: rest.length ? [rest.join(' ')] : undefined,
+                  },
+               );
             } catch (e) {
                // Silenciar errores de tracking para no afectar la UX del formulario
             }

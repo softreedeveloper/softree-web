@@ -1,24 +1,48 @@
 ---
+import { siteConfigData } from '@/utils/site-config.js';
+
 interface Props {
-   variant?: 'auto' | 'dark' | 'light';
+   // «light» fuerza el wordmark en blanco (footer, fondo oscuro fijo); «auto»
+   // sigue al tema.
+   variant?: 'auto' | 'light';
    size?: 'sm' | 'md' | 'lg';
    showText?: boolean;
+   // Solo la cabecera carga el isotipo con prioridad alta.
+   priority?: boolean;
    class?: string;
 }
 
-const { size = 'md', class: extraClass = '' } = Astro.props;
+const { variant = 'auto', size = 'md', showText = true, priority = false, class: extraClass = '' } = Astro.props;
 
-const heights = {
-   sm: 'h-6',
-   md: 'h-8',
-   lg: 'h-11',
+const sizes = {
+   sm: { img: 'h-7', text: 'text-base', gap: 'gap-1.5' },
+   md: { img: 'h-9', text: 'text-xl', gap: 'gap-2' },
+   lg: { img: 'h-12', text: 'text-2xl', gap: 'gap-2.5' },
 };
+const s = sizes[size];
+
+const sofColor = variant === 'light' ? 'text-white' : 'text-ink dark:text-white';
+const { isotipo, isotipoWidth, isotipoHeight } = siteConfigData.assets;
 ---
 
-<a href="/" class={`inline-flex items-center group ${extraClass}`} aria-label="Softree - Inicio">
+<a href="/" class={`inline-flex items-center ${s.gap} group ${extraClass}`} aria-label="Softree - Inicio">
+   <!-- width/height explícitos para evitar el salto de layout en la cabecera. -->
    <img
-      src="/img/Logo.png"
-      alt="Softree"
-      class={`${heights[size]} w-auto object-contain transition-opacity duration-300 group-hover:opacity-80 logo-dark-adapt`}
+      src={isotipo}
+      alt=""
+      width={isotipoWidth}
+      height={isotipoHeight}
+      fetchpriority={priority ? 'high' : undefined}
+      decoding="async"
+      class={`${s.img} w-auto object-contain transition-transform duration-300 group-hover:-translate-y-0.5`}
    />
+   {
+      showText && (
+         <span class={`${s.text} font-black uppercase tracking-tight leading-none select-none ${sofColor}`}>
+            {/* «tree» va anidado y pegado al texto: un salto de línea entre spans
+                se renderiza como espacio dentro del wordmark. */}
+            Sof<span class="text-accent-600 dark:text-accent-500">tree</span>
+         </span>
+      )
+   }
 </a>

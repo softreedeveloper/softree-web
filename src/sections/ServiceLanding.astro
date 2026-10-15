@@ -1,0 +1,309 @@
+---
+/**
+ * Landing de un servicio. Recibe una entrada de `data/service-pages.js` y
+ * compone hero, alcance, stack, proceso, FAQs visibles y garantías. Title,
+ * description y H1 salen del registro SEO; el componente no los repite.
+ */
+import Breadcrumbs from '@components/seo/Breadcrumbs.astro';
+import Button from '@components/ui/Button.astro';
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import Tag from '@components/ui/Tag.astro';
+import FinalCTA from '@sections/FinalCTA.astro';
+import { servicesValueProps } from '@/data/services.js';
+import { SERVICE_ROUTES, getPage } from '@/utils/seo/registry.js';
+
+// `type` es string y no un literal: los datos vienen de un .js sin `as const`.
+interface SnippetRow {
+   type: string;
+   text?: string;
+   parts?: { k?: string; s?: string; v?: string }[];
+}
+
+interface Props {
+   service: {
+      slug: string;
+      eyebrow: string;
+      h1: { lead: string; highlight: string };
+      intro: string;
+      fileName: string;
+      snippet: SnippetRow[];
+      features: { t: string; d: string }[];
+      stack: string[];
+      process: { n: string; l: string; t: string }[];
+      faqs: { question: string; answer: string }[];
+   };
+}
+
+const { service } = Astro.props;
+
+// page_type en snake_case para data-cta e ids de tracking (desarrollo_web, apps_moviles…).
+const pageType = service.slug.replace(/^\//, '').replace(/-/g, '_');
+
+// Las otras landings de servicio, con los textos del registro. Son los
+// `linksTo` declarados para esta página, así el grafo de enlaces no miente.
+const siblings = SERVICE_ROUTES.filter((route) => route !== service.slug)
+   .map((route) => getPage(route))
+   .filter(Boolean);
+---
+
+<!-- Hero -->
+<section
+   class="relative overflow-hidden bg-white dark:bg-zinc-950 pt-10 pb-20 sm:pt-14 md:pt-20 md:pb-28 transition-colors duration-300"
+>
+   <div
+      class="absolute inset-0 pointer-events-none opacity-[0.04] dark:opacity-[0.08] text-ink dark:text-white"
+      aria-hidden="true"
+   >
+      <svg width="100%" height="100%">
+         <defs>
+            <pattern id="grid-service" width="40" height="40" patternUnits="userSpaceOnUse">
+               <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1"></path>
+            </pattern>
+         </defs>
+         <rect width="100%" height="100%" fill="url(#grid-service)"></rect>
+      </svg>
+   </div>
+   <div
+      class="absolute top-20 -right-32 w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-accent-200/30 dark:bg-accent-500/15 blur-3xl pointer-events-none"
+      aria-hidden="true"
+   >
+   </div>
+
+   <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 md:px-10">
+      <Breadcrumbs class="mb-8 md:mb-10" />
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
+         <div class="min-w-0">
+            <span
+               class="inline-flex items-center gap-2 rounded-full border border-ink/10 dark:border-white/10 bg-white dark:bg-white/5 px-3 py-1.5 text-xs font-medium text-ink-muted dark:text-white/60 reveal"
+            >
+               <span class="h-1.5 w-1.5 rounded-full bg-accent-500"></span>
+               {service.eyebrow}
+            </span>
+
+            <h1
+               class="mt-5 text-[2rem] leading-[1.1] sm:text-5xl sm:leading-[1.05] md:text-6xl font-bold tracking-tight text-ink dark:text-white reveal delay-100"
+            >
+               {service.h1.lead}
+               <span
+                  class="block mt-1 bg-gradient-to-r from-accent-500 to-accent-700 dark:from-accent-300 dark:to-accent-500 bg-clip-text text-transparent"
+               >
+                  {service.h1.highlight}
+               </span>
+            </h1>
+
+            <p
+               class="mt-5 sm:mt-6 text-base md:text-lg text-ink-muted dark:text-white/60 leading-relaxed max-w-xl reveal delay-200"
+            >
+               {service.intro}
+            </p>
+
+            <div class="mt-7 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 reveal delay-300">
+               <Button
+                  href="/#contacto"
+                  variant="accent"
+                  size="lg"
+                  data-cta={`${pageType}_cotizar`}
+                  data-page-type={pageType}
+                  data-section-name="hero"
+                  data-destination-type="anchor"
+               >
+                  Cotizar este servicio
+               </Button>
+               <Button href="#alcance" variant="secondary" size="lg" arrow={false}>Ver qué incluye</Button>
+            </div>
+         </div>
+
+         <!-- Snippet -->
+         <div class="min-w-0 reveal-scale delay-200">
+            <div class="relative min-w-0">
+               <div
+                  class="absolute inset-0 -m-3 bg-gradient-to-tr from-accent-500/20 to-brand-200/20 dark:to-brand-500/20 blur-2xl rounded-3xl pointer-events-none"
+                  aria-hidden="true"
+               >
+               </div>
+               <div class="relative bg-ink rounded-2xl border border-white/5 shadow-2xl shadow-ink/30 overflow-hidden">
+                  <div class="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-zinc-900/50">
+                     <div class="flex items-center gap-1.5" aria-hidden="true">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-400/80"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-yellow-400/80"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-400/80"></span>
+                     </div>
+                     <span class="text-[10px] font-mono text-white/40">{service.fileName}</span>
+                     <span class="text-[10px] font-mono text-white/30">softree</span>
+                  </div>
+                  <pre
+                     class="code-block p-5 text-white/90 overflow-x-auto"><code>{service.snippet.map((row) => (
+                     <div>
+                        {row.type === 'com' ? (
+                           <span class="tk-com">{row.text}</span>
+                        ) : (
+                           row.parts?.map((p) => {
+                              if (p.k) return <span class="tk-key">{p.k}</span>;
+                              if (p.s) return <span class="tk-com">{p.s} </span>;
+                              if (p.v) return <span class="tk-str">{p.v}</span>;
+                              return null;
+                           })
+                        )}
+                     </div>
+                  ))}</code></pre>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+<!-- Alcance -->
+<section id="alcance" class="py-20 md:py-28 bg-zinc-50/40 dark:bg-zinc-900/40 transition-colors duration-300">
+   <div class="max-w-7xl mx-auto px-5 sm:px-6 md:px-10">
+      <SectionHeading eyebrow="Qué incluye" title="Lo que entregamos" class="mb-12" />
+
+      <div class="grid sm:grid-cols-2 gap-4 md:gap-5">
+         {
+            service.features.map((feature, i) => (
+               <article
+                  class={`rounded-2xl border border-ink/10 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 md:p-7 hover:border-accent-500/40 hover:shadow-lg transition-all duration-300 reveal delay-${Math.min((i + 1) * 100, 400)}`}
+               >
+                  <span class="font-mono text-xs font-semibold text-accent-600 dark:text-accent-400">
+                     {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <h2 class="mt-3 text-lg md:text-xl font-bold text-ink dark:text-white leading-tight">{feature.t}</h2>
+                  <p class="mt-2.5 text-sm md:text-base text-ink-muted dark:text-white/60 leading-relaxed">
+                     {feature.d}
+                  </p>
+               </article>
+            ))
+         }
+      </div>
+
+      <div class="mt-10 flex flex-wrap gap-2 reveal">
+         {service.stack.map((item) => <Tag>{item}</Tag>)}
+      </div>
+   </div>
+</section>
+
+<!-- Proceso -->
+<section class="py-20 md:py-28 bg-white dark:bg-zinc-950 transition-colors duration-300">
+   <div class="max-w-7xl mx-auto px-5 sm:px-6 md:px-10">
+      <SectionHeading
+         eyebrow="Cómo trabajamos"
+         title="De la primera llamada a producción"
+         subtitle="Sprints cortos, avances visibles cada semana y comunicación directa con quien escribe el código."
+         class="mb-12"
+      />
+
+      <ol class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+         {
+            service.process.map((step, i) => (
+               <li
+                  class={`relative rounded-2xl border border-ink/10 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 reveal delay-${Math.min((i + 1) * 100, 400)}`}
+               >
+                  <span class="font-mono text-3xl font-bold bg-gradient-to-br from-accent-500 to-accent-700 dark:from-accent-300 dark:to-accent-500 bg-clip-text text-transparent">
+                     {step.n}
+                  </span>
+                  <p class="mt-3 font-semibold text-ink dark:text-white leading-snug">{step.l}</p>
+                  <p class="mt-1 text-xs font-mono text-ink-muted dark:text-white/50">{step.t}</p>
+               </li>
+            ))
+         }
+      </ol>
+   </div>
+</section>
+
+<!-- Garantías -->
+<section class="py-20 md:py-28 bg-zinc-50/40 dark:bg-zinc-900/40 transition-colors duration-300">
+   <div class="max-w-7xl mx-auto px-5 sm:px-6 md:px-10">
+      <SectionHeading
+         eyebrow="Garantías"
+         title="Lo que siempre incluye trabajar con Softree"
+         align="center"
+         class="mb-12"
+      />
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+         {
+            servicesValueProps.map((prop, i) => (
+               <div
+                  class={`rounded-2xl border border-ink/10 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 reveal delay-${(i + 1) * 100}`}
+               >
+                  <div class="w-10 h-10 rounded-full bg-accent-50 dark:bg-accent-500/15 flex items-center justify-center mb-4">
+                     <svg
+                        class="w-5 h-5 text-accent-600 dark:text-accent-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                        aria-hidden="true"
+                     >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                     </svg>
+                  </div>
+                  <p class="text-sm font-medium text-ink dark:text-white/85 leading-relaxed">{prop}</p>
+               </div>
+            ))
+         }
+      </div>
+   </div>
+</section>
+
+<!-- FAQs: visibles en la página, por eso se emiten también como FAQPage -->
+<section class="py-20 md:py-28 bg-white dark:bg-zinc-950 transition-colors duration-300">
+   <div class="max-w-3xl mx-auto px-5 sm:px-6 md:px-10">
+      <SectionHeading eyebrow="Preguntas frecuentes" title="Antes de empezar" class="mb-10" />
+
+      <div class="divide-y divide-ink/10 dark:divide-white/10 border-y border-ink/10 dark:border-white/10">
+         {
+            service.faqs.map((faq) => (
+               <details class="group py-5">
+                  <summary class="flex items-start justify-between gap-4 cursor-pointer list-none text-base md:text-lg font-semibold text-ink dark:text-white">
+                     <span>{faq.question}</span>
+                     <span
+                        class="mt-1 shrink-0 w-6 h-6 rounded-full border border-ink/15 dark:border-white/15 flex items-center justify-center text-ink-muted dark:text-white/50 transition-transform duration-300 group-open:rotate-45"
+                        aria-hidden="true"
+                     >
+                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14" />
+                        </svg>
+                     </span>
+                  </summary>
+                  <p class="mt-3 text-sm md:text-base text-ink-muted dark:text-white/60 leading-relaxed pr-10">
+                     {faq.answer}
+                  </p>
+               </details>
+            ))
+         }
+      </div>
+   </div>
+</section>
+
+<!-- Otros servicios -->
+<section class="py-16 md:py-20 bg-zinc-50/40 dark:bg-zinc-900/40 transition-colors duration-300">
+   <div class="max-w-7xl mx-auto px-5 sm:px-6 md:px-10">
+      <h2 class="text-xs font-mono uppercase tracking-[0.18em] text-accent-600 dark:text-accent-400">
+         Otros servicios
+      </h2>
+      <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+         {
+            siblings.map((page) => (
+               <li>
+                  <a
+                     href={page.slug}
+                     class="group flex h-full flex-col justify-between gap-3 rounded-2xl border border-ink/10 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 transition-colors hover:border-accent-500/40"
+                  >
+                     <span class="text-xs font-mono text-ink-muted dark:text-white/50">
+                        {page.breadcrumb?.at(-1)?.label}
+                     </span>
+                     <span class="font-semibold text-lg text-ink dark:text-white leading-snug">{page.h1}</span>
+                     <span class="text-sm text-ink-muted dark:text-white/60 leading-relaxed">{page.description}</span>
+                     <span class="text-sm font-medium text-accent-600 dark:text-accent-400 group-hover:translate-x-0.5 transition-transform">
+                        Ver servicio →
+                     </span>
+                  </a>
+               </li>
+            ))
+         }
+      </ul>
+   </div>
+</section>
+
+<FinalCTA pageType={pageType} />

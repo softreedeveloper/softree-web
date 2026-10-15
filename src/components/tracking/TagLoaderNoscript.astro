@@ -1,0 +1,18 @@
+---
+/** Fallback de GTM sin JS. Solo si TagLoader está en modo GTM. Va al inicio del <body>. */
+const GTM_ID = import.meta.env.PUBLIC_GTM_ID || '';
+---
+
+{
+   GTM_ID && (
+      <noscript>
+         <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style="display:none;visibility:hidden"
+            title="gtm"
+         />
+      </noscript>
+   )
+}

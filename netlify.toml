@@ -8,10 +8,79 @@
 [dev]
   # Comando para levantar Astro en desarrollo
   command = "npm run dev"
-  # Puerto donde Astro ya está configurado (ver astro.config.mjs)
-  targetPort = 7001
+  # Debe coincidir con `server.port` de astro.config.mjs
+  targetPort = 7002
+
+# Entorno por contexto de deploy. Lo lee src/utils/config.js en build: todo lo que
+# no sea production sale noindex y con robots.txt cerrado. Las funciones en runtime
+# NO ven estas variables: PUBLIC_SITE_ENV también debe definirse en la UI de Netlify
+# con scope Functions (guard del test code de Meta en meta-conversion.js).
+[context.production.environment]
+  PUBLIC_SITE_ENV = "production"
+
+[context.deploy-preview.environment]
+  PUBLIC_SITE_ENV = "staging"
+
+[context.branch-deploy.environment]
+  PUBLIC_SITE_ENV = "staging"
+
+# ---------------------------------------------------------------------------
+# Redirects
+# Regla: 301 directo al destino final. Nunca encadenar A → B → C.
+# Toda ruta retirada conserva su redirect de forma indefinida.
+# ---------------------------------------------------------------------------
 
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+# Retirada en Fase 2: duplicaba la 404 y era indexable. Sin equivalente → 410
+# (Netlify sirve el contenido de /404 con ese status; una 404 no es destino de 301).
+[[redirects]]
+  from = "/notfound"
+  to = "/404"
+  status = 410
+
+# Renombrada a la URL aprobada por Legal (Fase 4).
+[[redirects]]
+  from = "/privacypolicy"
+  to = "/aviso-de-privacidad"
+  status = 301
+
+# El hub /servicios se sustituyó por una landing por servicio (/desarrollo-web,
+# /apps-moviles, /automatizacion, /inteligencia-artificial). La home mantiene
+# el catálogo completo en #servicios.
+[[redirects]]
+  from = "/servicios"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/servicios/*"
+  to = "/"
+  status = 301
+
+# ---------------------------------------------------------------------------
+# Cabeceras
+# X-Frame-Options y X-Content-Type-Options solo surten efecto como cabecera
+# HTTP real; como <meta http-equiv> los navegadores las ignoran.
+# ---------------------------------------------------------------------------
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

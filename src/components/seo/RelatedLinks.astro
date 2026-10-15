@@ -1,0 +1,55 @@
+---
+/**
+ * Enlaces internos relacionados.
+ *
+ * Las sugerencias salen del grafo de `seo/linking.js`: primero la página
+ * pilar del cluster, luego hermanas del mismo tema, luego páginas comerciales.
+ * El anchor rota entre variantes para no repetir el mismo texto en todo el
+ * sitio, pero es determinista: el HTML no cambia entre builds.
+ *
+ * No renderiza nada si no hay candidatos, así no aparece una caja vacía
+ * mientras el sitio tenga pocas páginas.
+ */
+import { suggestRelated, anchorFor } from '@/utils/seo/linking.js';
+
+interface Props {
+   title?: string;
+   limit?: number;
+   class?: string;
+}
+
+const { title = 'Sigue explorando', limit = 3, class: className = '' } = Astro.props;
+
+const related = suggestRelated(Astro.url.pathname, undefined, limit);
+---
+
+{
+   related.length > 0 && (
+      <nav aria-label="Contenido relacionado" class={`py-16 md:py-20 ${className}`}>
+         <div class="max-w-5xl mx-auto px-6 md:px-10">
+            <h2 class="text-xs font-mono uppercase tracking-[0.18em] text-accent-600 dark:text-accent-400">{title}</h2>
+
+            <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+               {related.map((page, index) => (
+                  <li>
+                     <a
+                        href={page.slug}
+                        class="group flex h-full flex-col justify-between gap-3 rounded-xl border border-ink/10 dark:border-white/10 bg-white dark:bg-white/5 p-5 transition-colors hover:border-accent-500/40"
+                     >
+                        <span class="font-semibold text-ink dark:text-white leading-snug">
+                           {anchorFor(page, index)}
+                        </span>
+                        <span class="text-sm text-ink-muted dark:text-white/60 leading-relaxed">
+                           {page.description}
+                        </span>
+                        <span class="text-sm font-medium text-accent-600 dark:text-accent-400 group-hover:translate-x-0.5 transition-transform">
+                           Ver más →
+                        </span>
+                     </a>
+                  </li>
+               ))}
+            </ul>
+         </div>
+      </nav>
+   )
+}

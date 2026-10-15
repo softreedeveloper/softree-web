@@ -1,4 +1,9 @@
 ---
+/**
+ * Botón/enlace de UI. Para que un CTA se mida, basta pasar `data-cta` (y los
+ * data-* de contexto): el listener delegado de TrackingEvents emite `cta_click`.
+ * Convenciones en skills-seo/tracking-conversiones/references/convenciones-cta.md.
+ */
 interface Props {
    href?: string;
    variant?: 'primary' | 'secondary' | 'accent' | 'ghost';
@@ -8,9 +13,20 @@ interface Props {
    arrow?: boolean;
    class?: string;
    id?: string;
+   /** Nombre del CTA en snake_case: `<page_type>_<destino>`. Sin él no se emite cta_click. */
+   'data-cta'?: string;
+   'data-page-type'?: string;
+   'data-section-name'?: string;
+   'data-placement'?: 'header' | 'hero' | 'footer' | 'sticky' | 'contenido';
+   'data-destination-type'?: 'internal_page' | 'anchor' | 'external' | 'form' | 'app_store' | 'ecommerce';
 }
 
 const {
+   'data-cta': dataCta,
+   'data-page-type': dataPageType,
+   'data-section-name': dataSectionName,
+   'data-placement': dataPlacement,
+   'data-destination-type': dataDestinationType,
    href,
    variant = 'primary',
    size = 'md',
@@ -43,7 +59,18 @@ const cls = `${base} ${variants[variant]} ${sizes[size]} ${extraClass}`;
 const Tag = href ? 'a' : 'button';
 ---
 
-<Tag id={id} href={href} target={target} rel={rel} class={cls}>
+<Tag
+   id={id}
+   href={href}
+   target={target}
+   rel={rel}
+   class={cls}
+   data-cta={dataCta}
+   data-page-type={dataPageType}
+   data-section-name={dataSectionName}
+   data-placement={dataPlacement}
+   data-destination-type={dataDestinationType}
+>
    <slot />
    {
       arrow && (
