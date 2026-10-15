@@ -37,10 +37,10 @@ const otherServices = (slug) => SERVICE_ROUTES.filter((route) => route !== slug)
 export const seoPages = [
    {
       slug: '/',
-      title: 'Softree | Software a medida — Apps, web, CRM y cloud',
+      title: 'Softree | Software a medida y agentes de IA para empresas',
       description:
-         'Transformamos ideas en software de alto rendimiento. Apps móviles, plataformas web, CRM/ERP, cloud e inteligencia artificial.',
-      h1: 'Software a la medida de tu operación',
+         'Software a medida con agentes de inteligencia artificial integrados: apps, plataformas web, CRM, automatización y chatbots con RAG, listos para producción.',
+      h1: 'Software y agentes de IA a tu medida',
       primaryKeyword: 'desarrollo de software a medida',
       secondaryKeywords: ['empresa de desarrollo de software', 'software empresarial México'],
       intent: 'comercial',
