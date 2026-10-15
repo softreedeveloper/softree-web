@@ -250,6 +250,10 @@ export const servicePages = [
             d: 'Consultan el CRM, agendan citas, envían correos o crean tickets. Razonan sobre el contexto y ejecutan, no solo responden.',
          },
          {
+            t: 'Agentes de ventas y soporte en WhatsApp',
+            d: 'Atienden en WhatsApp, web e Instagram: califican el lead, cotizan con tus reglas, agendan y pasan la conversación a tu equipo cuando toca.',
+         },
+         {
             t: 'Chatbots con RAG sobre tus documentos',
             d: 'Respuestas precisas a partir de tus manuales, FAQs y tickets históricos, con citas a la fuente y sin inventar.',
          },
@@ -279,6 +283,11 @@ export const servicePages = [
             question: '¿Mis datos se usan para entrenar modelos de terceros?',
             answer:
                'No. Trabajamos con las APIs empresariales de los proveedores, que no entrenan con tus datos, y cuando el caso lo exige desplegamos modelos abiertos en tu propia infraestructura.',
+         },
+         {
+            question: '¿Cuánto cuesta operar un agente de IA al mes?',
+            answer:
+               'Depende del volumen de conversaciones y del modelo. Fijamos límites de gasto por agente desde el primer día y elegimos el modelo más barato que supere las pruebas de calidad; la mayoría de los agentes de atención cuesta menos que una hora de trabajo humano al día.',
          },
          {
             question: '¿Cómo evitan que la IA responda cosas incorrectas?',
