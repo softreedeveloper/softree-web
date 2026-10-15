@@ -194,6 +194,10 @@ export function getIndexablePages() {
 
 /** '/contacto/' y '/contacto' son la misma página; '/' se conserva. */
 export function normalizeSlug(slug) {
-   const trimmed = String(slug || '/').replace(/\/+$/, '');
-   return trimmed === '' ? '/' : trimmed;
+   let path = String(slug || '/').split(/[?#]/)[0];
+   // Con build.format 'file' Astro prerenderiza /contacto.html e /index.html y
+   // Astro.url.pathname lleva la extensión: la URL pública nunca la lleva.
+   path = path.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
+   path = path.replace(/\/+$/, '');
+   return path === '' ? '/' : path;
 }
