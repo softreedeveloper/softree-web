@@ -3,10 +3,13 @@
 @tailwind utilities;
 
 body {
-   /* Evita scroll horizontal: el panel lateral del menú móvil (fixed + translate-x-full)
-      extiende el área de scroll fuera del viewport en algunos navegadores.
-      Se aplica solo a body para no romper position:sticky ni scroll-behavior del html. */
+   /* Evita scroll horizontal por elementos decorativos que sobresalen del viewport.
+      `clip` recorta sin convertir al body en contenedor de scroll: con `hidden`,
+      Safari iOS hace scroll sobre el body y el header sticky se queda a medias
+      (cortado por arriba) mientras se desplaza la página. `hidden` queda solo
+      como fallback para navegadores sin soporte de `clip` (Safari < 16). */
    overflow-x: hidden;
+   overflow-x: clip;
    font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
    transition:
       background-color 0.3s ease,
@@ -146,7 +149,7 @@ html {
    animation-play-state: paused;
 }
 
-/* ── Code snippet en /servicios ── */
+/* ── Code snippet de las landings de servicio ── */
 .code-block {
    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
    font-size: 0.8rem;

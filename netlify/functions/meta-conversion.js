@@ -1,232 +1,138 @@
-const crypto = require('crypto');
+/**
+ * Meta Conversions API (servidor). Recibe del navegador
+ *   { event_name, event_id, event_source_url, custom_data, user_data }
+ * con user_data CRUDO; normaliza, hashea (SHA-256) y reenvía a Graph API con el
+ * mismo event_id que usó fbq → Meta deduplica navegador/servidor.
+ *
+ * Variables (runtime, scope Functions):
+ *   META_PIXEL_ID, META_ACCESS_TOKEN   obligatorias (mismo pixel que PUBLIC_META_PIXEL_ID)
+ *   META_TEST_EVENT_CODE               solo en staging
+ *   PUBLIC_SITE_ENV                    'production' | 'staging' — guard del test code
+ *   ALLOWED_ORIGINS                    coma-separado; vacío = acepta mismo host (Referer/Origin)
+ *
+ * Reglas: nunca loguear el body ni user_data; no inventar IP/UA; test code
+ * nunca en producción (NODE_ENV no sirve: el hosting lo fuerza a 'production'
+ * en todos los contextos).
+ */
+import { createHash } from 'node:crypto';
 
-async function hashData(data) {
-   if (!data || data === '') return undefined;
-   return crypto.createHash('sha256').update(data.toLowerCase().trim()).digest('hex');
+const GRAPH_API_VERSION = 'v21.0'; // ← revisar soporte (~2 años) y subir
+
+const strip = (s) => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').trim().toLowerCase();
+const normalizers = {
+   em: (v) => strip(v),
+   ph: (v) => String(v).replace(/\D/g, ''), // E.164 sin '+': el país lo agrega quien llama si falta
+   fn: (v) => strip(v),
+   ln: (v) => strip(v),
+   ct: (v) => strip(v).replace(/[^a-z]/g, ''),
+   st: (v) => strip(v).replace(/[^a-z]/g, ''),
+   zp: (v) => strip(v).replace(/\s/g, '').split('-')[0],
+   country: (v) => (/^[a-z]{2}$/i.test(String(v).trim()) ? strip(v) : ''),
+   external_id: (v) => String(v).trim(),
+};
+
+const sha256 = (v) => createHash('sha256').update(v).digest('hex');
+
+/** Acepta SOLO arrays; normaliza, descarta vacíos y hashea. */
+function hashField(values, normalize) {
+   if (!Array.isArray(values)) return undefined;
+   const out = values.map((v) => normalize(v)).filter(Boolean).map(sha256);
+   return out.length ? out : undefined;
 }
 
-function extractFbc(cookieHeader) {
-   if (!cookieHeader) return undefined;
-   const match = cookieHeader.match(/_fbc=([^;]+)/);
-   return match ? match[1] : undefined;
+const cookie = (header, name) => header?.match(new RegExp(`(?:^|;\\s*)${name}=([^;]+)`))?.[1];
+
+const json = (statusCode, body, origin) => ({
+   statusCode,
+   headers: {
+      'Content-Type': 'application/json',
+      ...(origin ? { 'Access-Control-Allow-Origin': origin, Vary: 'Origin' } : {}),
+   },
+   body: JSON.stringify(body),
+});
+
+function resolveOrigin(headers) {
+   const origin = headers.origin || (headers.referer ? new URL(headers.referer).origin : '');
+   const allowed = (process.env.ALLOWED_ORIGINS || '').split(',').map((s) => s.trim()).filter(Boolean);
+   if (!allowed.length) return origin; // mismo sitio: el navegador no manda Origin cross-site aquí
+   return allowed.includes(origin) ? origin : null;
 }
 
-function extractFbp(cookieHeader) {
-   if (!cookieHeader) return undefined;
-   const match = cookieHeader.match(/_fbp=([^;]+)/);
-   return match ? match[1] : undefined;
-}
+export async function handler(event) {
+   const headers = Object.fromEntries(Object.entries(event.headers || {}).map(([k, v]) => [k.toLowerCase(), v]));
+   const origin = resolveOrigin(headers);
 
-export async function handler(event, context) {
-   console.log('=== META CONVERSION API CALLED ===');
-   console.log('Method:', event?.httpMethod);
-   console.log('Origin:', event?.headers?.origin);
-   console.log('User-Agent:', event?.headers?.['user-agent']);
-
-   // CORS preflight
    if (event.httpMethod === 'OPTIONS') {
-      console.log('✅ CORS preflight handled');
       return {
-         statusCode: 200,
+         statusCode: 204,
          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'Content-Type, User-Agent',
+            'Access-Control-Allow-Origin': origin || '',
             'Access-Control-Allow-Methods': 'POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type',
          },
          body: '',
       };
    }
+   if (event.httpMethod !== 'POST') return json(405, { error: 'Method not allowed' }, origin);
+   if (origin === null) return json(403, { error: 'Origin not allowed' }, null);
 
-   if (event.httpMethod !== 'POST') {
-      console.log('❌ Invalid method:', event.httpMethod);
-      return {
-         statusCode: 405,
-         headers: { 'Access-Control-Allow-Origin': '*' },
-         body: JSON.stringify({ error: 'Method not allowed' }),
-      };
+   const missing = ['META_PIXEL_ID', 'META_ACCESS_TOKEN'].filter((k) => !process.env[k]);
+   if (missing.length) return json(500, { error: `Missing env: ${missing.join(', ')}` }, origin);
+
+   let payload;
+   try {
+      payload = JSON.parse(event.body || '{}');
+   } catch {
+      return json(400, { error: 'Invalid JSON' }, origin);
+   }
+   const { event_name, event_id, event_source_url, custom_data = {}, user_data = {} } = payload;
+   if (!event_name) return json(400, { error: 'event_name required' }, origin);
+
+   const ip = (headers['x-forwarded-for'] || headers['x-nf-client-connection-ip'] || '').split(',')[0].trim();
+
+   const userData = {
+      client_ip_address: ip || undefined, // nunca un placeholder
+      client_user_agent: headers['user-agent'] || undefined,
+      fbp: cookie(headers.cookie, '_fbp'),
+      fbc: cookie(headers.cookie, '_fbc'),
+   };
+   for (const [key, normalize] of Object.entries(normalizers)) {
+      const hashed = hashField(user_data[key], normalize);
+      if (hashed) userData[key] = hashed;
+   }
+   for (const k of Object.keys(userData)) if (userData[k] === undefined) delete userData[k];
+
+   const metaEvent = {
+      event_name,
+      event_id: event_id || `server-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      event_time: Math.floor(Date.now() / 1000),
+      action_source: 'website',
+      event_source_url: event_source_url || headers.referer || undefined,
+      user_data: userData,
+      custom_data,
+   };
+
+   const body = { data: [metaEvent], access_token: process.env.META_ACCESS_TOKEN };
+   const env = process.env.PUBLIC_SITE_ENV || 'sin definir';
+   if (process.env.META_TEST_EVENT_CODE && env !== 'production') {
+      body.test_event_code = process.env.META_TEST_EVENT_CODE;
+      console.log(`[meta-capi] test_event_code activo (entorno: ${env})`);
    }
 
-   // Verificar variables críticas
-   if (!process.env.META_PIXEL_ID) {
-      return {
-         statusCode: 500,
-         headers: { 'Access-Control-Allow-Origin': '*' },
-         body: JSON.stringify({ error: 'META_PIXEL_ID not configured' }),
-      };
-   }
-
-   if (!process.env.META_ACCESS_TOKEN) {
-      return {
-         statusCode: 500,
-         headers: { 'Access-Control-Allow-Origin': '*' },
-         body: JSON.stringify({ error: 'META_ACCESS_TOKEN not configured' }),
-      };
-   }
+   console.log(`[meta-capi] ${event_name} ${metaEvent.event_id}`);
 
    try {
-      console.log('📥 Request body:', event.body);
-
-      const { event_name, custom_data, user_data, event_id } = JSON.parse(event.body || '{}');
-
-      if (!event_name) {
-         console.log('❌ Missing event_name');
-         return {
-            statusCode: 400,
-            headers: { 'Access-Control-Allow-Origin': '*' },
-            body: JSON.stringify({ error: 'event_name required' }),
-         };
-      }
-
-      console.log('🎯 Processing event:', event_name, 'ID:', event_id);
-
-      // Construir evento para Meta
-      const pixelEvent = {
-         event_name,
-         event_time: Math.floor(Date.now() / 1000),
-         action_source: 'website',
-         event_source_url: event.headers?.referer || event.headers?.origin || 'https://softree.com.mx/',
-         event_id: event_id || `server-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-         user_data: {
-            client_ip_address:
-               event.headers?.['x-forwarded-for'] ||
-               event.headers?.['x-real-ip'] ||
-               event.headers?.['client-ip'] ||
-               '127.0.0.1',
-            client_user_agent: event.headers?.['user-agent'] || 'Unknown',
-            fbc: extractFbc(event.headers?.cookie),
-            fbp: extractFbp(event.headers?.cookie),
-         },
-         custom_data: custom_data || {},
-      };
-
-      // Hashear TODOS los datos personales del usuario
-      if (user_data) {
-         console.log('🔐 Hashing all user data...');
-
-         // Emails - ya estaba funcionando
-         if (user_data.em && Array.isArray(user_data.em)) {
-            pixelEvent.user_data.em = await Promise.all(
-               user_data.em.filter((email) => email).map((email) => hashData(email)),
-            );
-         }
-
-         // Teléfonos - ya estaba funcionando
-         if (user_data.ph && Array.isArray(user_data.ph)) {
-            pixelEvent.user_data.ph = await Promise.all(
-               user_data.ph.filter((phone) => phone).map((phone) => hashData(phone.replace(/\D/g, ''))),
-            );
-         }
-
-         // NUEVOS: Hashear nombres, apellidos, código postal y país
-         if (user_data.fn && Array.isArray(user_data.fn)) {
-            pixelEvent.user_data.fn = await Promise.all(
-               user_data.fn.filter((name) => name).map((name) => hashData(name)),
-            );
-         }
-
-         if (user_data.ln && Array.isArray(user_data.ln)) {
-            pixelEvent.user_data.ln = await Promise.all(
-               user_data.ln.filter((lastName) => lastName).map((lastName) => hashData(lastName)),
-            );
-         }
-
-         if (user_data.zp && Array.isArray(user_data.zp)) {
-            pixelEvent.user_data.zp = await Promise.all(user_data.zp.filter((zip) => zip).map((zip) => hashData(zip)));
-         }
-
-         if (user_data.country && Array.isArray(user_data.country)) {
-            pixelEvent.user_data.country = await Promise.all(
-               user_data.country.filter((country) => country).map((country) => hashData(country)),
-            );
-         }
-
-         // Otros campos si los tienes
-         if (user_data.ct && Array.isArray(user_data.ct)) {
-            pixelEvent.user_data.ct = await Promise.all(
-               user_data.ct.filter((city) => city).map((city) => hashData(city)),
-            );
-         }
-
-         if (user_data.st && Array.isArray(user_data.st)) {
-            pixelEvent.user_data.st = await Promise.all(
-               user_data.st.filter((state) => state).map((state) => hashData(state)),
-            );
-         }
-      }
-
-      // Limpiar datos vacíos o undefined
-      Object.keys(pixelEvent.user_data).forEach((key) => {
-         if (
-            pixelEvent.user_data[key] === undefined ||
-            pixelEvent.user_data[key] === null ||
-            (Array.isArray(pixelEvent.user_data[key]) && pixelEvent.user_data[key].length === 0)
-         ) {
-            delete pixelEvent.user_data[key];
-         }
-      });
-
-      console.log('📤 Sending to Meta API...');
-      console.log('🎯 Event:', pixelEvent.event_name);
-      console.log('🆔 Event ID:', pixelEvent.event_id);
-
-      // Enviar a Meta API
-      const metaPayload = {
-         data: [pixelEvent],
-         access_token: process.env.META_ACCESS_TOKEN,
-      };
-
-      if (process.env.NODE_ENV !== 'production' && process.env.META_TEST_EVENT_CODE) {
-         metaPayload.test_event_code = process.env.META_TEST_EVENT_CODE;
-         console.log('🧪 Using test event code:', process.env.META_TEST_EVENT_CODE);
-      }
-
-      const metaUrl = `https://graph.facebook.com/v18.0/${process.env.META_PIXEL_ID}/events`;
-      const response = await fetch(metaUrl, {
+      const res = await fetch(`https://graph.facebook.com/${GRAPH_API_VERSION}/${process.env.META_PIXEL_ID}/events`, {
          method: 'POST',
          headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify(metaPayload),
+         body: JSON.stringify(body),
       });
-
-      const result = await response.json();
-      console.log('📊 Meta API response:', response.status, result);
-
-      if (!response.ok) {
-         return {
-            statusCode: 400,
-            headers: { 'Access-Control-Allow-Origin': '*' },
-            body: JSON.stringify({
-               error: 'Meta API Error',
-               details: result,
-            }),
-         };
-      }
-
-      console.log('✅ SUCCESS - Event sent to Meta Conversions API');
-      return {
-         statusCode: 200,
-         headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json',
-         },
-         body: JSON.stringify({
-            success: true,
-            event_id: pixelEvent.event_id,
-            event_name: pixelEvent.event_name,
-            events_received: result.events_received || 1,
-            message: 'Event sent to server successfully',
-         }),
-      };
-   } catch (error) {
-      return {
-         statusCode: 500,
-         headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json',
-         },
-         body: JSON.stringify({
-            error: 'Internal server error',
-            message: error.message,
-         }),
-      };
+      const result = await res.json();
+      console.log(`[meta-capi] Graph API ${res.status}`);
+      if (!res.ok) return json(400, { error: 'Meta API error', details: result.error }, origin);
+      return json(200, { success: true, event_id: metaEvent.event_id, events_received: result.events_received ?? 1 }, origin);
+   } catch (err) {
+      console.error('[meta-capi] fetch failed:', err.message);
+      return json(502, { error: 'Upstream error' }, origin);
    }
 }

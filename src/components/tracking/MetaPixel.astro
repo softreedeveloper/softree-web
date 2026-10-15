@@ -1,0 +1,44 @@
+---
+/**
+ * Monta el Meta Pixel SOLO si PUBLIC_META_PIXEL_ID existe en el build. Sin la
+ * variable no se emite ningún script, ni window.metaPixel, ni llamadas a la función.
+ * (No escribir la etiqueta script literal en este comentario: el escáner de Vite
+ * la toma por código.)
+ *
+ * Expone window.metaPixel = { track(name, customData, userData), trackPageView() }.
+ * Cada track() dispara el leg de navegador (fbq con eventID) y el de servidor
+ * (POST a la función CAPI con el MISMO event_id) → Meta deduplica.
+ *
+ * Uso: <MetaPixel /> al inicio del <body> en Layout.astro.
+ * Requiere public/js/meta-pixel.js y netlify/functions/meta-conversion.js.
+ */
+const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID || '';
+const endpoint = import.meta.env.PUBLIC_META_CAPI_ENDPOINT || '/.netlify/functions/meta-conversion';
+---
+
+{
+   pixelId && (
+      <Fragment>
+         <script is:inline src="/js/meta-pixel.js" defer />
+         <script is:inline define:vars={{ pixelId, endpoint }}>
+            document.addEventListener('DOMContentLoaded', function () {
+               if (!window.metaPixelUtils) return;
+               window.metaPixelUtils.init(pixelId, { endpoint: endpoint });
+               window.metaPixel = {
+                  track: window.metaPixelUtils.trackEvent,
+                  trackPageView: window.metaPixelUtils.trackPageView,
+               };
+            });
+         </script>
+         <noscript>
+            <img
+               height="1"
+               width="1"
+               style="display:none"
+               alt=""
+               src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
+            />
+         </noscript>
+      </Fragment>
+   )
+}

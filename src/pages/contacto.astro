@@ -1,19 +1,20 @@
 ---
 import Layout from '@layouts/Layout.astro';
-import { generateServiceSchema } from '@/utils/seo.jsx';
 import ContactForm from '@sections/ContactForm.astro';
+import Breadcrumbs from '@components/seo/Breadcrumbs.astro';
 
-const serviceSchema = generateServiceSchema({
-   name: 'Contacto Softree',
-   description: 'Cotiza tu proyecto de software a medida. Te respondemos en menos de 24 horas con un plan concreto.',
-});
+// Página estática: se genera en build, sin SSR por petición.
+export const prerender = true;
 ---
 
-<Layout
-   title="Softree | Contacto — Cotiza tu proyecto de software"
-   description="Cuéntanos tu idea. Te respondemos con claridad y un plan concreto para hacerla realidad."
-   type="website"
-   schema={serviceSchema}
->
-   <ContactForm />
+<!--
+   Sin nodo Service: esta página es un formulario de contacto, no un servicio.
+   El registro la declara como ContactPage y SEOHead la emite como tal.
+-->
+<Layout type="website">
+   <div class="max-w-6xl mx-auto px-6 md:px-10 pt-28">
+      <Breadcrumbs />
+   </div>
+
+   <ContactForm headingLevel="h1" />
 </Layout>

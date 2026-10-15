@@ -90,14 +90,14 @@ export async function handler(event, context) {
             <title>${mailSubject}</title>
          </head>
          <body
-            style="margin:0;padding:0;background-color:#f0f8fd;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;"
+            style="margin:0;padding:0;background-color:#f0faf0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;"
          >
             <table
                width="100%"
                cellpadding="0"
                cellspacing="0"
                role="presentation"
-               style="background-color:#f0f8fd;padding:24px 0;"
+               style="background-color:#f0faf0;padding:24px 0;"
             >
                <tr>
                   <td align="center">
@@ -106,11 +106,11 @@ export async function handler(event, context) {
                         cellpadding="0"
                         cellspacing="0"
                         role="presentation"
-                        style="max-width:640px;background-color:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #d9eef8;box-shadow:0 10px 25px rgba(8,27,39,0.09);"
+                        style="max-width:640px;background-color:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #c6ebbf;box-shadow:0 10px 25px rgba(15,60,10,0.09);"
                      >
                         <tr>
                            <td
-                              style="background:linear-gradient(135deg,#3a94c2,#1e5c80);padding:20px 24px;color:#f0f8fd;"
+                              style="background:linear-gradient(135deg,#27a317,#1a6911);padding:20px 24px;color:#f0faf0;"
                            >
                               <h1
                                  style="margin:0;font-size:20px;line-height:1.4;font-weight:800;letter-spacing:0.03em;text-transform:uppercase;"
@@ -126,36 +126,36 @@ export async function handler(event, context) {
                         <tr>
                            <td style="padding:20px 24px 8px 24px;background-color:#ffffff;">
                               <p style="margin:0 0 12px 0;font-size:14px;color:#1f2933;">
-                                 <strong style="color:#081b27;">Nombre:</strong>
-                                 <span style="color:#081b27;">${name}</span>
+                                 <strong style="color:#0d2b0a;">Nombre:</strong>
+                                 <span style="color:#0d2b0a;">${name}</span>
                               </p>
                               <p style="margin:0 0 12px 0;font-size:14px;color:#1f2933;">
-                                 <strong style="color:#081b27;">Email:</strong>
+                                 <strong style="color:#0d2b0a;">Email:</strong>
                                  <a
                                     href="mailto:${email}"
-                                    style="color:#2878a4;text-decoration:none;font-weight:600;"
+                                    style="color:#27a317;text-decoration:none;font-weight:600;"
                                  >
                                     ${email}
                                  </a>
                               </p>
                               ${
                                  phone
-                                    ? `<p style="margin:0 0 12px 0;font-size:14px;color:#1f2933;"><strong style=\"color:#081b27;\">Teléfono:</strong> <a href=\"tel:${phone}\" style=\"color:#2878a4;text-decoration:none;font-weight:600;\">${phone}</a></p>`
+                                    ? `<p style="margin:0 0 12px 0;font-size:14px;color:#1f2933;"><strong style=\"color:#0d2b0a;\">Teléfono:</strong> <a href=\"tel:${phone}\" style=\"color:#27a317;text-decoration:none;font-weight:600;\">${phone}</a></p>`
                                     : ''
                               }
                               ${
                                  service
-                                    ? `<p style="margin:0 0 12px 0;font-size:14px;color:#1f2933;"><strong style=\"color:#081b27;\">Servicio de interés:</strong> <span style=\"color:#081b27;\">${service}</span></p>`
+                                    ? `<p style="margin:0 0 12px 0;font-size:14px;color:#1f2933;"><strong style=\"color:#0d2b0a;\">Servicio de interés:</strong> <span style=\"color:#0d2b0a;\">${service}</span></p>`
                                     : ''
                               }
 
                               <div
-                                 style="margin:16px 0 8px 0;padding:14px 16px;background-color:#f0f8fd;border-radius:12px;border:1px solid #b0dbf1;"
+                                 style="margin:16px 0 8px 0;padding:14px 16px;background-color:#f0faf0;border-radius:12px;border:1px solid #a8dfa0;"
                               >
-                                 <p style="margin:0 0 8px 0;font-size:13px;font-weight:600;color:#2878a4;">
+                                 <p style="margin:0 0 8px 0;font-size:13px;font-weight:600;color:#27a317;">
                                     Mensaje
                                  </p>
-                                 <p style="margin:0;font-size:14px;line-height:1.6;color:#081b27;white-space:pre-line;">
+                                 <p style="margin:0;font-size:14px;line-height:1.6;color:#0d2b0a;white-space:pre-line;">
                                     ${message}
                                  </p>
                               </div>
@@ -163,7 +163,7 @@ export async function handler(event, context) {
                         </tr>
 
                         <tr>
-                           <td style="padding:12px 24px 20px 24px;border-top:1px solid #d9eef8;background-color:#f0f8fd;">
+                           <td style="padding:12px 24px 20px 24px;border-top:1px solid #c6ebbf;background-color:#f0faf0;">
                               <p style="margin:0 0 4px 0;font-size:12px;color:#6b7280;">
                                  Este correo fue generado automáticamente desde el sitio web.
                               </p>

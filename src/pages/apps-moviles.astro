@@ -1,0 +1,22 @@
+---
+import Layout from '@layouts/Layout.astro';
+import ServiceLanding from '@sections/ServiceLanding.astro';
+import { generateServiceSchema } from '@/utils/seo.js';
+import { buildFAQPage } from '@/utils/seo/schema/nodes.js';
+import { getServicePage } from '@/data/service-pages.js';
+
+const service = getServicePage('/apps-moviles')!;
+
+// Service + FAQPage: las FAQs se ven en la página, así que el FAQPage es legítimo.
+const schema = [
+   generateServiceSchema({ slug: service.slug, ...service.schema }),
+   buildFAQPage({ slug: service.slug, faqs: service.faqs }),
+];
+
+// Página estática: se genera en build, sin SSR por petición.
+export const prerender = true;
+---
+
+<Layout type="website" schema={schema}>
+   <ServiceLanding service={service} />
+</Layout>

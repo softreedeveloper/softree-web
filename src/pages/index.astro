@@ -1,34 +1,36 @@
 ---
 import Layout from '@layouts/Layout.astro';
-import { generateServiceSchema } from '@/utils/seo.jsx';
+import { generateServiceSchema } from '@/utils/seo.js';
 
 import HeroSoftware from '@sections/HeroSoftware.astro';
+import AIAgents from '@sections/AIAgents.astro';
 import StatsBanner from '@sections/StatsBanner.astro';
 import AboutSoftware from '@sections/AboutSoftware.astro';
-import SolutionsGrid from '@sections/SolutionsGrid.astro';
+import ServicesGrid from '@sections/ServicesGrid.astro';
 
 import Differentiators from '@sections/Differentiators.astro';
 import TechMarquee from '@sections/TechMarquee.astro';
 import ContactForm from '@sections/ContactForm.astro';
 
 const serviceSchema = generateServiceSchema({
-   name: 'Desarrollo de software a medida',
+   slug: '/',
+   name: 'Desarrollo de software a medida y agentes de IA',
    description:
-      'Softree desarrolla aplicaciones móviles, plataformas web, CRM/ERP, soluciones cloud y servicios de consultoría técnica para empresas que crecen.',
+      'Softree desarrolla aplicaciones móviles, plataformas web, CRM/ERP y soluciones cloud, e integra agentes de inteligencia artificial que atienden clientes, procesan documentos y automatizan la operación.',
 });
+
+// Página estática: se genera en build, sin SSR por petición.
+export const prerender = true;
 ---
 
-<Layout
-   title="Softree | Software a medida — Apps, web, CRM y cloud"
-   description="Transformamos ideas en software de alto rendimiento. Apps móviles, plataformas web, CRM/ERP, cloud e inteligencia artificial."
-   type="website"
-   schema={serviceSchema}
->
+<Layout type="website" schema={serviceSchema}>
    <HeroSoftware />
- 
+
+   <AIAgents />
+
    <AboutSoftware />
 
-   <SolutionsGrid />
+   <ServicesGrid />
 
    <Differentiators />
    <TechMarquee />

@@ -2,98 +2,189 @@
 import DashboardMock from '@sections/DashboardMock.astro';
 ---
 
-<section class="relative overflow-hidden bg-white dark:bg-zinc-950 pt-12 pb-20 sm:pt-16 sm:pb-24 md:pt-24 md:pb-32 transition-colors duration-300">
+<section
+   class="relative overflow-hidden bg-white dark:bg-zinc-950 pt-12 pb-20 sm:pt-16 sm:pb-24 md:pt-24 md:pb-32 transition-colors duration-300"
+>
    <!-- Background grid pattern -->
-   <div class="absolute inset-0 pointer-events-none opacity-[0.04] dark:opacity-[0.08] text-ink dark:text-white" aria-hidden="true">
+   <div
+      class="absolute inset-0 pointer-events-none opacity-[0.04] dark:opacity-[0.08] text-ink dark:text-white"
+      aria-hidden="true"
+   >
       <svg width="100%" height="100%">
          <defs>
             <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-               <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1" />
+               <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1"></path>
             </pattern>
          </defs>
-         <rect width="100%" height="100%" fill="url(#grid)" />
+         <rect width="100%" height="100%" fill="url(#grid)"></rect>
       </svg>
    </div>
 
    <!-- Decorative orb -->
-   <div class="absolute top-20 -left-32 w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-accent-200/30 dark:bg-accent-500/15 blur-3xl pointer-events-none" aria-hidden="true"></div>
-   <div class="absolute bottom-0 -right-32 w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-brand-200/30 dark:bg-brand-500/15 blur-3xl pointer-events-none" aria-hidden="true"></div>
+   <div
+      class="absolute top-20 -left-32 w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-accent-200/30 dark:bg-accent-500/15 blur-3xl pointer-events-none"
+      aria-hidden="true"
+   >
+   </div>
+   <div
+      class="absolute bottom-0 -right-32 w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-brand-200/30 dark:bg-brand-500/15 blur-3xl pointer-events-none"
+      aria-hidden="true"
+   >
+   </div>
 
-   <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 grid lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
+   <div
+      class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 grid lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center"
+   >
       <!-- Copy -->
       <div class="min-w-0">
-         <span class="inline-flex items-center gap-2 rounded-full border border-ink/10 dark:border-white/10 bg-white dark:bg-white/5 px-3 py-1.5 text-xs font-medium text-ink-muted dark:text-white/60 reveal">
+         <span
+            class="inline-flex items-center gap-2 rounded-full border border-ink/10 dark:border-white/10 bg-white dark:bg-white/5 px-3 py-1.5 text-xs font-medium text-ink-muted dark:text-white/60 reveal"
+         >
             <span class="relative flex h-2 w-2">
-               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-400 opacity-75"></span>
+               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-400 opacity-75"
+               ></span>
                <span class="relative inline-flex rounded-full h-2 w-2 bg-accent-500"></span>
             </span>
-            15 años digitalizando empresas
+            15 años digitalizando empresas · ahora con agentes de IA
          </span>
 
-         <h1 class="mt-5 text-[2rem] leading-[1.1] sm:text-5xl sm:leading-[1.05] md:text-6xl lg:text-7xl font-bold tracking-tight text-ink dark:text-white reveal delay-100">
-            Software
+         <h1
+            class="mt-5 text-[2rem] leading-[1.1] sm:text-5xl sm:leading-[1.05] md:text-6xl lg:text-7xl font-bold tracking-tight text-ink dark:text-white reveal delay-100"
+         >
+            Software y agentes de IA
             <span class="font-mono whitespace-nowrap">
-               <span>{'{ '}</span><span class="bg-gradient-to-r from-accent-500 to-accent-300 bg-clip-text text-transparent">a medida</span><span>{' }'}</span>
+               <span>{'{ '}</span><span
+                  class="bg-gradient-to-r from-accent-500 to-accent-300 bg-clip-text text-transparent">a tu medida</span
+               ><span>{' }'}</span>
             </span>
          </h1>
 
-         <p class="mt-5 sm:mt-6 text-base md:text-lg text-ink-muted dark:text-white/60 leading-relaxed max-w-xl reveal delay-200">
-            Transformamos ideas en software de alto rendimiento. Expertos en aplicaciones web, móviles,
-            escritorio, backend, cloud e inteligencia artificial.
+         <p
+            class="mt-5 sm:mt-6 text-base md:text-lg text-ink-muted dark:text-white/60 leading-relaxed max-w-xl reveal delay-200"
+         >
+            Construimos el software que tu operación necesita y lo conectamos con agentes de inteligencia artificial que
+            atienden clientes, procesan documentos y ejecutan tareas por ti. Apps, plataformas web, automatización e IA
+            en producción.
          </p>
 
          <!-- Botones -->
          <div class="mt-7 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 reveal delay-300">
             <a
                href="/#contacto"
+               data-cta="home_cotizar"
+               data-page-type="home"
+               data-section-name="hero"
+               data-destination-type="anchor"
                class="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-accent-500 hover:bg-accent-600 active:scale-[0.98] text-white font-semibold px-7 py-3.5 text-base shadow-lg shadow-accent-500/25 hover:shadow-accent-500/40 hover:-translate-y-0.5 transition-all duration-200"
             >
                Cotizar un proyecto
-               <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+               <svg
+                  class="w-4 h-4 group-hover:translate-x-0.5 transition-transform"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+               >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                </svg>
             </a>
             <a
-               href="/#soluciones"
+               href="/#servicios"
                class="group inline-flex items-center justify-center gap-2 rounded-xl border-2 border-ink/15 dark:border-white/15 text-ink dark:text-white hover:border-accent-500/50 dark:hover:border-accent-400/50 hover:bg-accent-500/5 font-semibold px-7 py-3.5 text-base transition-all duration-200"
             >
-               Ver soluciones
+               Ver servicios
             </a>
          </div>
 
          <!-- Stats inline -->
          <div class="mt-10 grid grid-cols-3 gap-3 reveal delay-400">
-            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-50 dark:bg-white/5 border border-ink/5 dark:border-white/5">
-               <div class="w-8 h-8 rounded-lg bg-accent-50 dark:bg-accent-500/15 flex items-center justify-center flex-shrink-0">
-                  <svg class="w-4 h-4 text-accent-600 dark:text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h12a2 2 0 012 2v3a4 4 0 01-4 4H7a4 4 0 01-4-4v-5zM15 10v0a3 3 0 013 3v0a3 3 0 01-3 3M7 7V4m4 3V4" />
+            <div
+               class="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-50 dark:bg-white/5 border border-ink/5 dark:border-white/5"
+            >
+               <div
+                  class="w-8 h-8 rounded-lg bg-accent-50 dark:bg-accent-500/15 flex items-center justify-center flex-shrink-0"
+               >
+                  <svg
+                     class="w-4 h-4 text-accent-600 dark:text-accent-400"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                     stroke-width="2"
+                  >
+                     <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3 10h12a2 2 0 012 2v3a4 4 0 01-4 4H7a4 4 0 01-4-4v-5zM15 10v0a3 3 0 013 3v0a3 3 0 01-3 3M7 7V4m4 3V4"
+                     ></path>
                   </svg>
                </div>
                <div>
-                  <span class="block font-mono text-lg font-bold text-ink dark:text-white leading-none" data-count="500" data-suffix="+">500+</span>
-                  <span class="block text-[10px] text-ink-muted dark:text-white/50 mt-0.5 leading-snug">Tazas de café</span>
+                  <span
+                     class="block font-mono text-lg font-bold text-ink dark:text-white leading-none"
+                     data-count="500"
+                     data-suffix="+">500+</span
+                  >
+                  <span class="block text-[10px] text-ink-muted dark:text-white/50 mt-0.5 leading-snug"
+                     >Tazas de café</span
+                  >
                </div>
             </div>
-            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-50 dark:bg-white/5 border border-ink/5 dark:border-white/5">
-               <div class="w-8 h-8 rounded-lg bg-accent-50 dark:bg-accent-500/15 flex items-center justify-center flex-shrink-0">
-                  <svg class="w-4 h-4 text-accent-600 dark:text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            <div
+               class="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-50 dark:bg-white/5 border border-ink/5 dark:border-white/5"
+            >
+               <div
+                  class="w-8 h-8 rounded-lg bg-accent-50 dark:bg-accent-500/15 flex items-center justify-center flex-shrink-0"
+               >
+                  <svg
+                     class="w-4 h-4 text-accent-600 dark:text-accent-400"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                     stroke-width="2"
+                  >
+                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                     ></path>
                   </svg>
                </div>
                <div>
-                  <span class="block font-mono text-lg font-bold text-ink dark:text-white leading-none" data-count="250" data-suffix="+">250+</span>
-                  <span class="block text-[10px] text-ink-muted dark:text-white/50 mt-0.5 leading-snug">Horas código/mes</span>
+                  <span
+                     class="block font-mono text-lg font-bold text-ink dark:text-white leading-none"
+                     data-count="250"
+                     data-suffix="+">250+</span
+                  >
+                  <span class="block text-[10px] text-ink-muted dark:text-white/50 mt-0.5 leading-snug"
+                     >Horas código/mes</span
+                  >
                </div>
             </div>
-            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-50 dark:bg-white/5 border border-ink/5 dark:border-white/5">
-               <div class="w-8 h-8 rounded-lg bg-accent-50 dark:bg-accent-500/15 flex items-center justify-center flex-shrink-0">
-                  <svg class="w-4 h-4 text-accent-600 dark:text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            <div
+               class="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-50 dark:bg-white/5 border border-ink/5 dark:border-white/5"
+            >
+               <div
+                  class="w-8 h-8 rounded-lg bg-accent-50 dark:bg-accent-500/15 flex items-center justify-center flex-shrink-0"
+               >
+                  <svg
+                     class="w-4 h-4 text-accent-600 dark:text-accent-400"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                     stroke-width="2"
+                  >
+                     <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                   </svg>
                </div>
                <div>
-                  <span class="block font-mono text-lg font-bold text-ink dark:text-white leading-none" data-count="10" data-suffix="k+">10k+</span>
-                  <span class="block text-[10px] text-ink-muted dark:text-white/50 mt-0.5 leading-snug">Líneas al mes</span>
+                  <span
+                     class="block font-mono text-lg font-bold text-ink dark:text-white leading-none"
+                     data-count="10"
+                     data-suffix="k+">10k+</span
+                  >
+                  <span class="block text-[10px] text-ink-muted dark:text-white/50 mt-0.5 leading-snug"
+                     >Líneas al mes</span
+                  >
                </div>
             </div>
          </div>
