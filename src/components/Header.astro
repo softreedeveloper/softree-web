@@ -25,7 +25,8 @@ const navLinks = [
 ];
 
 // Marca con «pill» el enlace de la página actual (y «Servicios» en sus landings).
-const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+// En build con format 'file' el pathname lleva .html; la comparación es contra el slug público.
+const currentPath = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
 const isActive = (link) =>
    link.children ? link.children.some((child) => child.href === currentPath) : link.href === currentPath;
 const linkBase = 'rounded-lg px-3.5 py-1.5 text-[13px] font-medium transition-colors';
