@@ -1,0 +1,48 @@
+---
+/**
+ * Migas de pan visuales. El BreadcrumbList estructurado lo emite SEOHead
+ * desde la misma entrada del registro, así que ambos no pueden divergir.
+ *
+ * No renderiza nada en la home ni en páginas sin breadcrumb definido.
+ */
+import { getPage } from '@/utils/seo/registry.js';
+
+interface Props {
+   trail?: { label: string; href: string }[];
+   class?: string;
+}
+
+const { trail, class: className = '' } = Astro.props;
+const registryEntry = getPage(Astro.url.pathname);
+const items = trail ?? registryEntry?.breadcrumb ?? [];
+---
+
+{
+   items.length > 0 && (
+      <nav aria-label="Migas de pan" class={`text-sm ${className}`}>
+         <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-ink-muted dark:text-white/50">
+            <li>
+               <a href="/" class="hover:text-accent-600 dark:hover:text-accent-400 transition-colors">
+                  Inicio
+               </a>
+            </li>
+            {items.map((item, index) => (
+               <li class="flex items-center gap-x-2">
+                  <span aria-hidden="true" class="text-ink-muted/40 dark:text-white/25">
+                     /
+                  </span>
+                  {index === items.length - 1 ? (
+                     <span aria-current="page" class="text-ink dark:text-white/80">
+                        {item.label}
+                     </span>
+                  ) : (
+                     <a href={item.href} class="hover:text-accent-600 dark:hover:text-accent-400 transition-colors">
+                        {item.label}
+                     </a>
+                  )}
+               </li>
+            ))}
+         </ol>
+      </nav>
+   )
+}

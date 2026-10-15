@@ -7,6 +7,12 @@ import netlify from '@astrojs/netlify';
 export default defineConfig({
    integrations: [tailwind(), react()],
 
+   // Deben coincidir con urls.production y urls.trailingSlash de src/utils/site-config.js.
+   // Con build.format 'file' el build genera contacto.html y Netlify sirve /contacto sin
+   // redirigir a /contacto/ (pretty URLs): misma forma que la canónica y el sitemap.
+   site: 'https://softree.com.mx',
+   trailingSlash: 'never',
+
    vite: {
       // plugins: [tailwindcss()],
       resolve: {
@@ -31,6 +37,7 @@ export default defineConfig({
    adapter: netlify(),
    build: {
       inlineStylesheets: 'auto',
+      format: 'file',
    },
    server: {
       // host: '192.168.3.143', //'192.168.3.143', // host: true,

@@ -1,0 +1,31 @@
+---
+/**
+ * Emite el JSON-LD de la página como un único bloque `@graph`.
+ *
+ * Recibe los nodos específicos de la página; Organization, WebSite, WebPage y
+ * BreadcrumbList los añade `buildGraph` automáticamente. En desarrollo valida
+ * el grafo y avisa por consola si hay referencias rotas o @id duplicados.
+ * `serializeGraph` escapa `<` para que un "</script>" en el copy no rompa la etiqueta.
+ */
+import { buildGraph, serializeGraph, validateGraph } from '@/utils/seo/schema/graph.js';
+import { siteConfig } from '@/utils/config.js';
+
+interface Props {
+   page?: Record<string, any>;
+   seo: Record<string, any>;
+   nodes?: Record<string, any>[];
+}
+
+const { page, seo, nodes = [] } = Astro.props;
+
+const graph = buildGraph(page, seo, nodes);
+
+if (!siteConfig.isProduction) {
+   const problems = validateGraph(graph);
+   for (const problem of problems) {
+      console.warn(`[schema] ${problem.severity} en ${Astro.url.pathname}: ${problem.message}`);
+   }
+}
+---
+
+<script type="application/ld+json" set:html={serializeGraph(graph)} />

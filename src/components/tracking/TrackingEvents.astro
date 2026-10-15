@@ -1,0 +1,111 @@
+---
+/**
+ * ÚNICO listener de clics del sitio + helper global `window.siteTrack(event, params)`.
+ *
+ * Lee atributos data-* del markup (ver references/convenciones-cta.md) y emite:
+ *   whatsapp_click  href wa.me / api.whatsapp.com o data-destination-type="whatsapp"
+ *   phone_click     href tel:
+ *   email_click     href mailto:
+ *   cta_click       cualquier <a>/<button> con data-cta (si no es ninguno de los anteriores)
+ *   <data-ga-event> nombre propio (share, select_content, app_select…) — gana sobre todo lo demás
+ *
+ * Además, si el elemento lleva data-meta-event="Lead" y el pixel está montado, dispara ese
+ * evento de Meta (navegador + servidor, deduplicado) desde el mismo clic.
+ *
+ * Reglas: un solo listener delegado (nunca uno por componente), síncrono, sin preventDefault,
+ * sin PII (los href mailto:/tel: no se envían; el ?text= de WhatsApp se recorta).
+ * Es `is:inline` → sin imports, estilo ES5.
+ *
+ * Uso: <TrackingEvents /> al final del <body> en Layout.astro.
+ */
+---
+
+<script is:inline>
+   (function () {
+      window.dataLayer = window.dataLayer || [];
+
+      function track(event, params) {
+         var p = params || {};
+         try {
+            if (window.__TAG_MODE__ === 'gtm') {
+               window.dataLayer.push(Object.assign({ event: event }, p));
+               return true;
+            }
+            if (typeof window.gtag === 'function') {
+               window.gtag('event', event, p);
+               return true;
+            }
+            if (window.__TRACK_DEBUG__) console.log('[track]', event, p);
+         } catch (e) {}
+         return false;
+      }
+      window.siteTrack = track;
+
+      var PLACEMENTS = { header: 1, hero: 1, footer: 1, sticky: 1, contenido: 1 };
+      function placement(el) {
+         var d = el.dataset;
+         if (d.placement && PLACEMENTS[d.placement]) return d.placement;
+         if (d.sectionName === 'hero') return 'hero';
+         var chrome = el.closest('header, footer');
+         return chrome ? chrome.tagName.toLowerCase() : 'contenido';
+      }
+
+      document.addEventListener(
+         'click',
+         function (e) {
+            var t = e.target;
+            if (!t || typeof t.closest !== 'function') return;
+            var el = t.closest('a[href], button');
+            if (!el) return;
+
+            var d = el.dataset;
+            var href = el.getAttribute('href') || '';
+            var isTel = /^tel:/i.test(href);
+            var isMail = /^mailto:/i.test(href);
+            var isWa = d.destinationType === 'whatsapp' || /wa\.me|api\.whatsapp\.com/.test(href);
+            var buttonId = d.trackId || el.id || 'sin_id';
+
+            var params = { placement: placement(el), page_location: location.href };
+            if (d.destinationType) params.destination_type = d.destinationType;
+            if (href && !isTel && !isMail) {
+               try {
+                  params.destination_url = new URL(href, location.href).href.split('?')[0];
+               } catch (err) {}
+            }
+            if (d.cta) params.cta_name = d.cta;
+            if (d.itemId) params.item_id = d.itemId;
+            if (d.itemName) params.item_name = d.itemName;
+            if (d.itemCategory) params.item_category = d.itemCategory;
+            if (d.listName) params.list_name = d.listName;
+            if (d.position) params.position = Number(d.position);
+            if (d.contentType) params.content_type = d.contentType;
+            if (d.shareMethod) params.method = d.shareMethod;
+
+            var text = (el.textContent || '').trim().slice(0, 60);
+
+            if (d.gaEvent) {
+               track(d.gaEvent, params);
+            } else if (isWa) {
+               track('whatsapp_click', Object.assign({ button_id: buttonId, button_text: text }, params));
+            } else if (isTel) {
+               track('phone_click', Object.assign({ button_id: buttonId }, params));
+            } else if (isMail) {
+               track('email_click', Object.assign({ button_id: buttonId }, params));
+            } else if (d.cta) {
+               track('cta_click', Object.assign({ button_text: text }, params));
+            }
+
+            // Meta: solo si el markup lo pide explícitamente y el pixel está montado.
+            if (d.metaEvent && window.metaPixel && typeof window.metaPixel.track === 'function') {
+               var custom = { content_name: d.cta || buttonId, content_category: 'lead_generation' };
+               if (d.metaValue) {
+                  custom.value = Number(d.metaValue);
+                  custom.currency = d.metaCurrency || 'MXN';
+               }
+               window.metaPixel.track(d.metaEvent, custom, {});
+            }
+         },
+         { passive: true },
+      );
+   })();
+</script>

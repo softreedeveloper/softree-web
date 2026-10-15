@@ -1,0 +1,61 @@
+---
+/**
+ * Carga UN solo contenedor de Google en el <head>:
+ *  - PUBLIC_GTM_ID definido  → Google Tag Manager (GA4 y demás tags se configuran en GTM).
+ *  - Solo PUBLIC_GA4_ID      → gtag.js directo.
+ *  - Ninguno                 → no carga nada (local, previews sin IDs).
+ *
+ * NUNCA los dos a la vez para la misma propiedad: GA4 recibiría cada hit duplicado.
+ * `window.__TAG_MODE__` le dice al helper de eventos cómo emitir (dataLayer vs gtag).
+ *
+ * Los IDs son variables PUBLIC_* → se inlinean en build: cambiarlos exige redeploy.
+ * Definirlos por contexto del hosting (propiedad de staging ≠ producción).
+ *
+ * Uso en Layout.astro, dentro de <head>, después de <SEOHead>:  <TagLoader />
+ * Si se usa GTM, añadir también <TagLoaderNoscript /> al inicio del <body>.
+ */
+const GTM_ID = import.meta.env.PUBLIC_GTM_ID || '';
+const GA4_ID = import.meta.env.PUBLIC_GA4_ID || '';
+const mode = GTM_ID ? 'gtm' : GA4_ID ? 'gtag' : 'none';
+---
+
+<script is:inline define:vars={{ mode }}>
+   window.__TAG_MODE__ = mode;
+   window.dataLayer = window.dataLayer || [];
+</script>
+
+{
+   mode === 'gtm' && (
+      <script is:inline define:vars={{ GTM_ID }}>
+         (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            var f = d.getElementsByTagName(s)[0],
+               j = d.createElement(s),
+               dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+         })(window, document, 'script', 'dataLayer', GTM_ID);
+      </script>
+   )
+}
+
+{
+   mode === 'gtag' && (
+      <script is:inline define:vars={{ GA4_ID }}>
+         // Snippet canónico de gtag. Astro envuelve define:vars en una IIFE, por eso
+         // se asigna window.gtag a mano: sin esa línea nada llega a window.
+         function gtag() {
+            window.dataLayer.push(arguments);
+         }
+         window.gtag = gtag;
+         gtag('js', new Date());
+         gtag('config', GA4_ID); // page_view automático + enhanced measurement
+         var s = document.createElement('script');
+         s.async = true;
+         s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_ID;
+         document.head.appendChild(s);
+      </script>
+   )
+}
